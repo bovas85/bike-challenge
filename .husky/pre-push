@@ -1,0 +1,3 @@
+yarn lint:all
+yarn format:check
+node tools/control-bike-challenge.mjs map --check

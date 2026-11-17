@@ -1,0 +1,8 @@
+.nuxt/
+.output/
+dist/
+coverage/
+node_modules/
+.autopilot/
+tools/
+**/*.spec.ts

@@ -1,0 +1,103 @@
+{
+  "name": "bike-challenge",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "lint:css": "stylelint 'app/**/*.{css,scss,vue}'",
+    "lint:css:fix": "stylelint 'app/**/*.{css,scss,vue}' --fix",
+    "lint:md": "markdownlint-cli2 '**/*.md' '#node_modules' '#dist' '#archive'",
+    "lint:md:fix": "markdownlint-cli2 --fix '**/*.md' '#node_modules' '#dist' '#archive'",
+    "typecheck": "vue-tsc --noEmit",
+    "lint:all": "yarn lint && yarn lint:css && yarn lint:md && yarn typecheck",
+    "format": "prettier --write .",
+    "format:check": "prettier --check AGENTS.md docs/ .github/ .agents/ tools/control-bike-challenge.mjs tools/control-bike-challenge.spec.ts",
+    "verify": "yarn nuxt prepare && yarn lint:all && yarn format:check && node tools/control-bike-challenge.mjs map --check && CI=1 yarn test:coverage",
+    "control-bike-challenge": "node tools/control-bike-challenge.mjs",
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:visual": "node tools/verify-visual-parity.mjs",
+    "prepare": "husky"
+  },
+  "dependencies": {
+    "@vueuse/core": "14.3.0",
+    "@vueuse/nuxt": "14.3.0",
+    "nuxt": "4.6.4",
+    "scrollama": "3.2.0",
+    "swiper": "14.0.2",
+    "vue": "3.5.39",
+    "vue-router": "5.1.0"
+  },
+  "volta": {
+    "node": "24.15.0"
+  },
+  "lint-staged": {
+    "*.{js,ts}": [
+      "eslint --fix",
+      "prettier --write",
+      "node -e \"require('child_process').execSync('npx yarn typecheck', { stdio: 'inherit' })\""
+    ],
+    "*.vue": [
+      "eslint --fix",
+      "stylelint --fix",
+      "prettier --write",
+      "node -e \"require('child_process').execSync('npx yarn typecheck', { stdio: 'inherit' })\""
+    ],
+    "*.{css,scss}": [
+      "stylelint --fix",
+      "prettier --write"
+    ],
+    "*.md": [
+      "markdownlint-cli2 --fix",
+      "prettier --write"
+    ],
+    "*.{json,yml,yaml,html}": [
+      "prettier --write"
+    ]
+  },
+  "devDependencies": {
+    "@alchemy.run/cloudflare": "^2.0.0-beta.87",
+    "@nuxt/eslint": "1.16.0",
+    "@nuxt/test-utils": "4.4.0",
+    "@vitest/coverage-v8": "5.1.0",
+    "@vue/test-utils": "2.4.11",
+    "alchemy": "^2.0.0-beta.87",
+    "effect": "^4.1.4",
+    "eslint": "10.6.0",
+    "happy-dom": "21.0.4",
+    "husky": "9.1.7",
+    "jsdom": "29.1.1",
+    "lint-staged": "17.0.8",
+    "markdownlint-cli2": "0.23.0",
+    "playwright": "^1.65.1",
+    "postcss-html": "1.8.1",
+    "prettier": "3.9.5",
+    "sass": "1.101.0",
+    "stylelint": "17.14.0",
+    "stylelint-config-recommended-vue": "1.6.1",
+    "stylelint-config-standard-scss": "17.0.0",
+    "typescript": "5.6.3",
+    "typescript-eslint": "8.63.0",
+    "vitest": "5.1.0",
+    "vue-tsc": "3.3.7"
+  },
+  "resolutions": {
+    "js-yaml": "^5.2.2",
+    "smol-toml": "^1.7.1",
+    "markdown-it": "^14.3.2",
+    "happy-dom": "^21.0.4",
+    "brace-expansion": "^5.0.12",
+    "postcss": "^8.5.18",
+    "devalue": "^5.9.3",
+    "seroval": "^1.6.2",
+    "nuxt": "^4.6.4",
+    "vite": "8.3.5",
+    "@vue/server-renderer": "^3.5.42"
+  }
+}

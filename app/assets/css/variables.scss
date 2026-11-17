@@ -1,0 +1,33 @@
+// Color palette matching bike-challenge.framer.ai
+$cream: #f7ede2;
+$amber: #ea9922;
+$amber-tint: rgb(234 153 34 / 50%);
+$gold: #f2b861;
+$white: #fff;
+$black: #000;
+$ink: #121212;
+$navy: #012;
+$muted: #999;
+$muted-dark: #888;
+$charcoal: #333;
+
+// Typography
+$font-display: "American Purpose Regular", "Noto Sans", sans-serif;
+$font-primary: "Noto Sans", "Inter", sans-serif;
+$font-ui: "Inter", "Inter Tight", sans-serif;
+
+// Breakpoints (matching Framer desktop 1200+, tablet 810-1199, mobile <=809)
+$bp-tablet: 810px;
+$bp-desktop: 1200px;
+
+@mixin tablet-up {
+  @media (min-width: $bp-tablet) {
+    @content;
+  }
+}
+
+@mixin desktop-up {
+  @media (min-width: $bp-desktop) {
+    @content;
+  }
+}

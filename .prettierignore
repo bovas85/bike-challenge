@@ -1,0 +1,8 @@
+.nuxt/
+.output/
+dist/
+node_modules/
+archive/
+.autopilot/
+yarn.lock
+package-lock.json

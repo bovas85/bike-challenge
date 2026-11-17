@@ -1,0 +1,474 @@
+{
+  "global": {
+    "brandTitle": "The Bike Challenge",
+    "logoUrl": "/images/logo.png",
+    "email": "bikechallengechannel@gmail.com",
+    "blogEmail": "info@thebikechallenge.cc",
+    "copyright": "© 2026 The Bike Challenge",
+    "heroNavLinks": [
+      { "label": "Adventures", "to": "/#strava" },
+      { "label": "Videos", "to": "/#videos" },
+      { "label": "Blog", "to": "/#blog" },
+      { "label": "Brands", "to": "/offers" }
+    ],
+    "socialLinks": [
+      {
+        "name": "strava",
+        "label": "Strava",
+        "url": "https://www.strava.com/clubs/859996",
+        "iconUrl": "/images/social/strava.png"
+      },
+      {
+        "name": "instagram",
+        "label": "Instagram",
+        "url": "https://instagram.com/bike.challenge"
+      },
+      {
+        "name": "tiktok",
+        "label": "TikTok",
+        "url": "https://www.tiktok.com/@bike.challenge",
+        "iconUrl": "/images/social/tiktok.png"
+      },
+      {
+        "name": "youtube",
+        "label": "YouTube",
+        "url": "https://www.youtube.com/@TheBikeChallenge",
+        "iconUrl": "/images/social/youtube.png"
+      }
+    ]
+  },
+  "home": {
+    "hero": {
+      "title": "THE BIKE CHALLENGE",
+      "subtitle": "From weekend bike-overs to cross-country expeditions, we share the routes and stories that inspire your next escape.\nNo elitism, just adventure.",
+      "backgroundImage": {
+        "url": "/images/home/hero-bg.jpg",
+        "alt": "The Bike Challenge bikepacking landscape"
+      },
+      "scrollDownText": "SCROLL DOWN SCROLL DOWN SCROLL DOWN "
+    },
+    "joinJourney": {
+      "heading": "Join the Journey",
+      "body": "We believe the best view is seen over a pair of handlebars. The Bike Challenge started as a way to document our own curiosity - filming the climbs, mapping the hidden trails, and finding the best spots to camp. Whether you are prepping for your first overnighter or looking for a new route in Sicily, we’re here to show you it’s all within reach."
+    },
+    "quote": {
+      "text": "\"The greatest adventure is the \none you haven't taken yet.\"",
+      "author": "Lael Wilcox",
+      "ctaLabel": "Join Our Club",
+      "ctaUrl": "https://app.linkmyride.com/club/9b10de7c-15ce-4e63-a90f-6f33a4763f43?utm_campaign=linkinbio&utm_medium=referral&utm_source=later-linkinbio"
+    },
+    "viewFromBars": {
+      "heading": "The View \nFrom the Bars",
+      "body": "Get a daily dose of dirt. We share our latest gear setups and snapshots from the trail on Instagram. See where we're riding this week.",
+      "ctaLabel": "Check our Instagram",
+      "ctaUrl": "https://www.instagram.com/bike.challenge",
+      "carouselImages": [
+        {
+          "url": "/images/home/carousel-1.jpg",
+          "alt": "Gravel trail view from handlebars"
+        },
+        {
+          "url": "/images/home/carousel-2.jpg",
+          "alt": "Bikepacking adventure on dirt roads"
+        },
+        {
+          "url": "/images/home/carousel-3.jpg",
+          "alt": "Loaded gravel bike on scenic ridge"
+        },
+        {
+          "url": "/images/home/carousel-4.jpg",
+          "alt": "Sunset camp and trail snapshots"
+        }
+      ]
+    },
+    "adventures": [
+      {
+        "id": "komoot",
+        "platform": "komoot",
+        "title": "Steal our routes for our favourite trails and hidden gems on Komoot.",
+        "url": "https://www.komoot.com/user/685174711757/collections?type=created"
+      },
+      {
+        "id": "strava",
+        "platform": "strava",
+        "title": "Ride with the crew. Join our Strava club for latest stats, climbs, and coffee stops.",
+        "url": "https://www.strava.com/clubs/859996"
+      }
+    ],
+    "videoSpotlight": {
+      "heading": "New sights, \nnew stories",
+      "body": "Check our latest YouTube video and explore with us!",
+      "ctaLabel": "Watch now",
+      "ctaUrl": "https://youtube.com/channel/UCtPTaTcG43EbWSOM0wKYZ1Q?sub_confirmation=1",
+      "youtubeId": "bqWtHUoqeO0",
+      "thumbnailUrl": "https://i.ytimg.com/vi_webp/bqWtHUoqeO0/maxresdefault.webp"
+    },
+    "blogPreview": {
+      "heading": "Blog",
+      "subtitle": "The best stories start where the pavement ends. Join us as we explore the trails, gear, and grit that define the bikepacking life.",
+      "ctaLabel": "Go to our Blog",
+      "ctaTo": "/blog"
+    },
+    "campsitesMap": {
+      "heading": "Campsites Map in UK",
+      "embedUrl": "https://www.google.com/maps/d/embed?mid=1FUCBElPhYxAp9eNM4uYwD9dMYAW-aqE&ehbc=2E312F"
+    },
+    "partnersSection": {
+      "heading": "Partners",
+      "ctaLabel": "See More",
+      "ctaTo": "/offers",
+      "logos": [
+        {
+          "id": "redshift",
+          "name": "Redshift Sports",
+          "logoUrl": "/images/partners/redshift.webp",
+          "url": "https://redshiftsports.avln.me/c/wvStcELqDSAJ"
+        },
+        {
+          "id": "veloforte",
+          "name": "Veloforte",
+          "logoUrl": "/images/partners/veloforte.webp",
+          "url": "https://veloforte.avln.me/c/KHRoiPxaeZAD"
+        },
+        {
+          "id": "bikefinder",
+          "name": "Bike Finder",
+          "logoUrl": "/images/partners/bikefinder.webp",
+          "url": "https://bikefinder.avln.me/c/IqzNIenNTGyL"
+        },
+        {
+          "id": "asssavers",
+          "name": "AssSavers",
+          "logoUrl": "/images/partners/asssavers.png",
+          "url": "https://asssavers.avln.me/c/qXMiTqjOQqMT"
+        },
+        {
+          "id": "alterlock",
+          "name": "Alterlock",
+          "logoUrl": "/images/partners/alterlock.png",
+          "url": "https://alterlock.avln.me/c/vDsRmZlZPwKs"
+        },
+        {
+          "id": "ogt",
+          "name": "One Good Thing",
+          "logoUrl": "/images/partners/ogt.webp",
+          "url": "https://onegoodthing.avln.me/c/kVrqSTcmcUME"
+        }
+      ]
+    }
+  },
+  "offers": {
+    "brandHeader": "The Bike Challenge",
+    "subtitle": "Gear we Trust",
+    "disclosureNote": "Note: We use this gear on our own trips. Using these codes helps support the channel and keeps us out on the road - at no extra cost to you :)",
+    "offers": [
+      {
+        "id": "asssavers",
+        "brand": "AssSavers",
+        "discountBadge": "15%",
+        "description": "The WinWing mudguard is a lifesaver for wet gravel rides. It’s light, easy to attach, and keeps your back dry when the weather turns.",
+        "code": "TBC15 15%",
+        "url": "https://asssavers.avln.me/c/qXMiTqjOQqMT",
+        "image": {
+          "url": "/images/offers/asssavers.png",
+          "alt": "AssSavers WinWing mudguard"
+        },
+        "overlayLogoUrl": "/images/offers/asssavers-logo.png"
+      },
+      {
+        "id": "magicshine",
+        "brand": "Magicshine Lights",
+        "discountBadge": "15%",
+        "description": "Elevate your ride with Magicshine's professional bike front and smart tail lights. Power up your cycling adventures with waterproof Magicshine headlights.",
+        "code": "AFFILIATE15 15%",
+        "codeUrl": "https://bit.ly/411bqd7",
+        "url": "https://pboost.me/O65xbdkz",
+        "image": {
+          "url": "/images/offers/magicshine.jpg",
+          "alt": "Magicshine Lights"
+        },
+        "overlayLogoUrl": "/images/offers/magicshine-logo.webp"
+      },
+      {
+        "id": "redshift",
+        "brand": "Redshift Sports",
+        "discountBadge": "15%",
+        "description": "Upgrade your comfort. Their ShockStop stems and seatposts are game-changers for smoothing out rough trails and reducing hand fatigue on long rides.",
+        "code": "TBC15 15%",
+        "url": "https://redshiftsports.avln.me/c/wvStcELqDSAJ",
+        "image": {
+          "url": "/images/offers/redshift.png",
+          "alt": "Redshift Sports ShockStop"
+        },
+        "overlayLogoUrl": "/images/offers/redshift-logo.png"
+      },
+      {
+        "id": "pelotan",
+        "brand": "Pelotan",
+        "discountBadge": "20%",
+        "description": "",
+        "code": "THEBIKECHALLENGE20 20%",
+        "url": "https://pelotan.avln.me/c/uXhEpTeobwQr",
+        "image": {
+          "url": "/images/offers/pelotan.jpg",
+          "alt": "Pelotan sun protection"
+        },
+        "overlayLogoUrl": "/images/offers/pelotan-logo.png"
+      },
+      {
+        "id": "carradice",
+        "brand": "Carradice",
+        "discountBadge": "15%",
+        "description": "Classic, rugged bikepacking bags. Made in the UK and built to last a lifetime of adventures.",
+        "code": "BikeChallenge15 15%",
+        "url": "https://carradice.avln.me/c/KzJcQwqAFBIE",
+        "image": {
+          "url": "/images/offers/carradice.webp",
+          "alt": "Carradice bikepacking bags"
+        }
+      },
+      {
+        "id": "veloforte",
+        "brand": "Veloforte",
+        "discountBadge": "20%",
+        "description": "",
+        "code": "TBC20 20%",
+        "url": "https://veloforte.avln.me/c/YEFUXYMESnyB",
+        "image": {
+          "url": "/images/offers/veloforte.webp",
+          "alt": "Veloforte nutrition"
+        }
+      },
+      {
+        "id": "bikefinder",
+        "brand": "Bike Finder",
+        "discountBadge": "15%",
+        "description": "Bike tracker and insurance in one.",
+        "code": "TBC15 15%",
+        "url": "https://bikefinder.com/?wt_coupon=TBC15",
+        "image": {
+          "url": "/images/offers/bikefinder.webp",
+          "alt": "Bike Finder tracker"
+        }
+      },
+      {
+        "id": "loop",
+        "brand": "Loop",
+        "discountBadge": "15%",
+        "description": "Loop Mount Twist is a discreet looking phone mount for your bike that doesn't need an additional phone case.",
+        "code": "TBC 15%",
+        "url": "https://loop.avln.me/c/SbwqHPoxcSSw",
+        "image": {
+          "url": "/images/offers/loop.webp",
+          "alt": "Loop Mount Twist"
+        }
+      },
+      {
+        "id": "velotool",
+        "brand": "Velo-tool",
+        "discountBadge": "10%",
+        "description": "High-quality maintenance tools that don't cost a fortune. Perfect for building out your home workshop or your seat-pack toolkit.",
+        "code": "NEW10 10%",
+        "url": "https://velotool.avln.me/c/DpWYoOfbanNd",
+        "image": {
+          "url": "/images/offers/velotool.png",
+          "alt": "Velo-tool maintenance tools"
+        }
+      },
+      {
+        "id": "podium",
+        "brand": "Podium Sports",
+        "discountBadge": "10%",
+        "description": "Keep your drivetrain silent and smooth. This lube is a winter essential that helps shed grit and keeps your chain running efficiently through the mud.",
+        "code": "WL10 for 10%",
+        "url": "https://podiumsportsonline.avln.me/c/mkLOMHtwaBa",
+        "image": {
+          "url": "/images/offers/podium.jpg",
+          "alt": "Podium Sports chain lube"
+        }
+      },
+      {
+        "id": "alterlock",
+        "brand": "Alterlock",
+        "discountBadge": "10%",
+        "description": "Bike tracker and alarm.",
+        "code": "TBC10 10%",
+        "url": "https://alterlock.avln.me/c/vDsRmZlZPwKs",
+        "image": {
+          "url": "/images/offers/alterlock.webp",
+          "alt": "Alterlock tracker and alarm"
+        }
+      },
+      {
+        "id": "popcycling",
+        "brand": "Pop Cycling Co.",
+        "discountBadge": "10%",
+        "description": "Premium performance cycling socks by POP Cycling Co. Designed in London, made in Europe. Engineered for comfort, speed, and durability.",
+        "code": "",
+        "url": "https://popcyclingco.avln.me/c/JEHEAMiincQG",
+        "image": {
+          "url": "/images/offers/popcycling.webp",
+          "alt": "Pop Cycling Co. socks"
+        }
+      },
+      {
+        "id": "ogt",
+        "brand": "OGT",
+        "discountBadge": "10%",
+        "description": "Simplify your nutrition with all-natural, easily digestible, tasty sports bars. Designed to help you focus on and enjoy your endurance sport.",
+        "code": "BikeChallengeExtra10 10%",
+        "url": "https://onegoodthing.avln.me/c/kVrqSTcmcUME",
+        "image": { "url": "/images/offers/ogt.png", "alt": "OGT sports bars" }
+      },
+      {
+        "id": "bumbutter",
+        "brand": "Bum Butter",
+        "discountBadge": "20%",
+        "description": "Don't let saddle sores end your trip early. This is our go-to chamois cream for staying comfortable during back-to-back days in the saddle.",
+        "code": "BUM20 20%",
+        "url": "https://www.bumbutter.co.uk/index.asp",
+        "image": {
+          "url": "/images/offers/bumbutter.jpg",
+          "alt": "Bum Butter chamois cream"
+        }
+      },
+      {
+        "id": "cycplus",
+        "brand": "CYCPLUS",
+        "discountBadge": "5%",
+        "description": "Discover smart air pumps, indoor bike trainers & cycling electronics from CYCPLUS. Trusted by cyclists worldwide.",
+        "code": "TheBikeChallenge 5%",
+        "url": "https://cycplus.avln.me/c/fXblukFEYWqr",
+        "image": {
+          "url": "/images/offers/cycplus.webp",
+          "alt": "CYCPLUS smart air pumps"
+        }
+      }
+    ]
+  },
+  "blog": {
+    "brandHeader": "The Bike Challenge",
+    "heading": "Blog",
+    "subtitle": "The paved road ends, but the story is just beginning. Explore our collection of ride reports, gear guides, and beginner tips from the heart of the gravel community.",
+    "articles": [
+      {
+        "id": "isle-of-wight",
+        "title": "Island Hopping: Gravel Circles on the Isle of Wight",
+        "excerpt": "There is something special about catching a ferry to go for a ride. We explored the chalky cliffs and hidden trails of the Isle of Wight to see why this small island is a bucket-list destination for UK gravel riders.",
+        "readTime": "10 min read",
+        "image": {
+          "url": "/images/blog/isle-of-wight.jpg",
+          "alt": "Isle of Wight gravel riding"
+        },
+        "url": "https://www.gravelunion.cc/article/travel-gravel-bikepacking-the-isle-of-wight",
+        "ctaLabel": "Read on \nGravel Union",
+        "featuredOnHome": false
+      },
+      {
+        "id": "beginners-guide",
+        "title": "So You Want to Try Bikepacking? \nA Beginner’s Guide",
+        "excerpt": "Forget the dictionary definitions. Bikepacking is simply about the freedom of exploring further on a bike you love. We break down the basics of gear, planning, and mindset to help you get out on your first backcountry escape.",
+        "readTime": "5 min read",
+        "image": {
+          "url": "/images/blog/beginners-guide.jpg",
+          "alt": "Beginner bikepacking setup"
+        },
+        "url": "https://www.gravelunion.cc/article/gravel-inspiration-getting-started-with-bikepacking",
+        "ctaLabel": "Read on \nGravel Union",
+        "featuredOnHome": false
+      },
+      {
+        "id": "london-to-bruges",
+        "title": "Bikepacking from London to Bruges",
+        "excerpt": "Proof that you don't need mountains for an epic trip. We swapped gnarly climbs for coastal views and Belgian beer on this perfect beginner-friendly gravel run.",
+        "readTime": "10 min read",
+        "image": {
+          "url": "/images/blog/london-bruges.png",
+          "alt": "Bikepacking from London to Bruges"
+        },
+        "url": "https://www.gravelunion.cc/article/bikepacking-from-london-to-bruges-and-back",
+        "ctaLabel": "Read on \nGravel Union",
+        "featuredOnHome": true
+      },
+      {
+        "id": "sicily-divide",
+        "title": "Sicily Divide",
+        "excerpt": "A rugged journey through the heart of the Mediterranean. Discover why the Sicily Divide is a must-ride for anyone seeking dramatic landscapes and world-class food.",
+        "readTime": "10 min read",
+        "image": {
+          "url": "/images/blog/sicily-divide.jpg",
+          "alt": "Sicily Divide gravel adventure"
+        },
+        "url": "https://www.gravelunion.cc/article/armchair-adventure-sicily-divide",
+        "ctaLabel": "Read on \nGravel Union",
+        "featuredOnHome": true
+      },
+      {
+        "id": "rat-run",
+        "title": "The Rat Run: Three days of gravel riding and coastal views",
+        "excerpt": "Last summer, we headed to the counties of Dorset & Wiltshire in the south of England to try out a three-day bikepacking route called “The Rat Run”. If you’re looking for some summery inspiration at the minute, this should be just what you need….",
+        "readTime": "10 min read",
+        "image": {
+          "url": "/images/blog/rat-run.jpg",
+          "alt": "The Rat Run Dorset and Wiltshire"
+        },
+        "url": "https://www.gravelunion.cc/article/gravel-inspiration-the-rat-run",
+        "ctaLabel": "Read on \nGravel Union",
+        "featuredOnHome": false
+      },
+      {
+        "id": "crete-divide",
+        "title": "Bikepacking the Crete Divide",
+        "excerpt": "Crete might not be the first place that comes to mind when you think of bikepacking destinations, but it has plenty to offer compared with some of the more popular spots.",
+        "readTime": "10 min read",
+        "image": {
+          "url": "/images/blog/crete-divide.jpg",
+          "alt": "Bikepacking the Crete Divide"
+        },
+        "url": "https://www.gravelunion.cc/article/armchair-adventure-bikepacking-the-crete-divide",
+        "ctaLabel": "Read on \nGravel Union",
+        "featuredOnHome": false
+      }
+    ]
+  },
+  "event": {
+    "brandHeader": "The Bike Challenge",
+    "title": "Culture Cycling Club Rideout",
+    "paragraphs": [
+      "Spring is in the air, and it’s time to get together for a social spin! Join us on Saturday, April 26th for a morning of coffee, cycling, and community.",
+      "We’re starting and finishing at the legendary Forge 1860 / Pearson Shop in London. We’ll kick things off with a coffee and a catch-up before heading out for a relaxed, social loop around Richmond Park. Whether you're a regular or it's your first time joining us, everyone is welcome!"
+    ],
+    "details": [
+      { "icon": "📅", "label": "When", "value": "Saturday, April 26th" },
+      {
+        "icon": "📍",
+        "label": "Where",
+        "value": "Forge 1860 / Pearson Bike Shop, London"
+      },
+      {
+        "icon": "⏰",
+        "label": "Meet",
+        "value": "9:30 am for coffee and chats"
+      },
+      { "icon": "🚲", "label": "Roll out", "value": "10:00 am" },
+      {
+        "icon": "🌳",
+        "label": "The Ride",
+        "value": "A friendly, \"party pace\" loop around Richmond Park."
+      }
+    ],
+    "closingNote": "Bring your friends, bring your bike, and let’s enjoy the ride together.",
+    "posterImage": {
+      "url": "/images/event-rideout.jpg",
+      "alt": "Culture Cycling Club Rideout poster"
+    },
+    "form": {
+      "nameLabel": "Name",
+      "namePlaceholder": "Jane Smith",
+      "emailLabel": "Email",
+      "emailPlaceholder": "jane.smith@gmail.com",
+      "submitLabel": "Submit",
+      "successMessage": "Thanks for RSVPing! We'll see you at Forge 1860."
+    }
+  }
+}

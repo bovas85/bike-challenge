@@ -1,0 +1,46 @@
+# Nuxt dev/build outputs
+.output
+.data
+.nuxt
+.nitro
+.cache
+dist
+coverage
+
+# Node dependencies
+node_modules
+package-lock.json
+
+# Logs
+logs
+*.log
+npm-debug.log
+
+# Misc
+.DS_Store
+.idea
+.vscode
+Thumbs.db
+*.iml
+.fleet
+
+# Local env files
+.env
+.env.*
+!.env.example
+
+# Alchemy runtime cache & local state
+.alchemy
+
+# Worktrees
+.worktree*
+
+# Autopilot audit and local verification artifacts
+.autopilot/
+
+# Gemini CLI GitHub Actions temporary credentials & runtime files
+gha-creds-*.json
+.gemini/settings.json
+.gemini/commands/
+.gemini/telemetry.log
+gemini-artifacts/

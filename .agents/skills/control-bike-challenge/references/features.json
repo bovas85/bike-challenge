@@ -1,0 +1,80 @@
+{
+  "generatedFrom": ["app/pages", "server/routes"],
+  "features": [
+    {
+      "route": "/",
+      "feature": "Home page & bikepacking showcase",
+      "source": "app/pages/index.vue",
+      "reach": "Navigate directly to /; loads WordPress ACF home fields or local fallback site-content.json.",
+      "actions": [
+        "Scroll hero & Join the Journey",
+        "Swipe View From the Bars carousel",
+        "Play YouTube spotlight facade",
+        "Browse Komoot, Strava, Blog preview, UK Campsites Map, and Partners"
+      ],
+      "verify": "node tools/control-bike-challenge.mjs request GET / --contains \"THE BIKE CHALLENGE\" && node tools/control-bike-challenge.mjs browse --path / --record"
+    },
+    {
+      "route": "/offers",
+      "feature": "Partner discounts & affiliate offers grid",
+      "source": "app/pages/offers.vue",
+      "reach": "Navigate to /offers; renders Gear we Trust grid of 15 partner discount cards.",
+      "actions": [
+        "Inspect discount badge cards and codes",
+        "Navigate back Home via top nav"
+      ],
+      "verify": "node tools/control-bike-challenge.mjs request GET /offers --contains \"Gear we Trust\" && node tools/control-bike-challenge.mjs browse --path /offers --record"
+    },
+    {
+      "route": "/blog",
+      "feature": "Blog articles & partners preview",
+      "source": "app/pages/blog.vue",
+      "reach": "Navigate to /blog; renders Gravel Union ride reports and gear guides.",
+      "actions": [
+        "Browse article cards and read times",
+        "Open external Gravel Union articles"
+      ],
+      "verify": "node tools/control-bike-challenge.mjs request GET /blog --contains \"Blog\" && node tools/control-bike-challenge.mjs browse --path /blog --record"
+    },
+    {
+      "route": "/event",
+      "feature": "Culture Cycling Club Rideout event & RSVP form",
+      "source": "app/pages/event.vue",
+      "reach": "Navigate to /event; renders rideout details, poster, and RSVP form submitting to /api/event-rsvp.",
+      "actions": ["Read rideout details", "Submit Name and Email RSVP form"],
+      "verify": "node tools/control-bike-challenge.mjs request GET /event --contains \"Culture Cycling Club Rideout\" && node tools/control-bike-challenge.mjs browse --path /event --record"
+    },
+    {
+      "route": "/[...slug]",
+      "feature": "404 Not Found fallback",
+      "source": "app/pages/[...slug].vue",
+      "reach": "Navigate to any unmatched path (e.g. /missing-route).",
+      "actions": ["Return to home"],
+      "verify": "node tools/control-bike-challenge.mjs request GET /missing-route"
+    },
+    {
+      "route": "/api/event-rsvp",
+      "feature": "Event RSVP submission endpoint",
+      "source": "server/routes/api/event-rsvp.post.ts",
+      "reach": "POST /api/event-rsvp with JSON { name, email }; persists to Cloudflare KV EVENT_RSVPS when bound.",
+      "actions": ["Validate name/email", "Return confirmation JSON"],
+      "verify": "node tools/control-bike-challenge.mjs request POST /api/event-rsvp --data '{\"name\":\"Rider\",\"email\":\"rider@example.com\"}' --contains '\"ok\":true'"
+    },
+    {
+      "route": "/health",
+      "feature": "HTML health status page",
+      "source": "server/routes/health.get.ts",
+      "reach": "GET /health; no auth required.",
+      "actions": ["Inspect commit SHA and deploy status HTML"],
+      "verify": "node tools/control-bike-challenge.mjs request GET /health --contains \"Healthy\""
+    },
+    {
+      "route": "/health.json",
+      "feature": "JSON health & commit SHA endpoint",
+      "source": "server/routes/health.json.get.ts",
+      "reach": "GET /health.json; returns { ok, status, commitSha, deploy }.",
+      "actions": ["Verify live commit SHA against expected merge SHA"],
+      "verify": "node tools/control-bike-challenge.mjs health --origin http://127.0.0.1:3000"
+    }
+  ]
+}
