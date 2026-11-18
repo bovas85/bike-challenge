@@ -7,11 +7,26 @@ defineProps<{
   section: HomePageACF["quote"];
   animate?: boolean;
 }>();
+const quoteDoodlePath =
+  "M 74.29 88.023 C 73.17 87.882 73.726 78.735 73.831 77.25 C 74.032 74.409 76.317 71.065 78.91 69.904 C 80.949 68.992 82.523 68.925 84.72 68.925 C 86.715 68.925 87.433 70.093 88.61 71.618 C 90.054 73.487 89.804 76.424 90.447 78.61 C 90.565 79.007 90.821 80.831 91.312 80.569 C 93.043 79.646 94.221 76.939 95.419 75.454 C 98.663 71.434 111.77 57.097 115.035 68.055 C 116.346 72.453 116.116 77.313 116.116 81.874 L 116.116 86.717 C 116.116 86.787 116.539 86.212 116.818 86.064 C 118.154 85.354 119.615 84.722 121.006 84.132 C 126.835 81.661 133.936 82.636 140.136 82.636 C 143.397 82.636 143.838 84.87 143.838 87.778 C 143.838 93.187 139.218 99.04 135.57 102.714 C 134.632 103.657 133.415 104.176 132.544 105.053 C 131.397 106.207 135.786 105.161 137.407 105.161 C 140.914 105.161 146.442 104.002 148.809 107.338 C 151.235 110.757 149.465 116.572 147.836 119.852 C 145.987 123.576 143.582 125.924 139.217 126.191 C 137.591 126.29 135.511 126.487 133.894 126.191 C 132.791 125.989 132.651 125.533 132.651 126.98 C 132.651 129.968 130.032 132.416 127.301 133.291 C 122.05 134.974 115.511 132.997 111.28 129.864 C 107.75 127.25 105.755 123.691 103.849 119.852 C 103.325 118.797 102.917 118.67 101.904 119.362 C 99.576 120.953 97.486 122.713 95.095 124.259 C 85.775 130.284 76.154 134.581 65.158 135.903 C 60.357 136.48 57.755 134.735 57.755 130.027 C 57.755 125.002 60.57 121.987 64.104 118.873 C 65.03 118.057 66.376 116.914 67.671 116.914 L 63.32 116.914 C 57.317 116.914 51.218 115.422 50.216 108.562 C 49.486 103.563 50.469 98.546 55.323 96.103 C 58.574 94.466 61.057 94.389 64.672 94.389 C 64.84 94.389 67.227 94.504 67.265 94.389 C 67.508 93.656 66.995 91.115 66.995 90.199 C 66.995 86.537 70.327 83.824 73.804 85.574";
 </script>
 
 <template>
   <section class="quote step">
     <div class="quote__inner">
+      <span class="quote__doodle" aria-hidden="true">
+        <svg viewBox="0 0 200 200" focusable="false">
+          <path
+            :d="quoteDoodlePath"
+            stroke-width="10"
+            stroke="rgb(0, 0, 0)"
+            stroke-linecap="round"
+            fill="none"
+            stroke-miterlimit="10"
+          />
+        </svg>
+      </span>
+
       <blockquote class="quote__block">
         <h2 class="quote__text" :class="{ animated: animate }">
           {{ section.text }}
@@ -38,11 +53,10 @@ defineProps<{
 .quote {
   width: 100%;
   background-color: $white;
-  padding: 64px 20px;
+  padding: 20px 32px 60px;
 
   @include tablet-up {
-    min-height: 584px;
-    padding: 255px 40px 80px;
+    padding: 20px 40px 80px;
   }
 
   &__inner {
@@ -55,6 +69,30 @@ defineProps<{
     text-align: center;
   }
 
+  &__doodle {
+    width: 128px;
+    height: 128px;
+    transform: rotate(-20deg);
+    pointer-events: none;
+
+    @include tablet-up {
+      width: 160px;
+      height: 160px;
+    }
+
+    @include desktop-up {
+      width: 256px;
+      height: 256px;
+    }
+
+    svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      overflow: visible;
+    }
+  }
+
   &__block {
     display: flex;
     flex-direction: column;
@@ -65,18 +103,18 @@ defineProps<{
   &__text {
     max-width: 724px;
     font-family: $font-primary;
-    font-size: 30px;
+    font-size: 40px;
     font-weight: 800;
-    line-height: 1.2;
-    letter-spacing: -0.04em;
+    line-height: 48px;
+    letter-spacing: normal;
     white-space: pre-line;
     color: $black;
 
     @include fadeInUp(40px, 0.55s, 0s);
 
-    @include tablet-up {
+    @include desktop-up {
       font-size: 46px;
-      letter-spacing: -2.1px;
+      line-height: 55.2px;
     }
   }
 

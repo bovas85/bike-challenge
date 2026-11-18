@@ -103,25 +103,29 @@ useHead(() => ({
 
 .blog-hero {
   width: 100%;
-  min-height: 140px;
-  padding: 20px 24px;
+  height: 180px;
+  padding: 20px;
   background-color: $white;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
 
-  @include tablet-up {
-    height: 180px;
-  }
-
   &__title {
     color: $black;
-    letter-spacing: -0.04em;
+    font-size: 40px;
+    line-height: 40px;
+    letter-spacing: -1.6px;
     max-width: 1240px;
     width: 100%;
 
     @include fadeInUp(36px, 0.5s, 0.1s);
+
+    @include tablet-up {
+      font-size: 80px;
+      line-height: 80px;
+      letter-spacing: -3.2px;
+    }
   }
 }
 
@@ -129,6 +133,10 @@ useHead(() => ({
   width: 100%;
   background-color: $amber;
   padding: 60px 24px 100px;
+
+  @include desktop-up {
+    padding: 60px 100px 100px;
+  }
 
   &__header {
     max-width: 1000px;
@@ -144,16 +152,11 @@ useHead(() => ({
 
   &__heading {
     font-family: $font-primary;
-    font-size: 36px;
+    font-size: 46px;
     font-weight: 700;
-    line-height: 1.2;
-    letter-spacing: -0.04em;
+    line-height: 55.2px;
+    letter-spacing: -2.1px;
     color: $white;
-
-    @include tablet-up {
-      font-size: 46px;
-      letter-spacing: -2.1px;
-    }
   }
 
   &__subtitle {
@@ -182,7 +185,7 @@ useHead(() => ({
 .blog-partners {
   width: 100%;
   background-color: $white;
-  padding: 80px 24px;
+  padding: 80px 40px;
 
   &__inner {
     max-width: 1000px;
@@ -195,17 +198,18 @@ useHead(() => ({
 
   &__heading {
     font-family: $font-primary;
-    font-size: 36px;
+    font-size: 40px;
     font-weight: 700;
-    line-height: 1.2;
-    letter-spacing: -0.04em;
+    line-height: 48px;
+    letter-spacing: -1.6px;
     color: $navy;
     text-align: center;
 
     @include fadeInUp(36px, 0.55s, 0s);
 
-    @include tablet-up {
+    @include desktop-up {
       font-size: 46px;
+      line-height: 55.2px;
       letter-spacing: -2.1px;
     }
   }
@@ -215,12 +219,11 @@ useHead(() => ({
     max-width: 650px;
     display: grid;
     grid-template-columns: 1fr;
-    gap: 40px;
+    gap: 60px;
     justify-items: center;
 
     @include tablet-up {
       grid-template-columns: repeat(2, minmax(0, 295px));
-      gap: 60px;
       justify-content: center;
     }
   }
@@ -238,12 +241,16 @@ useHead(() => ({
     &:hover {
       opacity: 0.8;
     }
+
+    &:last-child .blog-partners__logo-img {
+      object-fit: contain;
+    }
   }
 
   &__logo-img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
   }
 
   &__cta {

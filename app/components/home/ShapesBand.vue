@@ -46,11 +46,15 @@ const shapes = [
 .shapes-band {
   width: 100%;
   background-color: $white;
-  padding: 60px 20px;
+  padding: 60px;
   overflow: hidden;
 
   @include tablet-up {
-    padding: 100px 20px;
+    padding: 50px;
+  }
+
+  @include desktop-up {
+    padding: 100px;
   }
 
   &__inner {
@@ -62,15 +66,49 @@ const shapes = [
     gap: 20px;
 
     @include tablet-up {
-      gap: 100px;
+      gap: 40px;
     }
   }
 
   &__shape {
-    flex: 0 1 200px;
-    width: 200px;
-    max-width: 30vw;
+    flex: 0 0 auto;
     aspect-ratio: 1;
+
+    &:nth-child(1) {
+      width: 116px;
+
+      @include tablet-up {
+        width: 145px;
+      }
+
+      @include desktop-up {
+        width: 174px;
+      }
+    }
+
+    &:nth-child(2) {
+      width: 128px;
+
+      @include tablet-up {
+        width: 160px;
+      }
+
+      @include desktop-up {
+        width: 193px;
+      }
+    }
+
+    &:nth-child(3) {
+      width: 133px;
+
+      @include tablet-up {
+        width: 166px;
+      }
+
+      @include desktop-up {
+        width: 201px;
+      }
+    }
 
     svg {
       width: 100%;

@@ -66,8 +66,6 @@ defineProps<{
             href="#hero-scroll-curve"
             startOffset="0"
             dominant-baseline="hanging"
-            textLength="305"
-            lengthAdjust="spacing"
             class="hero__scroll-text"
           >
             {{ hero.scrollDownText }}
@@ -82,14 +80,30 @@ defineProps<{
 .hero {
   position: relative;
   width: 100%;
-  height: 570px;
-  padding: 100px 20px 0;
+  height: min-content;
+  max-height: 500px;
+  padding: 70px 20px;
   color: $white;
   overflow: hidden;
   background-color: $ink;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 32px;
+  text-align: center;
 
   @include tablet-up {
-    padding-top: 131px;
+    height: auto;
+    min-height: 441px;
+    max-height: none;
+    padding: 80px 40px;
+  }
+
+  @include desktop-up {
+    height: 70vh;
+    min-height: 570px;
+    padding: 100px 50px;
   }
 
   &__bg {
@@ -99,38 +113,48 @@ defineProps<{
     height: 100%;
     max-width: none;
     object-fit: cover;
+    object-position: 50% 0%;
   }
 
   &__overlay {
     position: absolute;
     inset: 0;
-    background-color: rgb(0 0 0 / 35%);
+    background-color: transparent;
+    pointer-events: none;
   }
 
   &__content {
-    position: relative;
-    z-index: 1;
-    max-width: 898px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 32px;
-    text-align: center;
+    display: contents;
   }
 
   &__title {
+    position: relative;
+    z-index: 1;
+    order: 0;
+    width: 200px;
     color: $white;
-    line-height: 0.9;
+    font-size: 26px;
+    line-height: 15.6px;
 
     @include fadeInUp(40px, 0.5s, 0.15s);
 
+    @include tablet-up {
+      width: auto;
+      font-size: 53px;
+      line-height: 31.8px;
+    }
+
     @include desktop-up {
+      font-size: 80px;
       line-height: 48px;
     }
   }
 
   &__subtitle {
+    position: relative;
+    z-index: 1;
+    order: 4;
+    max-width: 898px;
     font-family: $font-primary;
     font-size: 16px;
     font-weight: 400;
@@ -139,15 +163,26 @@ defineProps<{
     color: $white;
 
     @include fadeInUp(60px, 0.55s, 0.3s);
+
+    @include tablet-up {
+      order: 0;
+    }
   }
 
   &__nav {
-    display: flex;
+    position: relative;
+    z-index: 1;
+    display: none;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 16px 28px;
+    gap: 16px 48px;
 
     @include fadeInUp(80px, 0.65s, 0.5s);
+
+    @include tablet-up {
+      display: flex;
+      order: 0;
+    }
   }
 
   &__nav-link {
@@ -164,14 +199,19 @@ defineProps<{
   }
 
   &__scroll {
-    position: absolute;
+    position: relative;
     z-index: 1;
-    bottom: 32px;
-    left: 50%;
-    width: 100px;
-    height: 100px;
-    margin-left: -50px;
-    display: block;
+    order: 3;
+    width: 92px;
+    height: 97px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @include tablet-up {
+      order: 0;
+    }
   }
 
   &__scroll-svg {
@@ -187,8 +227,9 @@ defineProps<{
 
   &__scroll-text {
     font-family: $font-primary;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 400;
+    letter-spacing: 0;
     fill: $white;
   }
 }

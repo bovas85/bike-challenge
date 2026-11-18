@@ -91,34 +91,46 @@ function play() {
   background-color: $amber;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  padding: 20px 40px 100px;
+  min-height: 563px;
 
   @include tablet-up {
+    padding: 100px 20px;
+    min-height: 799px;
+  }
+
+  @include desktop-up {
     flex-direction: row;
-    align-items: center;
+    padding: 100px 20px;
     min-height: 539px;
   }
 
   &__media {
-    padding: 40px 20px 0;
+    width: 100%;
+    max-width: 310px;
+    padding: 0;
 
     @include tablet-up {
-      flex: 0 0 50%;
-      padding: 32px 20px 32px 0;
+      width: auto;
+      max-width: none;
+      flex: 0 0 auto;
     }
   }
 
   &__frame {
     position: relative;
     width: 100%;
-    max-width: 640px;
-    margin-left: auto;
-    aspect-ratio: 16 / 9;
-    border-radius: 20px;
+    height: 199px;
+    border-radius: 0;
     overflow: hidden;
     background-color: $black;
 
     @include tablet-up {
-      border-radius: 0 20px 20px 0;
+      width: 603px;
+      height: 339px;
     }
   }
 
@@ -160,11 +172,18 @@ function play() {
   &__copy {
     display: flex;
     align-items: center;
-    padding: 40px 20px 56px;
+    width: 100%;
+    max-width: 310px;
+    padding: 0;
 
     @include tablet-up {
-      flex: 0 0 50%;
-      padding: 32px 140px 32px 20px;
+      max-width: 609px;
+    }
+
+    @include desktop-up {
+      flex: 0 0 auto;
+      width: 320px;
+      max-width: 320px;
     }
   }
 
@@ -174,22 +193,22 @@ function play() {
     align-items: flex-start;
     gap: 20px;
     width: 100%;
-    max-width: 400px;
 
     @include fadeInUp(40px, 0.55s, 0s);
   }
 
   &__heading {
     font-family: $font-primary;
-    font-size: 36px;
+    font-size: 40px;
     font-weight: 700;
-    line-height: 1.2;
-    letter-spacing: -0.04em;
+    line-height: 48px;
+    letter-spacing: -1.6px;
     white-space: pre-line;
     color: $white;
 
-    @include tablet-up {
+    @include desktop-up {
       font-size: 46px;
+      line-height: 55.2px;
       letter-spacing: -2.1px;
     }
   }

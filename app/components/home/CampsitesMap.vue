@@ -32,12 +32,13 @@ defineProps<{
   width: 100%;
   background-color: $white;
   padding: 64px 20px;
-  display: flex;
+  display: none;
   flex-direction: column;
   align-items: center;
   gap: 40px;
 
   @include tablet-up {
+    display: flex;
     padding: 80px 20px;
     gap: 80px;
   }

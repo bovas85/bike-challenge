@@ -22,6 +22,9 @@ defineProps<{
         :src="article.image.url"
         :alt="article.image.alt || article.title"
         class="blog-card__image"
+        :class="{
+          'blog-card__image--right': article.id === 'isle-of-wight',
+        }"
         loading="lazy"
       />
     </a>
@@ -65,6 +68,10 @@ defineProps<{
     height: 100%;
     object-fit: cover;
     transition: transform 0.35s ease;
+
+    &--right {
+      object-position: 100% 50%;
+    }
   }
 
   &__image-link:hover &__image {
