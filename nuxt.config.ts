@@ -50,9 +50,9 @@ export default defineNuxtConfig({
   },
   nitro: {
     prerender: {
-      crawlLinks: true,
+      crawlLinks: false,
       failOnError: false,
-      routes: ["/", "/offers", "/blog", "/event", "/health", "/health.json"],
+      routes: ["/health", "/health.json"],
     },
   },
   runtimeConfig: {
