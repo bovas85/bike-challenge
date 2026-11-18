@@ -33,6 +33,7 @@ const ROUTES = [
 
 const browser = await chromium.launch({ headless: true });
 const report = [];
+const httpFailures = [];
 
 try {
   // Desktop walkthrough + screenshots
@@ -50,7 +51,13 @@ try {
 
   for (const r of ROUTES) {
     const url = `${origin}${r.path}`;
-    await dPage.goto(url, { waitUntil: "networkidle", timeout: 30000 });
+    const res = await dPage.goto(url, {
+      waitUntil: "networkidle",
+      timeout: 30000,
+    });
+    httpFailures.push(
+      ...(res && res.status() >= 400 ? [`${url} -> ${res.status()}`] : []),
+    );
     await dPage.waitForTimeout(500);
     const totalHeight = await dPage.evaluate(() => document.body.scrollHeight);
     for (let y = 0; y < totalHeight; y += 700) {
@@ -116,8 +123,20 @@ try {
   const mPage = await mobileCtx.newPage();
   for (const r of ROUTES) {
     const url = `${origin}${r.path}`;
-    await mPage.goto(url, { waitUntil: "networkidle", timeout: 30000 });
-    await mPage.waitForTimeout(400);
+    const mRes = await mPage.goto(url, {
+      waitUntil: "networkidle",
+      timeout: 30000,
+    });
+    httpFailures.push(
+      ...(mRes && mRes.status() >= 400 ? [`${url} -> ${mRes.status()}`] : []),
+    );
+    const mHeight = await mPage.evaluate(() => document.body.scrollHeight);
+    for (let y = 0; y < mHeight; y += 500) {
+      await mPage.evaluate((pos) => window.scrollTo(0, pos), y);
+      await mPage.waitForTimeout(100);
+    }
+    await mPage.evaluate(() => window.scrollTo(0, 0));
+    await mPage.waitForTimeout(500);
     const mobileShot = path.join(OUT_DIR, `${r.name}-mobile.png`);
     await mPage.screenshot({ path: mobileShot, fullPage: true });
     const metrics = await mPage.evaluate(() => ({
@@ -132,10 +151,20 @@ try {
   }
   await mobileCtx.close();
 
+  const ok =
+    httpFailures.length === 0 &&
+    consoleErrors.length === 0 &&
+    pageErrors.length === 0 &&
+    !report.some((x) => x.overflowX || x.brokenImages > 0);
   console.log(
-    JSON.stringify({ ok: true, consoleErrors, pageErrors, report }, null, 2),
+    JSON.stringify(
+      { ok, httpFailures, consoleErrors, pageErrors, report },
+      null,
+      2,
+    ),
   );
   if (
+    httpFailures.length > 0 ||
     consoleErrors.length > 0 ||
     pageErrors.length > 0 ||
     report.some((x) => x.overflowX || x.brokenImages > 0)
