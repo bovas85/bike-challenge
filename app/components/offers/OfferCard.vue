@@ -5,11 +5,16 @@ defineOptions({ name: "OfferCard" });
 
 defineProps<{
   offer: OfferCardACF;
+  animate?: boolean;
 }>();
 </script>
 
 <template>
-  <article class="offer-card" :data-offer-id="offer.id">
+  <article
+    class="offer-card"
+    :class="{ animated: animate }"
+    :data-offer-id="offer.id"
+  >
     <a
       :href="offer.url"
       target="_blank"
@@ -73,6 +78,8 @@ defineProps<{
   display: flex;
   flex-direction: column;
   width: 100%;
+
+  @include fadeInUp(32px, 0.5s, 0.05s);
 
   &__media {
     position: relative;

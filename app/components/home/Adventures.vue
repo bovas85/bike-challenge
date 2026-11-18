@@ -5,6 +5,7 @@ defineOptions({ name: "HomeAdventures" });
 
 defineProps<{
   adventures: HomePageACF["adventures"];
+  animate?: boolean;
 }>();
 
 // Doodle strokes extracted from production (200x200 viewBox, 10px black stroke).
@@ -20,7 +21,7 @@ const doodles = {
 </script>
 
 <template>
-  <section id="strava" class="adventures">
+  <section id="strava" class="adventures step">
     <div class="adventures__inner">
       <a
         v-for="card in adventures"
@@ -29,6 +30,7 @@ const doodles = {
         target="_blank"
         rel="noopener noreferrer"
         class="adventures__card"
+        :class="{ animated: animate }"
         :data-platform="card.platform"
       >
         <span
@@ -98,14 +100,15 @@ const doodles = {
     border-radius: 20px;
     background-color: $amber-tint;
     overflow: hidden;
-    transition: transform 0.2s ease;
+
+    @include fadeInUp(36px, 0.55s, 0s);
+
+    &:nth-child(2) {
+      transition-delay: 0.12s;
+    }
 
     @include tablet-up {
       padding: 24px 200px;
-    }
-
-    &:hover {
-      transform: translateY(-2px);
     }
   }
 

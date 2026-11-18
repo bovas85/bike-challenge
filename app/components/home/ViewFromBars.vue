@@ -6,6 +6,7 @@ defineOptions({ name: "HomeViewFromBars" });
 
 const props = defineProps<{
   section: HomePageACF["viewFromBars"];
+  animate?: boolean;
 }>();
 
 const activeIndex = ref(0);
@@ -24,9 +25,9 @@ function showPrevious() {
 </script>
 
 <template>
-  <section class="view-bars">
+  <section class="view-bars step">
     <div class="view-bars__copy">
-      <div class="view-bars__copy-inner">
+      <div class="view-bars__copy-inner" :class="{ animated: animate }">
         <h2 class="view-bars__heading">{{ section.heading }}</h2>
         <p class="view-bars__body">{{ section.body }}</p>
         <a
@@ -130,6 +131,8 @@ function showPrevious() {
     gap: 20px;
     width: 100%;
     max-width: 400px;
+
+    @include fadeInUp(40px, 0.55s, 0s);
   }
 
   &__heading {

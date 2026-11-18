@@ -1,10 +1,15 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import { useScrollReveal } from "~/composables/useScrollReveal";
 import { useEventContent } from "~/composables/useSiteContent";
 
 defineOptions({ name: "EventPage" });
 
 const { data: eventData } = await useEventContent();
+
+const { headerAnimated, stepAnimated } = useScrollReveal(1, {
+  stepSelector: ".event-page .step",
+});
 
 useHead(() => ({
   title: `${eventData.value.title} | ${eventData.value.brandHeader}`,
@@ -68,7 +73,7 @@ async function handleSubmit() {
 <template>
   <main class="event-page">
     <header class="event-header">
-      <div class="event-header__inner">
+      <div class="event-header__inner" :class="{ animated: headerAnimated }">
         <h1 class="event-header__brand">
           <NuxtLink to="/" class="event-header__brand-link">
             {{ eventData.brandHeader }}
@@ -80,13 +85,13 @@ async function handleSubmit() {
       </div>
     </header>
 
-    <section class="event-content" aria-labelledby="event-details-heading">
+    <section class="event-content step" aria-labelledby="event-details-heading">
       <h2 id="event-details-heading" class="sr-only">
         {{ eventData.title }} Details and RSVP
       </h2>
 
       <div class="event-content__grid">
-        <div class="event-details">
+        <div class="event-details" :class="{ animated: stepAnimated[0] }">
           <p
             v-for="(paragraph, index) in eventData.paragraphs"
             :key="index"
@@ -112,7 +117,7 @@ async function handleSubmit() {
           </p>
         </div>
 
-        <div class="event-poster">
+        <div class="event-poster" :class="{ animated: stepAnimated[0] }">
           <img
             :src="eventData.posterImage.url"
             :alt="eventData.posterImage.alt"
@@ -125,6 +130,7 @@ async function handleSubmit() {
 
       <form
         class="event-form"
+        :class="{ animated: stepAnimated[0] }"
         novalidate
         aria-label="Event RSVP"
         @submit.prevent="handleSubmit"
@@ -220,6 +226,8 @@ async function handleSubmit() {
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    @include fadeInUp(32px, 0.5s, 0.1s);
   }
 
   &__brand {
@@ -298,6 +306,8 @@ async function handleSubmit() {
   letter-spacing: -0.01em;
   color: $black;
 
+  @include fadeInUp(36px, 0.55s, 0.05s);
+
   @include tablet-up {
     margin-left: 87px;
     font-size: 22px;
@@ -325,6 +335,8 @@ async function handleSubmit() {
   max-width: 620px;
   justify-self: center;
 
+  @include fadeInUp(36px, 0.55s, 0.15s);
+
   @include tablet-up {
     justify-self: end;
   }
@@ -346,6 +358,8 @@ async function handleSubmit() {
   display: flex;
   flex-direction: column;
   gap: 20px;
+
+  @include fadeInUp(32px, 0.55s, 0.25s);
 
   @include tablet-up {
     margin-top: 0;

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useHead } from "#imports";
 import BlogCard from "~/components/blog/BlogCard.vue";
+import { useScrollReveal } from "~/composables/useScrollReveal";
 import { useBlogContent, useHomeContent } from "~/composables/useSiteContent";
 
 defineOptions({ name: "BlogPage" });
@@ -9,6 +10,10 @@ const [{ data: blog }, { data: home }] = await Promise.all([
   useBlogContent(),
   useHomeContent(),
 ]);
+
+const { headerAnimated, stepAnimated } = useScrollReveal(2, {
+  stepSelector: ".blog-page .step",
+});
 
 useHead(() => ({
   title: `${blog.value.brandHeader} — ${blog.value.heading}`,
@@ -20,13 +25,16 @@ useHead(() => ({
     <SiteTopNav />
 
     <header class="blog-hero">
-      <h1 class="bc-display-title blog-hero__title">
+      <h1
+        class="bc-display-title blog-hero__title"
+        :class="{ animated: headerAnimated }"
+      >
         {{ blog.brandHeader }}
       </h1>
     </header>
 
-    <section class="blog-feed" aria-labelledby="blog-heading">
-      <div class="blog-feed__header">
+    <section class="blog-feed step" aria-labelledby="blog-heading">
+      <div class="blog-feed__header" :class="{ animated: stepAnimated[0] }">
         <h2 id="blog-heading" class="blog-feed__heading">
           {{ blog.heading }}
         </h2>
@@ -40,13 +48,18 @@ useHead(() => ({
           v-for="article in blog.articles"
           :key="article.id"
           :article="article"
+          :animate="stepAnimated[0]"
         />
       </div>
     </section>
 
-    <section class="blog-partners" aria-labelledby="blog-partners-heading">
+    <section class="blog-partners step" aria-labelledby="blog-partners-heading">
       <div class="blog-partners__inner">
-        <h2 id="blog-partners-heading" class="blog-partners__heading">
+        <h2
+          id="blog-partners-heading"
+          class="blog-partners__heading"
+          :class="{ animated: stepAnimated[1] }"
+        >
           {{ home.partnersSection.heading }}
         </h2>
 
@@ -59,6 +72,7 @@ useHead(() => ({
             rel="noopener noreferrer"
             :aria-label="partner.name"
             class="blog-partners__logo-link"
+            :class="{ animated: stepAnimated[1] }"
           >
             <img
               :src="partner.logoUrl"
@@ -72,6 +86,7 @@ useHead(() => ({
         <NuxtLink
           :to="home.partnersSection.ctaTo"
           class="bc-btn bc-btn--amber-dark blog-partners__cta"
+          :class="{ animated: stepAnimated[1] }"
         >
           {{ home.partnersSection.ctaLabel }}
         </NuxtLink>
@@ -105,6 +120,8 @@ useHead(() => ({
     letter-spacing: -0.04em;
     max-width: 1240px;
     width: 100%;
+
+    @include fadeInUp(36px, 0.5s, 0.1s);
   }
 }
 
@@ -121,6 +138,8 @@ useHead(() => ({
     align-items: center;
     gap: 32px;
     text-align: center;
+
+    @include fadeInUp(40px, 0.55s, 0s);
   }
 
   &__heading {
@@ -183,6 +202,8 @@ useHead(() => ({
     color: $navy;
     text-align: center;
 
+    @include fadeInUp(36px, 0.55s, 0s);
+
     @include tablet-up {
       font-size: 46px;
       letter-spacing: -2.1px;
@@ -211,7 +232,8 @@ useHead(() => ({
     width: 295px;
     max-width: 100%;
     height: 100px;
-    transition: opacity 0.2s ease;
+
+    @include fadeInUp(32px, 0.5s, 0.08s);
 
     &:hover {
       opacity: 0.8;
@@ -235,6 +257,8 @@ useHead(() => ({
     font-size: 16px;
     font-weight: 700;
     line-height: 19.2px;
+
+    @include fadeInUp(28px, 0.5s, 0.16s);
   }
 }
 </style>

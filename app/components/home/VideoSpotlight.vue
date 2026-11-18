@@ -6,6 +6,7 @@ defineOptions({ name: "HomeVideoSpotlight" });
 
 const props = defineProps<{
   section: HomePageACF["videoSpotlight"];
+  animate?: boolean;
 }>();
 
 const isPlaying = ref(false);
@@ -23,7 +24,7 @@ function play() {
 </script>
 
 <template>
-  <section id="videos" class="video-spotlight">
+  <section id="videos" class="video-spotlight step">
     <div class="video-spotlight__media">
       <div class="video-spotlight__frame">
         <iframe
@@ -68,7 +69,7 @@ function play() {
     </div>
 
     <div class="video-spotlight__copy">
-      <div class="video-spotlight__copy-inner">
+      <div class="video-spotlight__copy-inner" :class="{ animated: animate }">
         <h2 class="video-spotlight__heading">{{ section.heading }}</h2>
         <p class="video-spotlight__body">{{ section.body }}</p>
         <a
@@ -174,6 +175,8 @@ function play() {
     gap: 20px;
     width: 100%;
     max-width: 400px;
+
+    @include fadeInUp(40px, 0.55s, 0s);
   }
 
   &__heading {

@@ -5,12 +5,13 @@ defineOptions({ name: "HomeJoinJourney" });
 
 defineProps<{
   section: HomePageACF["joinJourney"];
+  animate?: boolean;
 }>();
 </script>
 
 <template>
-  <section id="content" class="join-journey">
-    <div class="join-journey__inner">
+  <section id="content" class="join-journey step">
+    <div class="join-journey__inner" :class="{ animated: animate }">
       <h2 class="join-journey__heading">{{ section.heading }}</h2>
       <p class="join-journey__body">{{ section.body }}</p>
     </div>
@@ -36,6 +37,8 @@ defineProps<{
     align-items: center;
     gap: 32px;
     text-align: center;
+
+    @include fadeInUp(40px, 0.55s, 0s);
   }
 
   &__heading {

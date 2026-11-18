@@ -5,12 +5,17 @@ defineOptions({ name: "HomePartners" });
 
 defineProps<{
   section: HomePageACF["partnersSection"];
+  animate?: boolean;
 }>();
 </script>
 
 <template>
-  <section class="partners" aria-labelledby="home-partners-heading">
-    <h2 id="home-partners-heading" class="partners__heading">
+  <section class="partners step" aria-labelledby="home-partners-heading">
+    <h2
+      id="home-partners-heading"
+      class="partners__heading"
+      :class="{ animated: animate }"
+    >
       {{ section.heading }}
     </h2>
 
@@ -23,6 +28,7 @@ defineProps<{
         rel="noopener noreferrer"
         :aria-label="partner.name"
         class="partners__logo-link"
+        :class="{ animated: animate }"
       >
         <img
           :src="partner.logoUrl"
@@ -36,6 +42,7 @@ defineProps<{
     <NuxtLink
       :to="section.ctaTo"
       class="bc-btn bc-btn--amber-dark partners__cta"
+      :class="{ animated: animate }"
     >
       {{ section.ctaLabel }}
     </NuxtLink>
@@ -66,6 +73,8 @@ defineProps<{
     text-align: center;
     color: $navy;
 
+    @include fadeInUp(36px, 0.55s, 0s);
+
     @include tablet-up {
       font-size: 46px;
       letter-spacing: -2.1px;
@@ -94,7 +103,8 @@ defineProps<{
     width: 295px;
     max-width: 100%;
     height: 100px;
-    transition: opacity 0.2s ease;
+
+    @include fadeInUp(32px, 0.5s, 0.08s);
 
     &:hover {
       opacity: 0.8;
@@ -110,6 +120,8 @@ defineProps<{
   &__cta {
     min-height: 50px;
     color: $black;
+
+    @include fadeInUp(28px, 0.5s, 0.18s);
   }
 }
 </style>

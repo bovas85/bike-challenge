@@ -1,11 +1,16 @@
 <script setup lang="ts">
 import { useHead } from "#imports";
 import OfferCard from "~/components/offers/OfferCard.vue";
+import { useScrollReveal } from "~/composables/useScrollReveal";
 import { useOffersContent } from "~/composables/useSiteContent";
 
 defineOptions({ name: "OffersPage" });
 
 const { data: offers } = await useOffersContent();
+
+const { headerAnimated, stepAnimated } = useScrollReveal(2, {
+  stepSelector: ".offers-page .step",
+});
 
 useHead({
   title: "The Bike Challenge Discounts",
@@ -17,26 +22,30 @@ useHead({
     <SiteTopNav />
 
     <header class="offers-hero">
-      <h1 class="bc-display-title offers-hero__title">
+      <h1
+        class="bc-display-title offers-hero__title"
+        :class="{ animated: headerAnimated }"
+      >
         {{ offers.brandHeader }}
       </h1>
-      <h2 class="offers-hero__subtitle">
+      <h2 class="offers-hero__subtitle" :class="{ animated: headerAnimated }">
         {{ offers.subtitle }}
       </h2>
     </header>
 
-    <section class="offers-catalog" aria-label="Partner discounts">
+    <section class="offers-catalog step" aria-label="Partner discounts">
       <div class="offers-catalog__grid">
         <OfferCard
           v-for="offer in offers.offers"
           :key="offer.id"
           :offer="offer"
+          :animate="stepAnimated[0]"
         />
       </div>
     </section>
 
-    <section class="offers-disclosure" aria-label="Affiliate disclosure">
-      <p class="offers-disclosure__note">
+    <section class="offers-disclosure step" aria-label="Affiliate disclosure">
+      <p class="offers-disclosure__note" :class="{ animated: stepAnimated[1] }">
         {{ offers.disclosureNote }}
       </p>
     </section>
@@ -66,6 +75,8 @@ useHead({
     letter-spacing: -0.04em;
     max-width: 1240px;
     width: 100%;
+
+    @include fadeInUp(36px, 0.5s, 0.1s);
   }
 
   &__subtitle {
@@ -77,6 +88,8 @@ useHead({
     color: $muted;
     max-width: 1240px;
     width: 100%;
+
+    @include fadeInUp(36px, 0.55s, 0.2s);
 
     @include tablet-up {
       font-size: 40px;
@@ -117,6 +130,8 @@ useHead({
     line-height: 21px;
     letter-spacing: -0.01em;
     color: $muted;
+
+    @include fadeIn(0.5s, 0.1s);
   }
 }
 </style>

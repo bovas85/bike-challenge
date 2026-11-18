@@ -5,15 +5,20 @@ defineOptions({ name: "HomeQuoteSection" });
 
 defineProps<{
   section: HomePageACF["quote"];
+  animate?: boolean;
 }>();
 </script>
 
 <template>
-  <section class="quote">
+  <section class="quote step">
     <div class="quote__inner">
       <blockquote class="quote__block">
-        <h2 class="quote__text">{{ section.text }}</h2>
-        <h3 class="quote__author">{{ section.author }}</h3>
+        <h2 class="quote__text" :class="{ animated: animate }">
+          {{ section.text }}
+        </h2>
+        <h3 class="quote__author" :class="{ animated: animate }">
+          {{ section.author }}
+        </h3>
       </blockquote>
 
       <a
@@ -21,6 +26,7 @@ defineProps<{
         target="_blank"
         rel="noopener noreferrer"
         class="bc-btn bc-btn--amber quote__cta"
+        :class="{ animated: animate }"
       >
         {{ section.ctaLabel }}
       </a>
@@ -66,6 +72,8 @@ defineProps<{
     white-space: pre-line;
     color: $black;
 
+    @include fadeInUp(40px, 0.55s, 0s);
+
     @include tablet-up {
       font-size: 46px;
       letter-spacing: -2.1px;
@@ -78,6 +86,8 @@ defineProps<{
     font-weight: 600;
     line-height: 28px;
     color: $navy;
+
+    @include fadeIn(0.5s, 0.15s);
   }
 
   &__cta {
@@ -85,6 +95,8 @@ defineProps<{
     padding: 16px 24px;
     font-size: 14px;
     line-height: 16.8px;
+
+    @include fadeInUp(30px, 0.5s, 0.25s);
   }
 }
 </style>

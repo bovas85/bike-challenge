@@ -31,3 +31,27 @@ $bp-desktop: 1200px;
     @content;
   }
 }
+
+@mixin fadeInUp($distance: 50px, $duration: 0.6s, $delay: 0s) {
+  transform: translateY($distance);
+  opacity: 0;
+  transition:
+    transform $duration cubic-bezier(0.15, 0.46, 0.21, 0.93) $delay,
+    opacity $duration cubic-bezier(0.44, 0, 0.56, 1) $delay;
+
+  @media (prefers-reduced-motion: reduce) {
+    transform: none;
+    opacity: 1;
+    transition: none;
+  }
+}
+
+@mixin fadeIn($duration: 0.5s, $delay: 0s) {
+  opacity: 0;
+  transition: opacity $duration cubic-bezier(0.44, 0, 0.56, 1) $delay;
+
+  @media (prefers-reduced-motion: reduce) {
+    opacity: 1;
+    transition: none;
+  }
+}

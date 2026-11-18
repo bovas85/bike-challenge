@@ -5,13 +5,16 @@ defineOptions({ name: "HomeCampsitesMap" });
 
 defineProps<{
   section: HomePageACF["campsitesMap"];
+  animate?: boolean;
 }>();
 </script>
 
 <template>
-  <section id="map" class="campsites-map">
-    <h2 class="campsites-map__heading">{{ section.heading }}</h2>
-    <div class="campsites-map__frame">
+  <section id="map" class="campsites-map step">
+    <h2 class="campsites-map__heading" :class="{ animated: animate }">
+      {{ section.heading }}
+    </h2>
+    <div class="campsites-map__frame" :class="{ animated: animate }">
       <iframe
         :src="section.embedUrl"
         :title="section.heading"
@@ -49,6 +52,8 @@ defineProps<{
     text-align: center;
     color: $black;
 
+    @include fadeInUp(36px, 0.55s, 0s);
+
     @include tablet-up {
       font-size: 40px;
       line-height: 40px;
@@ -59,6 +64,8 @@ defineProps<{
     width: 100%;
     max-width: 640px;
     aspect-ratio: 640 / 400;
+
+    @include fadeInUp(36px, 0.55s, 0.12s);
   }
 
   &__iframe {

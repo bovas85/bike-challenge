@@ -16,6 +16,7 @@ import {
   useGlobalContent,
   useHomeContent,
 } from "~/composables/useSiteContent";
+import { useScrollReveal } from "~/composables/useScrollReveal";
 
 defineOptions({ name: "HomePage" });
 
@@ -26,6 +27,10 @@ const featuredArticles = computed(() =>
   blog.value.articles.filter((article) => article.featuredOnHome === true),
 );
 
+const { headerAnimated, stepAnimated } = useScrollReveal(8, {
+  stepSelector: ".home-page .step",
+});
+
 useHead(() => ({
   title: globalContent.value.brandTitle,
 }));
@@ -33,16 +38,30 @@ useHead(() => ({
 
 <template>
   <main class="home-page">
-    <HeroSection :hero="home.hero" :nav-links="globalContent.heroNavLinks" />
-    <JoinJourney :section="home.joinJourney" />
-    <QuoteSection :section="home.quote" />
-    <ViewFromBars :section="home.viewFromBars" />
-    <AdventuresSection :adventures="home.adventures" />
-    <VideoSpotlight :section="home.videoSpotlight" />
+    <HeroSection
+      :hero="home.hero"
+      :nav-links="globalContent.heroNavLinks"
+      :animate="headerAnimated"
+    />
+    <JoinJourney :section="home.joinJourney" :animate="stepAnimated[0]" />
+    <QuoteSection :section="home.quote" :animate="stepAnimated[1]" />
+    <ViewFromBars :section="home.viewFromBars" :animate="stepAnimated[2]" />
+    <AdventuresSection
+      :adventures="home.adventures"
+      :animate="stepAnimated[3]"
+    />
+    <VideoSpotlight :section="home.videoSpotlight" :animate="stepAnimated[4]" />
     <ShapesBand />
-    <BlogPreview :section="home.blogPreview" :articles="featuredArticles" />
-    <CampsitesMap :section="home.campsitesMap" />
-    <PartnersSection :section="home.partnersSection" />
+    <BlogPreview
+      :section="home.blogPreview"
+      :articles="featuredArticles"
+      :animate="stepAnimated[5]"
+    />
+    <CampsitesMap :section="home.campsitesMap" :animate="stepAnimated[6]" />
+    <PartnersSection
+      :section="home.partnersSection"
+      :animate="stepAnimated[7]"
+    />
   </main>
 </template>
 

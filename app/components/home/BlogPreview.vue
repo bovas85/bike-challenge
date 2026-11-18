@@ -6,12 +6,13 @@ defineOptions({ name: "HomeBlogPreview" });
 defineProps<{
   section: HomePageACF["blogPreview"];
   articles: BlogArticleACF[];
+  animate?: boolean;
 }>();
 </script>
 
 <template>
-  <section id="blog" class="blog-preview">
-    <div class="blog-preview__header">
+  <section id="blog" class="blog-preview step">
+    <div class="blog-preview__header" :class="{ animated: animate }">
       <h2 class="blog-preview__heading">{{ section.heading }}</h2>
       <p class="blog-preview__subtitle">{{ section.subtitle }}</p>
     </div>
@@ -21,6 +22,7 @@ defineProps<{
         v-for="article in articles"
         :key="article.id"
         class="blog-preview__card"
+        :class="{ animated: animate }"
       >
         <a
           :href="article.url"
@@ -54,6 +56,7 @@ defineProps<{
     <NuxtLink
       :to="section.ctaTo"
       class="bc-btn bc-btn--white blog-preview__all-cta"
+      :class="{ animated: animate }"
     >
       {{ section.ctaLabel }}
     </NuxtLink>
@@ -80,6 +83,8 @@ defineProps<{
     gap: 40px;
     margin-bottom: 48px;
     text-align: center;
+
+    @include fadeInUp(40px, 0.55s, 0s);
 
     @include tablet-up {
       margin-bottom: 100px;
@@ -127,6 +132,12 @@ defineProps<{
     flex-direction: column;
     align-items: flex-start;
     width: 100%;
+
+    @include fadeInUp(40px, 0.55s, 0.1s);
+
+    &:nth-child(2) {
+      transition-delay: 0.22s;
+    }
   }
 
   &__image-link {

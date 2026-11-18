@@ -5,11 +5,12 @@ defineOptions({ name: "BlogCard" });
 
 defineProps<{
   article: BlogArticleACF;
+  animate?: boolean;
 }>();
 </script>
 
 <template>
-  <article class="blog-card">
+  <article class="blog-card" :class="{ animated: animate }">
     <a
       :href="article.url"
       target="_blank"
@@ -49,6 +50,8 @@ defineProps<{
   flex-direction: column;
   align-items: flex-start;
   width: 100%;
+
+  @include fadeInUp(36px, 0.55s, 0.08s);
 
   &__image-link {
     display: block;

@@ -6,6 +6,7 @@ defineOptions({ name: "HomeHeroSection" });
 defineProps<{
   hero: HomePageACF["hero"];
   navLinks: SiteGlobalACF["heroNavLinks"];
+  animate?: boolean;
 }>();
 </script>
 
@@ -20,10 +21,18 @@ defineProps<{
     <div class="hero__overlay" />
 
     <div class="hero__content">
-      <h1 class="bc-display-title hero__title">{{ hero.title }}</h1>
-      <p class="hero__subtitle">{{ hero.subtitle }}</p>
+      <h1 class="bc-display-title hero__title" :class="{ animated: animate }">
+        {{ hero.title }}
+      </h1>
+      <p class="hero__subtitle" :class="{ animated: animate }">
+        {{ hero.subtitle }}
+      </p>
 
-      <nav class="hero__nav" aria-label="Page sections">
+      <nav
+        class="hero__nav"
+        :class="{ animated: animate }"
+        aria-label="Page sections"
+      >
         <NuxtLink
           v-for="link in navLinks"
           :key="link.label"
@@ -114,6 +123,8 @@ defineProps<{
     color: $white;
     line-height: 0.9;
 
+    @include fadeInUp(40px, 0.5s, 0.15s);
+
     @include desktop-up {
       line-height: 48px;
     }
@@ -126,6 +137,8 @@ defineProps<{
     line-height: 24px;
     white-space: pre-line;
     color: $white;
+
+    @include fadeInUp(60px, 0.55s, 0.3s);
   }
 
   &__nav {
@@ -133,6 +146,8 @@ defineProps<{
     flex-wrap: wrap;
     justify-content: center;
     gap: 16px 28px;
+
+    @include fadeInUp(80px, 0.65s, 0.5s);
   }
 
   &__nav-link {
