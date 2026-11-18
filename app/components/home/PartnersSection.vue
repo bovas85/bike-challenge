@@ -53,30 +53,30 @@ defineProps<{
 .partners {
   width: 100%;
   background-color: $white;
-  padding: 64px 20px;
+  padding: 80px 32px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 40px;
+  gap: 60px;
 
   @include tablet-up {
     padding: 80px 40px;
-    gap: 60px;
   }
 
   &__heading {
     font-family: $font-primary;
-    font-size: 36px;
+    font-size: 40px;
     font-weight: 700;
-    line-height: 1.2;
-    letter-spacing: -0.04em;
+    line-height: 48px;
+    letter-spacing: -1.6px;
     text-align: center;
     color: $navy;
 
     @include fadeInUp(36px, 0.55s, 0s);
 
-    @include tablet-up {
+    @include desktop-up {
       font-size: 46px;
+      line-height: 55.2px;
       letter-spacing: -2.1px;
     }
   }
@@ -85,13 +85,12 @@ defineProps<{
     width: 100%;
     max-width: 650px;
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 24px 20px;
+    grid-template-columns: 1fr;
+    gap: 60px;
     justify-items: center;
 
     @include tablet-up {
       grid-template-columns: repeat(2, minmax(0, 295px));
-      gap: 60px;
       justify-content: center;
     }
   }
@@ -109,12 +108,16 @@ defineProps<{
     &:hover {
       opacity: 0.8;
     }
+
+    &:last-child .partners__logo-img {
+      object-fit: contain;
+    }
   }
 
   &__logo-img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
   }
 
   &__cta {

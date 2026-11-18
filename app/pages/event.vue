@@ -220,6 +220,10 @@ async function handleSubmit() {
   padding: 50px 24px;
   text-align: center;
 
+  @include tablet-up {
+    min-height: 220px;
+  }
+
   &__inner {
     max-width: 1200px;
     margin: 0 auto;
@@ -239,10 +243,6 @@ async function handleSubmit() {
     color: $black;
 
     @include tablet-up {
-      font-size: 64px;
-    }
-
-    @include desktop-up {
       font-size: 80px;
     }
   }
@@ -291,8 +291,13 @@ async function handleSubmit() {
     align-items: start;
 
     @include tablet-up {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 620px);
+      grid-template-columns: minmax(0, 1fr) minmax(0, 500px);
       justify-content: space-between;
+    }
+
+    @include desktop-up {
+      max-width: 1400px;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 700px);
     }
   }
 }
@@ -339,6 +344,10 @@ async function handleSubmit() {
 
   @include tablet-up {
     justify-self: end;
+  }
+
+  @include desktop-up {
+    max-width: 700px;
   }
 
   &__image {

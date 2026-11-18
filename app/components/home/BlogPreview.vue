@@ -67,13 +67,17 @@ defineProps<{
 .blog-preview {
   width: 100%;
   background-color: $amber;
-  padding: 60px 20px 50px;
+  padding: 60px 32px;
   display: flex;
   flex-direction: column;
   align-items: center;
 
   @include tablet-up {
-    padding: 100px 20px 50px;
+    padding: 60px 40px 40px;
+  }
+
+  @include desktop-up {
+    padding: 60px 100px 100px;
   }
 
   &__header {
@@ -145,7 +149,7 @@ defineProps<{
     width: 100%;
     aspect-ratio: 1;
     margin-bottom: 30px;
-    border-radius: 20px;
+    border-radius: 0;
     overflow: hidden;
   }
 

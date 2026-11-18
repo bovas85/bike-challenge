@@ -26,6 +26,7 @@ defineProps<{
         :src="offer.image.url"
         :alt="offer.image.alt || offer.brand"
         class="offer-card__image"
+        :class="{ 'offer-card__image--contain': offer.id === 'ogt' }"
         loading="lazy"
       />
       <img
@@ -88,15 +89,20 @@ defineProps<{
     aspect-ratio: 1 / 1;
     border-radius: 20px;
     overflow: hidden;
-    background-color: #f5f5f5;
+    background-color: transparent;
   }
 
   &__image {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 20px;
     display: block;
     transition: transform 0.35s ease;
+
+    &--contain {
+      object-fit: contain;
+    }
   }
 
   &__media:hover &__image {

@@ -109,17 +109,27 @@ function showPrevious() {
 
   @include tablet-up {
     flex-direction: row;
+    min-height: 500px;
+  }
+
+  @include desktop-up {
     min-height: 600px;
   }
 
   &__copy {
+    order: 1;
     display: flex;
     align-items: center;
-    padding: 56px 20px;
+    padding: 60px 32px;
 
     @include tablet-up {
+      order: 0;
       flex: 0 0 50%;
       justify-content: flex-end;
+      padding: 40px;
+    }
+
+    @include desktop-up {
       padding: 0 40px 0 140px;
     }
   }
@@ -137,16 +147,15 @@ function showPrevious() {
 
   &__heading {
     font-family: $font-primary;
-    font-size: 36px;
+    font-size: 40px;
     font-weight: 700;
     line-height: 1.2;
-    letter-spacing: -0.04em;
+    letter-spacing: -2.1px;
     white-space: pre-line;
     color: $white;
 
     @include tablet-up {
       font-size: 46px;
-      letter-spacing: -2.1px;
     }
   }
 
@@ -155,6 +164,7 @@ function showPrevious() {
     font-size: 18px;
     font-weight: 400;
     line-height: 27px;
+    letter-spacing: -0.5px;
     color: $white;
   }
 
@@ -164,6 +174,7 @@ function showPrevious() {
   }
 
   &__carousel {
+    order: 0;
     position: relative;
     width: 100%;
     height: 400px;
@@ -172,6 +183,10 @@ function showPrevious() {
     @include tablet-up {
       flex: 0 0 50%;
       width: 50%;
+      height: 500px;
+    }
+
+    @include desktop-up {
       height: 600px;
     }
   }
@@ -189,6 +204,10 @@ function showPrevious() {
     height: 100%;
     max-width: none;
     object-fit: cover;
+
+    &:last-child {
+      object-position: 100% 50%;
+    }
   }
 
   &__arrow {

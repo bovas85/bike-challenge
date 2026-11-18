@@ -76,9 +76,13 @@ const doodles = {
 .adventures {
   width: 100%;
   background-color: $white;
-  padding: 60px 20px;
+  padding: 60px 40px;
 
   @include tablet-up {
+    padding: 80px 40px;
+  }
+
+  @include desktop-up {
     padding: 100px 50px;
   }
 
@@ -156,12 +160,23 @@ const doodles = {
     }
 
     &--arrow {
-      right: -30px;
-      opacity: 0.5;
+      right: 12px;
+      width: 30px;
+      height: 30px;
+      margin-top: -15px;
+      opacity: 1;
 
       @include tablet-up {
-        right: -20px;
-        opacity: 1;
+        right: 24px;
+        width: 40px;
+        height: 40px;
+        margin-top: -20px;
+      }
+
+      @include desktop-up {
+        width: 50px;
+        height: 50px;
+        margin-top: -25px;
       }
     }
   }

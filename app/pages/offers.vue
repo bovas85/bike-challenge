@@ -60,23 +60,33 @@ useHead({
 
 .offers-hero {
   width: 100%;
-  padding: 40px 20px 56px;
+  min-height: 200px;
+  padding: 50px 20px 64px;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
 
   @include tablet-up {
-    padding: 50px 24px 100px;
+    min-height: 220px;
+    padding: 50px 24px 80px;
   }
 
   &__title {
     color: $black;
-    letter-spacing: -0.04em;
+    font-size: 32px;
+    line-height: 32px;
+    letter-spacing: -1.28px;
     max-width: 1240px;
     width: 100%;
 
     @include fadeInUp(36px, 0.5s, 0.1s);
+
+    @include tablet-up {
+      font-size: 80px;
+      line-height: 80px;
+      letter-spacing: -3.2px;
+    }
   }
 
   &__subtitle {

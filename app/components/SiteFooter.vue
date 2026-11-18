@@ -74,13 +74,23 @@ const displayEmail = computed(() =>
 <style lang="scss" scoped>
 .site-footer {
   width: 100%;
-  min-height: 320px;
+  min-height: 200px;
   background-color: $gold;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 64px 24px;
+  padding: 40px 20px;
   text-align: center;
+
+  @include tablet-up {
+    min-height: 220px;
+    padding: 50px;
+  }
+
+  @include desktop-up {
+    min-height: 320px;
+    padding: 100px;
+  }
 
   &__inner {
     display: flex;
