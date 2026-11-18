@@ -5,10 +5,15 @@ import * as Effect from "effect/Effect";
 import * as Redacted from "effect/Redacted";
 
 const PROD_STAGE = "prod";
-const PROD_DOMAIN = {
-  name: "thebikechallenge.cc",
-  aliases: ["www.thebikechallenge.cc"],
-} as const;
+// Existing Cloudflare Worker serving thebikechallenge.cc & www.thebikechallenge.cc.
+// Pinning this name and zone routes on the `prod` stage updates production in-place.
+const PROD_WORKER_NAME =
+  "bike-challenge-bikechallengesite-prod-7r5ar6ulzvxpbjdn";
+const PROD_ZONE_NAME = "thebikechallenge.cc";
+const PROD_ROUTES = [
+  { pattern: "thebikechallenge.cc/*", zoneName: PROD_ZONE_NAME },
+  { pattern: "www.thebikechallenge.cc/*", zoneName: PROD_ZONE_NAME },
+] as const;
 const PROD_KV_TITLE = "bike-challenge-EventRsvps-prod";
 
 // 1. Declare Cloudflare Resources (pinned by title on `prod` so CI adopts the same
@@ -31,10 +36,8 @@ export const Website = Cloudflare.Website.Nuxt(
     return {
       ...(isProd
         ? {
-            domain: {
-              name: PROD_DOMAIN.name,
-              aliases: [...PROD_DOMAIN.aliases],
-            },
+            name: PROD_WORKER_NAME,
+            routes: [...PROD_ROUTES],
           }
         : {}),
       env: {
@@ -59,7 +62,7 @@ export default Alchemy.Stack(
   {
     providers: Cloudflare.providers(),
     // Note: Cloudflare.state() requires `Secrets Store: Edit` on CLOUDFLARE_API_TOKEN.
-    // Local state + pinned `prod` KV title + `--adopt` updates prod in-place.
+    // Local state + pinned `prod` Worker name / KV title + `--adopt` updates prod in-place.
     state: Alchemy.localState(),
   },
   Effect.gen(function* () {
