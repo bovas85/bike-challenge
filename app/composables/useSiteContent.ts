@@ -112,13 +112,18 @@ export function normalizeGlobalAcf(
         : bundle.global.heroNavLinks,
     socialLinks:
       Array.isArray(candidate.socialLinks) && candidate.socialLinks.length > 0
-        ? candidate.socialLinks.map((item) => ({
-            ...item,
-            iconUrl:
-              typeof item.iconUrl === "string" && item.iconUrl
-                ? item.iconUrl
-                : undefined,
-          }))
+        ? candidate.socialLinks.map((item) => {
+            const fallbackIconUrl = bundle.global.socialLinks.find(
+              (fallback) => fallback.name === item.name,
+            )?.iconUrl;
+            return {
+              ...item,
+              iconUrl:
+                typeof item.iconUrl === "string" && item.iconUrl
+                  ? item.iconUrl
+                  : fallbackIconUrl,
+            };
+          })
         : bundle.global.socialLinks,
   };
 }
@@ -160,6 +165,9 @@ export function normalizeHomeAcf(payload: unknown): HomePageACF | undefined {
       : {
           ...bundle.home.hero,
           title: rawHero?.title || bundle.home.hero.title,
+          subtitle: rawHero?.subtitle || bundle.home.hero.subtitle,
+          scrollDownText:
+            rawHero?.scrollDownText || bundle.home.hero.scrollDownText,
         },
     joinJourney: isNonEmptyRecord(raw.joinJourney)
       ? { ...bundle.home.joinJourney, ...raw.joinJourney }

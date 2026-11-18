@@ -45,7 +45,7 @@ describe("useSiteContent", () => {
     expect(data.value.details).toHaveLength(5);
   });
 
-  it("treats empty WP options acf array as unset and coerces false iconUrl to undefined", () => {
+  it("treats empty WP options acf array as unset and preserves fallback social iconUrls", () => {
     expect(normalizeGlobalAcf({ acf: [] })).toBeUndefined();
     expect(normalizeGlobalAcf({ acf: {} })).toBeUndefined();
     const partial = normalizeGlobalAcf({
@@ -58,15 +58,24 @@ describe("useSiteContent", () => {
             url: "https://instagram.com/bike.challenge",
             iconUrl: false,
           },
+          {
+            name: "strava",
+            label: "Strava",
+            url: "https://www.strava.com/clubs/859996",
+            iconUrl: false,
+          },
         ],
       },
     });
     expect(partial?.brandTitle).toBe("Custom Brand");
     expect(partial?.heroNavLinks).toEqual(fallbackContent.global.heroNavLinks);
     expect(partial?.socialLinks[0]?.iconUrl).toBeUndefined();
+    expect(partial?.socialLinks[1]?.iconUrl).toBe(
+      fallbackContent.global.socialLinks[0]!.iconUrl,
+    );
   });
 
-  it("falls back hero image and subtitle when WP returns legacy hero fields", () => {
+  it("falls back hero image and unwraps WP carouselImages objects cleanly", () => {
     const normalized = normalizeHomeAcf([
       {
         id: 32,
@@ -76,17 +85,32 @@ describe("useSiteContent", () => {
             desktop_bg: false,
             mobile_bg: false,
             title: "WP TITLE",
+            subtitle: "",
             description: "",
           },
           joinJourney: { heading: "Live Heading", body: "Live Body" },
+          viewFromBars: {
+            carouselImages: [
+              {
+                image: {
+                  url: "https://cdn.example.com/bar-1.jpg",
+                  alt: "Bar 1",
+                },
+              },
+            ],
+          },
         },
       },
     ]);
     expect(normalized?.hero.title).toBe("WP TITLE");
+    expect(normalized?.hero.subtitle).toBe(fallbackContent.home.hero.subtitle);
     expect(normalized?.hero.backgroundImage.url).toBe(
       fallbackContent.home.hero.backgroundImage.url,
     );
     expect(normalized?.joinJourney.heading).toBe("Live Heading");
+    expect(normalized?.viewFromBars.carouselImages).toEqual([
+      { url: "https://cdn.example.com/bar-1.jpg", alt: "Bar 1" },
+    ]);
   });
 
   it("normalizes ACF repeater paragraph objects into plain strings", () => {
