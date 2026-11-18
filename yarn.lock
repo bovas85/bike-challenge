@@ -52,6 +52,21 @@
   dependencies:
     rolldown "1.2.16"
 
+"@alchemy.run/frontend-frameworks@^2.0.0-beta.87":
+  version "2.0.0-beta.87"
+  resolved "https://registry.yarnpkg.com/@alchemy.run/frontend-frameworks/-/frontend-frameworks-2.0.0-beta.87.tgz#389cbe2a327c9f5db2e20615821df9d3e7732d91"
+  integrity sha512-mZ35kaOJAguppLFjNEx/GYcA/0Ydncch8bcz1swlr2AcEJGNBU3bXCt5ShK0LOQi629QllOXj5wV5Zx8769s9Q==
+  dependencies:
+    "@alchemy.run/cloudflare-runtime" "2.0.0-beta.87"
+    "@alchemy.run/redis" "2.0.0-beta.87"
+    "@distilled.cloud/aws" "1.0.0-rc.20"
+    "@distilled.cloud/cloudflare" "1.0.0-rc.20"
+    "@effect/platform-node" "^4.1.4"
+    esbuild "^0.28.1"
+    rolldown "1.2.16"
+    srvx "1.0.7"
+    tinyglobby "^0.2.17"
+
 "@alchemy.run/node-utils@2.0.0-beta.87":
   version "2.0.0-beta.87"
   resolved "https://registry.yarnpkg.com/@alchemy.run/node-utils/-/node-utils-2.0.0-beta.87.tgz#c0727b4063a59f24ba919dd82168080c6bf5c9c5"
@@ -59,6 +74,11 @@
   dependencies:
     chokidar "^5.0.0"
     rolldown "1.2.16"
+
+"@alchemy.run/redis@2.0.0-beta.87":
+  version "2.0.0-beta.87"
+  resolved "https://registry.yarnpkg.com/@alchemy.run/redis/-/redis-2.0.0-beta.87.tgz#c31ad9b8a2ea0f005d33c7c058b2ee0ebf320d18"
+  integrity sha512-qpo7u+SRT+j1+247GWoeyEx33G7vgeaG0b4BExDBbu5eidoJ79wUxfOcOAwsnouMeqqUv/74rh4vadCnncPtNA==
 
 "@alchemy.run/sigil@0.1.0-alpha.4":
   version "0.1.0-alpha.4"
@@ -603,6 +623,22 @@
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/@dxup/unimport/-/unimport-0.1.2.tgz#a08e4039efe41c50d9c36fbb39d9976b88eefa68"
   integrity sha512-/B8YJGPzaYq1NbsQmwgP8EZqg40NpTw4ZB3suuI0TplbxKHeK94jeaawLmVhCv+YwUnOpiWEz9U6SeThku/8JQ==
+
+"@effect/platform-node-shared@4.1.4":
+  version "4.1.4"
+  resolved "https://registry.yarnpkg.com/@effect/platform-node-shared/-/platform-node-shared-4.1.4.tgz#7d543a7e3ebd834401434675121e74697445609f"
+  integrity sha512-DWdfphHGOFJNj/mYadgpT3jIm8aRXDcPrQiGXFBH4p2H4XmA7iYMrPsI8NxVgZ7kNX0q1+FGJZJama0tINHRAg==
+  dependencies:
+    "@types/ws" "^8.18.2"
+    ws "^8.22.1"
+
+"@effect/platform-node@^4.1.4":
+  version "4.1.4"
+  resolved "https://registry.yarnpkg.com/@effect/platform-node/-/platform-node-4.1.4.tgz#5c7459ec604fbc1dc435b98692c5d9cf9a2400a9"
+  integrity sha512-h7QExTPq/RfYtHP/8tMlgfBvqYsuJKhxfkU6w0+NaF/ihqQ8Y3GH9t28ltupQjoqMM7P6W5gy8rOji7F0qVrmg==
+  dependencies:
+    "@effect/platform-node-shared" "4.1.4"
+    undici "^8.12.4"
 
 "@effect/sql-d1@^4.1.4":
   version "4.1.4"
@@ -2140,7 +2176,7 @@
   resolved "https://registry.yarnpkg.com/@types/whatwg-mimetype/-/whatwg-mimetype-3.0.2.tgz#e5e06dcd3e92d4e622ef0129637707d66c28d6a4"
   integrity sha512-c2AKvDT8ToxLIOUlN51gTiHXflsfIFisS4pO7pDPoKouJCESkhZnEy623gwP9laCy5lnLDAw1vAzu2vM2YLOrA==
 
-"@types/ws@^8.18.1":
+"@types/ws@^8.18.1", "@types/ws@^8.18.2":
   version "8.18.2"
   resolved "https://registry.yarnpkg.com/@types/ws/-/ws-8.18.2.tgz#25d6321b30ef0fddf6cc7052b4eef9ce4e412b6e"
   integrity sha512-67MQl+fpWKVTT1NYdnmo3U4sc/xPo/zQBncVnI74qmQa0z/b+1g6iYqNmGCPbxO+zz2aklb08a0oHfegiVd0/w==
@@ -3782,7 +3818,7 @@ es-module-lexer@^3.0.0, es-module-lexer@^3.0.3:
   resolved "https://registry.yarnpkg.com/es-module-lexer/-/es-module-lexer-3.0.5.tgz#57c9b204a2055f8d6ea831a55dbfeff8fd1fa7c9"
   integrity sha512-RNq2lKJw53c7z9QRHeiKeA6Ez0oikOqiBGdmxQhKDxEiOX1g5QJR4IoFVwicn8uCZcRWNrXC3NZaJihgK7aEbg==
 
-esbuild@^0.28.2:
+esbuild@^0.28.1, esbuild@^0.28.2:
   version "0.28.2"
   resolved "https://registry.yarnpkg.com/esbuild/-/esbuild-0.28.2.tgz#0f43bd1bad955b72d24e2261e3abe5957ccf0816"
   integrity sha512-HKVLS8dvII+xoKW9kmqxbRKrnWEXfJJr/FZhhJmiqIB0e053QNYFqOBouTMO/k5sID4MvCiUCvv8b9M4h32wIA==
@@ -7045,6 +7081,11 @@ srvx@1.0.5:
   resolved "https://registry.yarnpkg.com/srvx/-/srvx-1.0.5.tgz#f22ac137e4aa74948836a2292d560e18ed8a3a2e"
   integrity sha512-KvSKRpgPG/oaq3cyT614OQ2bAa7DynuGamivCZeoZzIUULOdbQz6wUtnnVuC4+DCx2Zglzo8v5gBYmWIWYhDxA==
 
+srvx@1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/srvx/-/srvx-1.0.7.tgz#804498e7455799a6f4d4e068de76dcda3a415484"
+  integrity sha512-8h30Qy2cpYkcXgByHNpV4+jp609bU3ic7MqnfyLQ2Fpa8BgjIaI2zfsDKAIbwm8DcYDrCLqm5izF5KeL2nxdvg==
+
 srvx@^1.0.6, srvx@^1.0.8:
   version "1.0.8"
   resolved "https://registry.yarnpkg.com/srvx/-/srvx-1.0.8.tgz#ebb17823f9e2ef535e48f42824384cabb2bd121e"
@@ -7575,7 +7616,7 @@ undici@^7.25.0:
   resolved "https://registry.yarnpkg.com/undici/-/undici-7.30.2.tgz#26c6acb0ffe838f823511f8cb79a8d530652135e"
   integrity sha512-mLyPQnHwUxaM/rideoK/+KL8DaAJLRl4aBCfmX444aCSLnIaomqPLtNRe2jdCYcsk5wZzXrDIQC8ZeYNRAYyIA==
 
-undici@^8.12.3:
+undici@^8.12.3, undici@^8.12.4:
   version "8.12.4"
   resolved "https://registry.yarnpkg.com/undici/-/undici-8.12.4.tgz#0c0cabeafd9a9c3139f9ace62ee9436c0d355c72"
   integrity sha512-8Mx+uNKKER2bA4AdtedkqRbwUCIJFr2nJckXRe5yrDqzePqwLP7VNcctN8/XdmDSbF7mS+jJKIszlL+vbam1VA==
@@ -8098,7 +8139,7 @@ write-file-atomic@^7.0.1:
   dependencies:
     signal-exit "^4.0.1"
 
-ws@^8.21.0, ws@^8.22.0:
+ws@^8.21.0, ws@^8.22.0, ws@^8.22.1:
   version "8.23.0"
   resolved "https://registry.yarnpkg.com/ws/-/ws-8.23.0.tgz#e1af4314ad9d4cfde4684d08a9f09b322830e84e"
   integrity sha512-wCkmX8QMOrKjgO8HW2WyDbTSGeqkocxgDzS9iR79rEAexty6/2qzilx3Ag8Tqf9ykop3irLKle0MtVn5qjVnoQ==
