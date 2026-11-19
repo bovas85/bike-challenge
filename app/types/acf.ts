@@ -116,6 +116,11 @@ export interface OfferCardACF {
   overlayLogoUrl?: string;
 }
 
+export interface OfferFilterCriteria {
+  brandQuery: string;
+  discountPercent: number | null;
+}
+
 export interface OffersPageACF {
   brandHeader: string;
   subtitle: string;

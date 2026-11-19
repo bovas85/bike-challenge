@@ -1,15 +1,55 @@
 <script setup lang="ts">
-import { useHead } from "#imports";
+import { useHead, useRuntimeConfig } from "#imports";
+import { computed, ref, watch } from "vue";
 import OfferCard from "~/components/offers/OfferCard.vue";
+import OfferFilters from "~/components/offers/OfferFilters.vue";
 import { useScrollReveal } from "~/composables/useScrollReveal";
 import { useOffersContent } from "~/composables/useSiteContent";
+import { extractDiscountOptions, filterOffers } from "~/utils/offerFilter";
 
 defineOptions({ name: "OffersPage" });
 
+const runtimeConfig = useRuntimeConfig();
 const { data: offers } = await useOffersContent();
 
-const { headerAnimated, stepAnimated } = useScrollReveal(2, {
+const { headerAnimated, stepAnimated, refresh } = useScrollReveal(2, {
   stepSelector: ".offers-page .step",
+});
+
+const isFilterEnabled = computed(
+  () => runtimeConfig.public.enableOffersFilter !== false,
+);
+
+const brandQuery = ref("");
+const selectedDiscount = ref<number | null>(null);
+
+const discountOptions = computed(() =>
+  extractDiscountOptions(offers.value.offers),
+);
+
+const hasActiveFilters = computed(
+  () =>
+    isFilterEnabled.value &&
+    (brandQuery.value.trim().length > 0 || selectedDiscount.value !== null),
+);
+
+const displayedOffers = computed(() => {
+  if (!isFilterEnabled.value) {
+    return offers.value.offers;
+  }
+  return filterOffers(offers.value.offers, {
+    brandQuery: brandQuery.value,
+    discountPercent: selectedDiscount.value,
+  });
+});
+
+function resetFilters() {
+  brandQuery.value = "";
+  selectedDiscount.value = null;
+}
+
+watch([brandQuery, selectedDiscount, isFilterEnabled], () => {
+  void refresh();
 });
 
 useHead({
@@ -33,14 +73,43 @@ useHead({
       </h2>
     </header>
 
+    <OfferFilters
+      v-if="isFilterEnabled"
+      v-model:brand-query="brandQuery"
+      v-model:selected-discount="selectedDiscount"
+      :discount-options="discountOptions"
+      :total-count="offers.offers.length"
+      :filtered-count="displayedOffers.length"
+      @reset="resetFilters"
+    />
+
     <section class="offers-catalog step" aria-label="Partner discounts">
-      <div class="offers-catalog__grid">
+      <div v-if="displayedOffers.length > 0" class="offers-catalog__grid">
         <OfferCard
-          v-for="offer in offers.offers"
+          v-for="offer in displayedOffers"
           :key="offer.id"
           :offer="offer"
-          :animate="stepAnimated[0]"
+          :animate="stepAnimated[0] || hasActiveFilters"
         />
+      </div>
+
+      <div
+        v-else-if="isFilterEnabled"
+        class="offers-catalog__empty"
+        role="status"
+        aria-live="polite"
+      >
+        <h3 class="offers-catalog__empty-title">No matching offers found</h3>
+        <p class="offers-catalog__empty-text">
+          Try a different brand name or clear the selected discount filter.
+        </p>
+        <button
+          type="button"
+          class="bc-btn bc-btn--amber-dark offers-catalog__reset"
+          @click="resetFilters"
+        >
+          Reset filters
+        </button>
       </div>
     </section>
 
@@ -60,16 +129,16 @@ useHead({
 
 .offers-hero {
   width: 100%;
-  min-height: 200px;
-  padding: 50px 20px 64px;
+  min-height: 180px;
+  padding: 50px 20px 40px;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
 
   @include tablet-up {
-    min-height: 220px;
-    padding: 50px 24px 80px;
+    min-height: 200px;
+    padding: 50px 24px 48px;
   }
 
   &__title {
@@ -123,6 +192,41 @@ useHead({
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 60px 20px;
     }
+  }
+
+  &__empty {
+    max-width: 560px;
+    margin: 16px auto;
+    padding: 40px 24px;
+    border-radius: 20px;
+    background-color: $cream;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+
+  &__empty-title {
+    font-family: $font-primary;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 28px;
+    letter-spacing: -0.02em;
+    color: $black;
+  }
+
+  &__empty-text {
+    font-family: $font-ui;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 22px;
+    color: $charcoal;
+  }
+
+  &__reset {
+    margin-top: 6px;
+    border: 0;
   }
 }
 

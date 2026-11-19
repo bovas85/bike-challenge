@@ -1,5 +1,6 @@
+import { useRuntimeConfig } from "#app";
 import { mountSuspended } from "@nuxt/test-utils/runtime";
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it } from "vitest";
 import OfferCard from "~/components/offers/OfferCard.vue";
 import fallbackContent from "~/data/site-content.json";
 import OffersPage from "./offers.vue";
@@ -163,5 +164,123 @@ describe("OffersPage (/offers)", () => {
     expect(wrapper.find("img.offer-card__image").attributes("alt")).toBe(
       "Bare Brand",
     );
+  });
+
+  describe("offer filtering (enableOffersFilter)", () => {
+    afterEach(() => {
+      const runtimeConfig = useRuntimeConfig();
+      runtimeConfig.public.enableOffersFilter = true;
+    });
+
+    it("renders brand search input and discount percentage pills derived from offers", async () => {
+      const wrapper = await mountSuspended(OffersPage, { route: "/offers" });
+
+      const searchInput = wrapper.find("input#offer-brand-search");
+      expect(searchInput.exists()).toBe(true);
+
+      const pills = wrapper.findAll("button.offer-filters__pill");
+      expect(pills.map((p) => p.text())).toEqual([
+        "All",
+        "5%",
+        "10%",
+        "15%",
+        "20%",
+      ]);
+      expect(pills[0]!.attributes("aria-pressed")).toBe("true");
+      expect(wrapper.find(".offer-filters__count").text()).toBe(
+        "15 partner offers",
+      );
+    });
+
+    it("filters offers by brand name case-insensitively and clears via search clear button", async () => {
+      const wrapper = await mountSuspended(OffersPage, { route: "/offers" });
+
+      const searchInput = wrapper.find("input#offer-brand-search");
+      await searchInput.setValue("velo");
+
+      const filteredCards = wrapper.findAll("article.offer-card");
+      expect(filteredCards).toHaveLength(2);
+      expect(
+        filteredCards.map((c) => c.find("h3.offer-card__title").text()),
+      ).toEqual(["Veloforte", "Velo-tool"]);
+      filteredCards.forEach((card) => {
+        expect(card.classes()).toContain("animated");
+      });
+      expect(wrapper.find(".offer-filters__count").text()).toBe(
+        "Showing 2 of 15 offers",
+      );
+
+      const clearBtn = wrapper.find("button.offer-filters__clear-input");
+      expect(clearBtn.exists()).toBe(true);
+      await clearBtn.trigger("click");
+
+      expect(wrapper.findAll("article.offer-card")).toHaveLength(15);
+    });
+
+    it("filters offers by discount percentage, combines with brand search, and toggles back to all", async () => {
+      const wrapper = await mountSuspended(OffersPage, { route: "/offers" });
+
+      const pills = wrapper.findAll("button.offer-filters__pill");
+      const twentyPctPill = pills.find((p) => p.text() === "20%");
+      expect(twentyPctPill).toBeDefined();
+
+      await twentyPctPill!.trigger("click");
+      expect(twentyPctPill!.attributes("aria-pressed")).toBe("true");
+      expect(
+        wrapper
+          .findAll("article.offer-card")
+          .map((c) => c.attributes("data-offer-id")),
+      ).toEqual(["pelotan", "veloforte", "bumbutter"]);
+
+      await wrapper.find("input#offer-brand-search").setValue("PEL");
+      expect(
+        wrapper
+          .findAll("article.offer-card")
+          .map((c) => c.attributes("data-offer-id")),
+      ).toEqual(["pelotan"]);
+
+      await wrapper.find("button.offer-filters__reset").trigger("click");
+      expect(wrapper.findAll("article.offer-card")).toHaveLength(15);
+
+      await twentyPctPill!.trigger("click");
+      expect(wrapper.findAll("article.offer-card")).toHaveLength(3);
+      await twentyPctPill!.trigger("click");
+      expect(wrapper.findAll("article.offer-card")).toHaveLength(15);
+
+      await twentyPctPill!.trigger("click");
+      expect(wrapper.findAll("article.offer-card")).toHaveLength(3);
+      await pills[0]!.trigger("click");
+      expect(wrapper.findAll("article.offer-card")).toHaveLength(15);
+    });
+
+    it("shows an accessible empty state with a reset action when no offers match", async () => {
+      const wrapper = await mountSuspended(OffersPage, { route: "/offers" });
+
+      await wrapper.find("input#offer-brand-search").setValue("no-such-brand");
+
+      expect(wrapper.findAll("article.offer-card")).toHaveLength(0);
+      expect(wrapper.find(".offers-catalog__grid").exists()).toBe(false);
+
+      const empty = wrapper.find(".offers-catalog__empty");
+      expect(empty.exists()).toBe(true);
+      expect(empty.text()).toContain("No matching offers found");
+
+      const resetBtn = empty.find("button.offers-catalog__reset");
+      expect(resetBtn.exists()).toBe(true);
+      await resetBtn.trigger("click");
+
+      expect(wrapper.find(".offers-catalog__empty").exists()).toBe(false);
+      expect(wrapper.findAll("article.offer-card")).toHaveLength(15);
+    });
+
+    it("falls back to unfiltered catalog without filter controls when enableOffersFilter is false", async () => {
+      const runtimeConfig = useRuntimeConfig();
+      runtimeConfig.public.enableOffersFilter = false;
+
+      const wrapper = await mountSuspended(OffersPage, { route: "/offers" });
+
+      expect(wrapper.find("section.offer-filters").exists()).toBe(false);
+      expect(wrapper.findAll("article.offer-card")).toHaveLength(15);
+    });
   });
 });
