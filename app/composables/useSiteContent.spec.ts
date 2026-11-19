@@ -235,5 +235,22 @@ describe("useSiteContent", () => {
       );
       expect(data.value.brandHeader).toBe("Direct Offers Header");
     });
+
+    it("falls back to local bundle on proxy error when wpUseLocalFallback is true", async () => {
+      const runtimeConfig = useRuntimeConfig();
+      runtimeConfig.public.wpApiBase =
+        "https://bike.moustachedesign.fyi/wp-json";
+      runtimeConfig.public.enableWpApiProxy = true;
+      runtimeConfig.public.wpUseLocalFallback = true;
+      clearNuxtData("blogPage");
+
+      vi.stubGlobal(
+        "$fetch",
+        vi.fn().mockRejectedValueOnce(new Error("502 Bad Gateway")),
+      );
+
+      const { data } = await useBlogContent();
+      expect(data.value.heading).toBe(fallbackContent.blog.heading);
+    });
   });
 });

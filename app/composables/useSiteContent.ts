@@ -41,7 +41,7 @@ async function fetchWpOrFallback<T>(
         (globalThis as Record<string, unknown>).$fetch) ||
       $fetch;
     const response = await (fetchFn as typeof $fetch)<unknown>(targetUrl, {
-      timeout: 5000,
+      timeout: 6500,
     });
     const extracted = extract(response);
     if (extracted !== undefined) {

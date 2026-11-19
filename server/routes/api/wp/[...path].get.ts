@@ -34,6 +34,13 @@ export default defineEventHandler(async (event) => {
   }
 
   const runtimeConfig = useRuntimeConfig(event);
+  if (runtimeConfig?.public?.enableWpApiProxy === false) {
+    throw createError({
+      statusCode: 404,
+      statusMessage: "WordPress API proxy is disabled",
+    });
+  }
+
   const cfEnv = (
     event.context as {
       cloudflare?: {

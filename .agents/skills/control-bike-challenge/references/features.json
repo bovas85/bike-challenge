@@ -69,7 +69,7 @@
         "Validate allowlisted WP endpoint and query params",
         "Proxy upstream WP JSON with Cache-Control: no-store"
       ],
-      "verify": "node tools/control-bike-challenge.mjs request GET /api/wp/wp/v2/users"
+      "verify": "node tools/control-bike-challenge.mjs request GET /api/wp/acf/v3/options/options --contains '\"acf\"'"
     },
     {
       "route": "/health",

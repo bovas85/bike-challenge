@@ -70,6 +70,7 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           WP_API_BASE: ${{ vars.WP_API_BASE || '' }}
           WP_USE_LOCAL_FALLBACK: ${{ vars.WP_USE_LOCAL_FALLBACK || 'true' }}
+          ENABLE_WP_API_PROXY: ${{ vars.ENABLE_WP_API_PROXY || 'true' }}
           WP_API_SECRET: ${{ secrets.WP_API_SECRET }}
 
       - name: Comment Preview URL on PR

@@ -144,4 +144,44 @@ describe("GET /api/wp/[...path]", () => {
       handler({ context: {} } as unknown as H3Event),
     ).rejects.toMatchObject({ statusCode: 504 });
   });
+
+  it("returns 404 when enableWpApiProxy is explicitly disabled", async () => {
+    const { getRouterParam } = await import("h3");
+    const { useRuntimeConfig } = await import("nitropack/runtime");
+    vi.mocked(getRouterParam).mockReturnValueOnce("acf/v3/options/options");
+    vi.mocked(useRuntimeConfig).mockReturnValueOnce({
+      public: {
+        wpApiBase: "https://bike.moustachedesign.fyi/wp-json",
+        enableWpApiProxy: false,
+      },
+    } as never);
+
+    await expect(
+      handler({ context: {} } as unknown as H3Event),
+    ).rejects.toMatchObject({ statusCode: 404 });
+  });
+
+  it("rejects invalid _fields query parameter with 400", async () => {
+    const { getRouterParam, getQuery } = await import("h3");
+    vi.mocked(getRouterParam).mockReturnValueOnce("wp/v2/pages");
+    vi.mocked(getQuery).mockReturnValueOnce({ _fields: "id;drop" });
+
+    await expect(
+      handler({ context: {} } as unknown as H3Event),
+    ).rejects.toMatchObject({ statusCode: 400 });
+  });
+
+  it("maps network fetch failures to 502", async () => {
+    const { getRouterParam, getQuery } = await import("h3");
+    vi.mocked(getRouterParam).mockReturnValueOnce("acf/v3/options/options");
+    vi.mocked(getQuery).mockReturnValueOnce({});
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockRejectedValueOnce(new Error("connect ECONNREFUSED")),
+    );
+
+    await expect(
+      handler({ context: {} } as unknown as H3Event),
+    ).rejects.toMatchObject({ statusCode: 502 });
+  });
 });
