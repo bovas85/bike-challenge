@@ -46,6 +46,9 @@ export const Website = Cloudflare.Website.Nuxt(
         WP_USE_LOCAL_FALLBACK: Config.String("WP_USE_LOCAL_FALLBACK").pipe(
           Config.withDefault("true"),
         ),
+        NUXT_PUBLIC_ENABLE_WP_API_PROXY: Config.String(
+          "ENABLE_WP_API_PROXY",
+        ).pipe(Config.withDefault("true")),
         WP_API_SECRET: Config.Redacted("WP_API_SECRET").pipe(
           Config.withDefault(Redacted.make("")),
         ),

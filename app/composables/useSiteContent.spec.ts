@@ -1,4 +1,5 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { clearNuxtData, useRuntimeConfig } from "#app";
 import fallbackContent from "~/data/site-content.json";
 import {
   normalizeBlogAcf,
@@ -176,5 +177,80 @@ describe("useSiteContent", () => {
     expect(blog?.articles[0]?.image.url).toBe(
       "https://cdn.example.com/iow.jpg",
     );
+  });
+
+  describe("client proxy routing (enableWpApiProxy)", () => {
+    afterEach(() => {
+      const runtimeConfig = useRuntimeConfig();
+      runtimeConfig.public.wpApiBase = "";
+      runtimeConfig.public.enableWpApiProxy = true;
+      runtimeConfig.public.wpUseLocalFallback = true;
+      clearNuxtData();
+      vi.unstubAllGlobals();
+      vi.restoreAllMocks();
+    });
+
+    it("routes client-side fetches through /api/wp when enableWpApiProxy is enabled", async () => {
+      const runtimeConfig = useRuntimeConfig();
+      runtimeConfig.public.wpApiBase =
+        "https://bike.moustachedesign.fyi/wp-json";
+      runtimeConfig.public.enableWpApiProxy = true;
+      clearNuxtData("siteGlobal");
+
+      const fetchMock = vi.fn().mockResolvedValueOnce({
+        acf: { brandTitle: "Live WP Brand" },
+      });
+      vi.stubGlobal("$fetch", fetchMock);
+
+      const { data } = await useGlobalContent();
+
+      expect(fetchMock).toHaveBeenCalledTimes(1);
+      expect(fetchMock.mock.calls[0]![0]).toBe(
+        "/api/wp/acf/v3/options/options?_fields=acf",
+      );
+      expect(data.value.brandTitle).toBe("Live WP Brand");
+    });
+
+    it("fetches wpApiBase directly when enableWpApiProxy is disabled", async () => {
+      const runtimeConfig = useRuntimeConfig();
+      runtimeConfig.public.wpApiBase =
+        "https://bike.moustachedesign.fyi/wp-json";
+      runtimeConfig.public.enableWpApiProxy = false;
+      clearNuxtData("offersPage");
+
+      const fetchMock = vi.fn().mockResolvedValueOnce([
+        {
+          id: 33,
+          slug: "offers",
+          acf: { brandHeader: "Direct Offers Header" },
+        },
+      ]);
+      vi.stubGlobal("$fetch", fetchMock);
+
+      const { data } = await useOffersContent();
+
+      expect(fetchMock).toHaveBeenCalledTimes(1);
+      expect(fetchMock.mock.calls[0]![0]).toBe(
+        "https://bike.moustachedesign.fyi/wp-json/wp/v2/pages?slug=offers&_fields=id,slug,title,acf&acf_format=standard",
+      );
+      expect(data.value.brandHeader).toBe("Direct Offers Header");
+    });
+
+    it("falls back to local bundle on proxy error when wpUseLocalFallback is true", async () => {
+      const runtimeConfig = useRuntimeConfig();
+      runtimeConfig.public.wpApiBase =
+        "https://bike.moustachedesign.fyi/wp-json";
+      runtimeConfig.public.enableWpApiProxy = true;
+      runtimeConfig.public.wpUseLocalFallback = true;
+      clearNuxtData("blogPage");
+
+      vi.stubGlobal(
+        "$fetch",
+        vi.fn().mockRejectedValueOnce(new Error("502 Bad Gateway")),
+      );
+
+      const { data } = await useBlogContent();
+      expect(data.value.heading).toBe(fallbackContent.blog.heading);
+    });
   });
 });

@@ -61,6 +61,17 @@
       "verify": "node tools/control-bike-challenge.mjs request POST /api/event-rsvp --data '{\"name\":\"Rider\",\"email\":\"rider@example.com\"}' --contains '\"ok\":true'"
     },
     {
+      "route": "/api/wp/[...path]",
+      "feature": "Same-origin WordPress ACF REST API proxy",
+      "source": "server/routes/api/wp/[...path].get.ts",
+      "reach": "GET /api/wp/acf/v3/options/options or GET /api/wp/wp/v2/pages?slug=...; proxies allowlisted WP endpoints server-side to eliminate client CORS errors on production and preview domains.",
+      "actions": [
+        "Validate allowlisted WP endpoint and query params",
+        "Proxy upstream WP JSON with Cache-Control: no-store"
+      ],
+      "verify": "node tools/control-bike-challenge.mjs request GET /api/wp/acf/v3/options/options --contains '\"acf\"'"
+    },
+    {
       "route": "/health",
       "feature": "HTML health status page",
       "source": "server/routes/health.get.ts",
