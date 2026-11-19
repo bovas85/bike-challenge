@@ -188,7 +188,7 @@ describe("OffersPage (/offers)", () => {
       ]);
       expect(pills[0]!.attributes("aria-pressed")).toBe("true");
       expect(wrapper.find(".offer-filters__count").text()).toBe(
-        "15 partner offers",
+        `${offersContent.offers.length} partner offers`,
       );
     });
 
@@ -207,7 +207,7 @@ describe("OffersPage (/offers)", () => {
         expect(card.classes()).toContain("animated");
       });
       expect(wrapper.find(".offer-filters__count").text()).toBe(
-        "Showing 2 of 15 offers",
+        `Showing 2 of ${offersContent.offers.length} offers`,
       );
 
       const clearBtn = wrapper.find("button.offer-filters__clear-input");

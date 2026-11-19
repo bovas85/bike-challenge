@@ -64,7 +64,7 @@ export default defineNuxtConfig({
       enableYoutubeFacade: process.env.ENABLE_YOUTUBE_FACADE !== "false",
       enableScrollReveal: process.env.ENABLE_SCROLL_REVEAL !== "false",
       enableOffersFilter:
-        (process.env.ENABLE_OFFERS_FILTER ??
+        (process.env.ENABLE_OFFERS_FILTER ||
           process.env.ENABLE_FILTER_BRAND_OFFERS_BY) !== "false",
     },
   },

@@ -93,12 +93,7 @@ useHead({
         />
       </div>
 
-      <div
-        v-else-if="isFilterEnabled"
-        class="offers-catalog__empty"
-        role="status"
-        aria-live="polite"
-      >
+      <div v-else-if="isFilterEnabled" class="offers-catalog__empty">
         <h3 class="offers-catalog__empty-title">No matching offers found</h3>
         <p class="offers-catalog__empty-text">
           Try a different brand name or clear the selected discount filter.

@@ -6,7 +6,7 @@ list in the same PR.
 
 ## 1. Nuxt Pages & UI
 
-- **Roots:** `app/pages/`, `app/components/`, `app/layouts/`, `app/assets/`
+- **Roots:** `app/pages/`, `app/components/`, `app/layouts/`, `app/assets/`, `app/utils/`
 - **Role:** Rebuilds `bike-challenge.framer.ai` routes (`/`, `/offers`, `/blog`,
   `/event`) with matching typography, palette, and responsive layouts.
 - **adrs:**
