@@ -28,10 +28,10 @@ describe("useSiteContent", () => {
     expect(data.value.partnersSection.logos).toHaveLength(6);
   });
 
-  it("loads local fallback offers content with all 15 partner discounts", async () => {
+  it("loads local fallback offers content with all 16 partner discounts", async () => {
     const { data } = await useOffersContent();
     expect(data.value.subtitle).toBe("Gear we Trust");
-    expect(data.value.offers).toHaveLength(15);
+    expect(data.value.offers).toHaveLength(16);
   });
 
   it("loads local fallback blog content with 6 Gravel Union articles", async () => {
