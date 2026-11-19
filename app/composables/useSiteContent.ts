@@ -24,20 +24,25 @@ async function fetchWpOrFallback<T>(
     "",
   );
   const allowFallback = runtimeConfig.public.wpUseLocalFallback !== false;
+  const useSameOriginProxy =
+    import.meta.client && runtimeConfig.public.enableWpApiProxy !== false;
 
   if (!wpBase) {
     return fallbackValue;
   }
+
+  const targetUrl = useSameOriginProxy
+    ? `/api/wp${wpPath}`
+    : `${wpBase}${wpPath}`;
 
   try {
     const fetchFn =
       (typeof globalThis !== "undefined" &&
         (globalThis as Record<string, unknown>).$fetch) ||
       $fetch;
-    const response = await (fetchFn as typeof $fetch)<unknown>(
-      `${wpBase}${wpPath}`,
-      { timeout: 5000 },
-    );
+    const response = await (fetchFn as typeof $fetch)<unknown>(targetUrl, {
+      timeout: 5000,
+    });
     const extracted = extract(response);
     if (extracted !== undefined) {
       return extracted;

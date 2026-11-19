@@ -9,7 +9,7 @@ export default {
   wpUrl: "https://bike.moustachedesign.fyi",
   wpApiBase: "https://bike.moustachedesign.fyi/wp-json",
   api: {
-    globalOptions: "/acf/v3/options/options",
+    globalOptions: "/acf/v3/options/options?_fields=acf",
     homePage:
       "/wp/v2/pages?slug=home&_fields=id,slug,title,acf&acf_format=standard",
     offersPage:

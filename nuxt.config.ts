@@ -60,6 +60,7 @@ export default defineNuxtConfig({
     public: {
       wpApiBase: process.env.WP_API_BASE || "",
       wpUseLocalFallback: process.env.WP_USE_LOCAL_FALLBACK !== "false",
+      enableWpApiProxy: process.env.ENABLE_WP_API_PROXY !== "false",
       enableYoutubeFacade: process.env.ENABLE_YOUTUBE_FACADE !== "false",
       enableScrollReveal: process.env.ENABLE_SCROLL_REVEAL !== "false",
     },

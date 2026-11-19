@@ -15,10 +15,11 @@ list in the same PR.
 ## 2. WordPress ACF Client & Local JSON Fallback
 
 - **Roots:** `app/assets/config.ts`, `app/composables/useSiteContent.ts`,
-  `app/data/site-content.json`, `app/types/acf.ts`
-- **Role:** Fetches WordPress REST ACF payloads when `WP_API_BASE` is set, with
-  deterministic local JSON fallback (`site-content.json`) while CMS setup is
-  pending.
+  `app/data/site-content.json`, `app/types/acf.ts`, `server/routes/api/wp/`
+- **Role:** Fetches WordPress REST ACF payloads (directly during SSR and via
+  the same-origin `/api/wp/...` Nitro proxy on client navigations when
+  `WP_API_BASE` is set), with deterministic local JSON fallback
+  (`site-content.json`) while CMS setup is pending.
 - **adrs:**
   - [`docs/adr/0003-hosting-and-branch-boundaries.md`](adr/0003-hosting-and-branch-boundaries.md)
 
