@@ -343,6 +343,18 @@
           "url": "/images/offers/cycplus.webp",
           "alt": "CYCPLUS smart air pumps"
         }
+      },
+      {
+        "id": "coospo",
+        "brand": "Coospo",
+        "discountBadge": "10%",
+        "description": "Compact USB-C rechargeable electric bike pump (up to 120 PSI) with a digital gauge, auto-stop, and Presta & Schrader support.",
+        "code": "CHALLENGEX1 10%",
+        "url": "https://www.amazon.co.uk/X1-Electric-Portable-Inflation-Rechargeable/dp/B0FCFN1XMF?ref_=ast_sto_dp&th=1",
+        "image": {
+          "url": "/images/offers/coospo.jpg",
+          "alt": "Coospo X1 electric portable bike pump"
+        }
       }
     ]
   },

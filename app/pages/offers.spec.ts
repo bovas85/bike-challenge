@@ -23,12 +23,12 @@ describe("OffersPage (/offers)", () => {
     );
   });
 
-  it("renders all 15 offer cards in order with brand, description and badge", async () => {
+  it("renders all 16 offer cards in order with brand, description and badge", async () => {
     const wrapper = await mountSuspended(OffersPage, { route: "/offers" });
 
     const cards = wrapper.findAll("article.offer-card");
-    expect(offersContent.offers).toHaveLength(15);
-    expect(cards).toHaveLength(15);
+    expect(offersContent.offers).toHaveLength(16);
+    expect(cards).toHaveLength(16);
 
     offersContent.offers.forEach((offer, index) => {
       const card = cards[index];
@@ -121,8 +121,8 @@ describe("OffersPage (/offers)", () => {
       expect(link.attributes("rel")).toBe("noopener noreferrer");
     });
 
-    expect(codeCount).toBe(14);
-    expect(wrapper.findAll("p.offer-card__code")).toHaveLength(14);
+    expect(codeCount).toBe(15);
+    expect(wrapper.findAll("p.offer-card__code")).toHaveLength(15);
 
     const magicshine = wrapper.find('[data-offer-id="magicshine"]');
     expect(magicshine.find("a.offer-card__code-link").attributes("href")).toBe(
