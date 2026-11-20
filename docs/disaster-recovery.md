@@ -15,7 +15,9 @@ incidents, rolling back faulty releases, and restoring service for
 - **CI/CD:** GitHub Actions (`.github/workflows/deploy-cloudflare.yml`)
   triggered on push to `main` (or manual `workflow_dispatch`)
 - **Deploy Previews:** Cloudflare Workers via Alchemy (automated on PRs to
-  `main` with `--stage pr-<number>`)
+  `main` with `--stage pr-<number>`, pinned to `bike-challenge-pr-<number>` and
+  `bike-challenge-EventRsvps-pr-<number>` so pushes update in-place, and cleaned
+  up automatically on PR close via `tools/cleanup-cloudflare-previews.mjs`)
 - **Health Verification:** `/health` (HTML dashboard) and `/health.json`
   (JSON probe)
 
