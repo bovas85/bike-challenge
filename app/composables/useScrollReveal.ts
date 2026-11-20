@@ -22,6 +22,7 @@ export function useScrollReveal(
 ): {
   headerAnimated: Ref<boolean>;
   stepAnimated: Ref<boolean[]>;
+  refresh: () => Promise<void>;
 } {
   const headerAnimated = ref(false);
   const stepAnimated = ref<boolean[]>(
@@ -41,6 +42,14 @@ export function useScrollReveal(
 
   const handleResize = () => {
     if (scroller) scroller.resize();
+    revealVisibleSteps();
+  };
+
+  const refresh = async () => {
+    if (!import.meta.client) return;
+    await nextTick();
+    if (scroller) scroller.resize();
+    revealVisibleSteps();
   };
 
   const revealVisibleSteps = () => {
@@ -100,5 +109,6 @@ export function useScrollReveal(
   return {
     headerAnimated,
     stepAnimated,
+    refresh,
   };
 }
