@@ -26,7 +26,8 @@ list in the same PR.
 ## 3. Event RSVP API & Cloudflare KV Storage (Alchemy)
 
 - **Roots:** `alchemy.run.ts`, `server/routes/api/event-rsvp.post.ts`,
-  `.github/workflows/deploy-cloudflare.yml`
+  `.github/workflows/deploy-cloudflare.yml`,
+  `tools/cleanup-cloudflare-previews.mjs`
 - **Role:** Deploys `BikeChallengeSite` and `EventRsvps` KV namespace to
   Cloudflare Workers (production + PR deploy previews).
 - **adrs:**

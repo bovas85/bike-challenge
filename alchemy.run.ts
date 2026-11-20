@@ -16,13 +16,30 @@ const PROD_ROUTES = [
 ] as const;
 const PROD_KV_TITLE = "bike-challenge-EventRsvps-prod";
 
-// 1. Declare Cloudflare Resources (pinned by title on `prod` so CI adopts the same
-// namespace across runs even with local state; stage-scoped on PR previews)
+function sanitizePreviewStage(stage: string): string {
+  const normalized = stage
+    .toLowerCase()
+    .replace(/[^a-z0-9-]/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-+/, "")
+    .slice(0, 38)
+    .replace(/-+$/, "");
+  if (!normalized) return "preview";
+  return normalized === PROD_STAGE ? "prod-preview" : normalized;
+}
+
+// 1. Declare Cloudflare Resources (pinned by title on every stage so CI adopts and
+// updates the same namespace in-place instead of leaking per-run resources)
 export const EventRsvpKV = Cloudflare.KV.Namespace(
   "EventRsvps",
   Effect.gen(function* () {
     const stage = yield* Alchemy.Stage;
-    return stage === PROD_STAGE ? { title: PROD_KV_TITLE } : {};
+    return {
+      title:
+        stage === PROD_STAGE
+          ? PROD_KV_TITLE
+          : `bike-challenge-EventRsvps-${sanitizePreviewStage(stage)}`,
+    };
   }),
 );
 
@@ -32,14 +49,13 @@ export const Website = Cloudflare.Website.Nuxt(
   Effect.gen(function* () {
     const stage = yield* Alchemy.Stage;
     const isProd = stage === PROD_STAGE;
+    const workerName = isProd
+      ? PROD_WORKER_NAME
+      : `bike-challenge-${sanitizePreviewStage(stage)}`;
 
     return {
-      ...(isProd
-        ? {
-            name: PROD_WORKER_NAME,
-            routes: [...PROD_ROUTES],
-          }
-        : {}),
+      name: workerName,
+      ...(isProd ? { routes: [...PROD_ROUTES] } : {}),
       env: {
         EVENT_RSVPS: EventRsvpKV,
         WP_API_BASE: Config.String("WP_API_BASE").pipe(Config.withDefault("")),
@@ -65,7 +81,7 @@ export default Alchemy.Stack(
   {
     providers: Cloudflare.providers(),
     // Note: Cloudflare.state() requires `Secrets Store: Edit` on CLOUDFLARE_API_TOKEN.
-    // Local state + pinned `prod` Worker name / KV title + `--adopt` updates prod in-place.
+    // Local state + pinned stage Worker name / KV title + `--adopt` updates in-place.
     state: Alchemy.localState(),
   },
   Effect.gen(function* () {
