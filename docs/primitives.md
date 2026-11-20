@@ -46,8 +46,6 @@ list in the same PR.
 ## 5. Autonomous Issue Triage & PR Lifecycle
 
 - **Roots:** `.github/workflows/issue-triage.yml`,
-  `.github/workflows/legacy-reaper.yml`, `.github/workflows/keep-tests-tight.yml`,
-  `.github/workflows/docs-freshness.yml`, `.github/workflows/friction-sweep.yml`,
   `.github/workflows/errors-to-issues.yml`, `.github/scripts/issue-triage.cjs`,
   `.github/ship-pr.json`, `.github/ISSUE_TEMPLATE/`, `.agents/skills/`
 - **Role:** Classifies issues (`P0`–`P3`, door, complexity, `needs-human`),
