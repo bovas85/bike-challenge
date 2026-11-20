@@ -21,9 +21,11 @@ function sanitizePreviewStage(stage: string): string {
     .toLowerCase()
     .replace(/[^a-z0-9-]/g, "-")
     .replace(/-+/g, "-")
-    .replace(/^-|-$/g, "")
-    .slice(0, 38);
-  return normalized || "preview";
+    .replace(/^-+/, "")
+    .slice(0, 38)
+    .replace(/-+$/, "");
+  if (!normalized) return "preview";
+  return normalized === PROD_STAGE ? "prod-preview" : normalized;
 }
 
 // 1. Declare Cloudflare Resources (pinned by title on every stage so CI adopts and

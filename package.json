@@ -17,7 +17,7 @@
     "typecheck": "vue-tsc --noEmit",
     "lint:all": "yarn lint && yarn lint:css && yarn lint:md && yarn typecheck",
     "format": "prettier --write .",
-    "format:check": "prettier --check AGENTS.md docs/ .github/ .agents/ tools/control-bike-challenge.mjs tools/control-bike-challenge.spec.ts",
+    "format:check": "prettier --check AGENTS.md docs/ .github/ .agents/ tools/control-bike-challenge.mjs tools/control-bike-challenge.spec.ts tools/cleanup-cloudflare-previews.mjs tools/cleanup-cloudflare-previews.spec.ts",
     "verify": "yarn nuxt prepare && yarn lint:all && yarn format:check && node tools/control-bike-challenge.mjs map --check && CI=1 yarn test:coverage",
     "control-bike-challenge": "node tools/control-bike-challenge.mjs",
     "test": "vitest",
