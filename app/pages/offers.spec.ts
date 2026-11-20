@@ -214,7 +214,9 @@ describe("OffersPage (/offers)", () => {
       expect(clearBtn.exists()).toBe(true);
       await clearBtn.trigger("click");
 
-      expect(wrapper.findAll("article.offer-card")).toHaveLength(15);
+      expect(wrapper.findAll("article.offer-card")).toHaveLength(
+        offersContent.offers.length,
+      );
     });
 
     it("filters offers by discount percentage, combines with brand search, and toggles back to all", async () => {
@@ -240,17 +242,23 @@ describe("OffersPage (/offers)", () => {
       ).toEqual(["pelotan"]);
 
       await wrapper.find("button.offer-filters__reset").trigger("click");
-      expect(wrapper.findAll("article.offer-card")).toHaveLength(15);
+      expect(wrapper.findAll("article.offer-card")).toHaveLength(
+        offersContent.offers.length,
+      );
 
       await twentyPctPill!.trigger("click");
       expect(wrapper.findAll("article.offer-card")).toHaveLength(3);
       await twentyPctPill!.trigger("click");
-      expect(wrapper.findAll("article.offer-card")).toHaveLength(15);
+      expect(wrapper.findAll("article.offer-card")).toHaveLength(
+        offersContent.offers.length,
+      );
 
       await twentyPctPill!.trigger("click");
       expect(wrapper.findAll("article.offer-card")).toHaveLength(3);
       await pills[0]!.trigger("click");
-      expect(wrapper.findAll("article.offer-card")).toHaveLength(15);
+      expect(wrapper.findAll("article.offer-card")).toHaveLength(
+        offersContent.offers.length,
+      );
     });
 
     it("shows an accessible empty state with a reset action when no offers match", async () => {
@@ -270,7 +278,9 @@ describe("OffersPage (/offers)", () => {
       await resetBtn.trigger("click");
 
       expect(wrapper.find(".offers-catalog__empty").exists()).toBe(false);
-      expect(wrapper.findAll("article.offer-card")).toHaveLength(15);
+      expect(wrapper.findAll("article.offer-card")).toHaveLength(
+        offersContent.offers.length,
+      );
     });
 
     it("falls back to unfiltered catalog without filter controls when enableOffersFilter is false", async () => {
@@ -280,7 +290,9 @@ describe("OffersPage (/offers)", () => {
       const wrapper = await mountSuspended(OffersPage, { route: "/offers" });
 
       expect(wrapper.find("section.offer-filters").exists()).toBe(false);
-      expect(wrapper.findAll("article.offer-card")).toHaveLength(15);
+      expect(wrapper.findAll("article.offer-card")).toHaveLength(
+        offersContent.offers.length,
+      );
     });
   });
 });
