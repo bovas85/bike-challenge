@@ -18,8 +18,9 @@
       "route": "/offers",
       "feature": "Partner discounts & affiliate offers grid",
       "source": "app/pages/offers.vue",
-      "reach": "Navigate to /offers; renders Gear we Trust grid of 15 partner discount cards.",
+      "reach": "Navigate to /offers; renders Gear we Trust grid of partner discount cards (16 in local fallback) with brand search and discount percentage filters (when enableOffersFilter is enabled).",
       "actions": [
+        "Filter offers by brand name or discount percentage",
         "Inspect discount badge cards and codes",
         "Navigate back Home via top nav"
       ],

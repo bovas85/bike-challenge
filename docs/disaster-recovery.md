@@ -26,8 +26,9 @@ incidents, rolling back faulty releases, and restoring service for
 ### Option A: Instant Rollback via Cloudflare Dashboard
 
 1. Open the [Cloudflare Dashboard](https://dash.cloudflare.com).
-2. Navigate to **Workers & Pages** -> **`BikeChallengeSite`** (`prod` stage
-   Worker serving `thebikechallenge.cc`).
+2. Navigate to **Workers & Pages** ->
+   **`bike-challenge-bikechallengesite-prod-7r5ar6ulzvxpbjdn`** (the Alchemy
+   `BikeChallengeSite` `prod` stage Worker serving `thebikechallenge.cc`).
 3. Select the **Deployments** tab.
 4. Locate the last known-good deployment (verified commit SHA).
 5. Click the three dots menu (**...**) next to the target deployment and select
