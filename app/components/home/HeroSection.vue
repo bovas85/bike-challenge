@@ -58,7 +58,7 @@ defineProps<{
       >
         <path
           id="hero-scroll-curve"
-          d="M 0 50 L 0 50 A 1 1 0 1 0 100 50 L 100 50 A 1 1 0 1 0 0 50 L 0 50"
+          d="M 0 50 A 50 50 0 1 0 100 50 A 50 50 0 1 0 0 50"
           fill="transparent"
         />
         <text>
@@ -131,22 +131,22 @@ defineProps<{
     position: relative;
     z-index: 1;
     order: 0;
-    width: 200px;
+    width: auto;
+    max-width: 100%;
     color: $white;
     font-size: 26px;
-    line-height: 15.6px;
+    line-height: 1;
 
     @include fadeInUp(40px, 0.5s, 0.15s);
 
     @include tablet-up {
-      width: auto;
       font-size: 53px;
-      line-height: 31.8px;
+      line-height: 1;
     }
 
     @include desktop-up {
       font-size: 80px;
-      line-height: 48px;
+      line-height: 1;
     }
   }
 
@@ -227,9 +227,9 @@ defineProps<{
 
   &__scroll-text {
     font-family: $font-primary;
-    font-size: 16px;
+    font-size: 13.8px;
     font-weight: 400;
-    letter-spacing: 0;
+    letter-spacing: 0.4px;
     fill: $white;
   }
 }

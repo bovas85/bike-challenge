@@ -11,7 +11,10 @@ description:
    completely (Intent, Door, Cleanup, Why, Testing, System recap). If the PR
    changes primitives or ADRs, update [`docs/primitives.md`](../../../docs/primitives.md).
 2. Run `yarn verify` and local `control-bike-challenge` proof (`doctor`, `dev`,
-   `request --contains`, `browse --record` / `yarn test:visual` for UI).
+   `request --contains`, `browse --record` / `yarn test:visual` for UI). For any
+   UI change (ADR 0001), commit desktop (`1280x800`) and mobile (`390x844`) PNG
+   screenshots plus an H.264 `.mp4` walkthrough under `.github/assets/` and
+   embed them in the PR description.
 3. For `medium` and `high` risk PRs, spawn an **independent** review subagent
    following [`.agents/skills/review-pr/SKILL.md`](../review-pr/SKILL.md). Never
    let the agent that wrote the code review its own `medium`/`high` PR.

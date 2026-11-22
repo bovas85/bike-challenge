@@ -15,8 +15,9 @@ Cleanup: <!-- none | needed (#issue) | done -->
 <!--
 1. Run the repo verify command (see AGENTS.md) and cite the result.
 2. Cite local control CLI / integration / browser proof if applicable.
-3. Cite independent `review-pr` subagent result for medium/high risk PRs.
-4. State why any test expectation changed, and list anything unverified.
+3. For any UI change (ADR 0001), run `yarn test:visual` / `browse --record` (1280x800 desktop & 390x844 mobile), commit PNGs + H.264 .mp4 walkthrough under .github/assets/, and embed them below.
+4. Cite independent `review-pr` subagent result for medium/high risk PRs.
+5. State why any test expectation changed, and list anything unverified.
 -->
 
 ## System recap

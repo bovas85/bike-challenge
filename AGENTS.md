@@ -21,6 +21,11 @@ node tools/control-bike-challenge.mjs health
 Prettier check, Feature Map check, and Vitest coverage. CI runs the same gate;
 pre-commit runs `lint-staged` and pre-push runs fast static checks.
 
+For any UI change, also run `yarn test:visual` (ADR 0001) across desktop
+(`1280x800`) and mobile (`390x844`) viewports, commit PNG screenshots and an
+H.264 `.mp4` walkthrough under `.github/assets/`, and embed them in the PR
+description.
+
 ## Boundaries
 
 Only `bovas85` may authorize exceptions in writing on the active PR or issue
