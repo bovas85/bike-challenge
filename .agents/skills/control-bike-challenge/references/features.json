@@ -46,6 +46,18 @@
       "verify": "node tools/control-bike-challenge.mjs request GET /event --contains \"Culture Cycling Club Rideout\" && node tools/control-bike-challenge.mjs browse --path /event --record"
     },
     {
+      "route": "/xmas-lottery",
+      "feature": "Hidden Christmas Giveaway Lottery page & Join email modal",
+      "source": "app/pages/xmas-lottery.vue",
+      "reach": "Navigate directly to /xmas-lottery (omitted from nav menus); click Join to open email capture modal submitting to /api/xmas-lottery.",
+      "actions": [
+        "View weekly prize drops and rules",
+        "Click Join to open email capture modal",
+        "Submit unique email entry to /api/xmas-lottery"
+      ],
+      "verify": "node tools/control-bike-challenge.mjs request GET /xmas-lottery --contains \"Xmas Giveaway Lottery\" && node tools/control-bike-challenge.mjs browse --path /xmas-lottery --record"
+    },
+    {
       "route": "/[...slug]",
       "feature": "404 Not Found fallback",
       "source": "app/pages/[...slug].vue",
@@ -60,6 +72,18 @@
       "reach": "POST /api/event-rsvp with JSON { name, email }; persists to Cloudflare KV EVENT_RSVPS when bound.",
       "actions": ["Validate name/email", "Return confirmation JSON"],
       "verify": "node tools/control-bike-challenge.mjs request POST /api/event-rsvp --data '{\"name\":\"Rider\",\"email\":\"rider@example.com\"}' --contains '\"ok\":true'"
+    },
+    {
+      "route": "/api/xmas-lottery",
+      "feature": "Xmas Lottery unique email entry endpoint",
+      "source": "server/routes/api/xmas-lottery.post.ts",
+      "reach": "POST /api/xmas-lottery with JSON { email }; enforces one entry per email and persists to Cloudflare KV XMAS_LOTTERY when bound.",
+      "actions": [
+        "Validate and normalize email",
+        "Reject duplicate email with 409",
+        "Persist entry JSON to XMAS_LOTTERY KV"
+      ],
+      "verify": "node tools/control-bike-challenge.mjs request POST /api/xmas-lottery --data '{\"email\":\"rider@example.com\"}' --contains '\"ok\":true'"
     },
     {
       "route": "/api/wp/[...path]",

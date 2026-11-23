@@ -482,5 +482,74 @@
       "submitLabel": "Submit",
       "successMessage": "Thanks for RSVPing! We'll see you at Forge 1860."
     }
+  },
+  "xmasLottery": {
+    "brandHeader": "The Bike Challenge",
+    "title": "Xmas Giveaway Lottery",
+    "subtitle": "Four weeks of festive cycling prizes",
+    "intro": "We're celebrating the end of the riding year with a private Christmas giveaway for our community. Enter your email once for a chance to win one of our weekly cycling prize drops.",
+    "joinButtonLabel": "Join",
+    "prizesHeading": "Weekly Prize Drops",
+    "prizesSubtitle": "A random winner is picked each week from everyone in the draw.",
+    "prizes": [
+      {
+        "id": "week-1",
+        "weekLabel": "Week 1",
+        "drawDate": "Weekly Draw #1",
+        "title": "Trail Visibility Bundle",
+        "description": "High-output front & rear lighting kit to keep your winter commutes and gravel loops bright."
+      },
+      {
+        "id": "week-2",
+        "weekLabel": "Week 2",
+        "drawDate": "Weekly Draw #2",
+        "title": "Bikepacking Essentials Pack",
+        "description": "Compact frame storage and weatherproof mudguard setup ready for wet winter miles."
+      },
+      {
+        "id": "week-3",
+        "weekLabel": "Week 3",
+        "drawDate": "Weekly Draw #3",
+        "title": "Ride Fuel & Comfort Kit",
+        "description": "Endurance nutrition bars, chamois cream, and riding socks for long days in the saddle."
+      },
+      {
+        "id": "week-4",
+        "weekLabel": "Week 4",
+        "drawDate": "Weekly Draw #4",
+        "title": "Grand Finale Workshop Bundle",
+        "description": "Portable mini pump, precision trail tools, and security gear for next season's escapes."
+      }
+    ],
+    "howItWorksHeading": "How It Works",
+    "steps": [
+      {
+        "number": "01",
+        "title": "Enter once",
+        "description": "Click Join and drop your email address. Only one entry per email is permitted."
+      },
+      {
+        "number": "02",
+        "title": "Weekly draws",
+        "description": "Every week we pick one random winner from the eligible pool of entrants."
+      },
+      {
+        "number": "03",
+        "title": "Fair play",
+        "description": "Each winner can only win once so prizes spread across the community."
+      }
+    ],
+    "rulesNote": "Open to community members invited to this private page. One entry per email address; past winners are excluded from subsequent weekly draws.",
+    "modal": {
+      "title": "Join the Xmas Lottery",
+      "subtitle": "Enter your email once to join all remaining weekly prize draws.",
+      "emailLabel": "Email address",
+      "emailPlaceholder": "rider@example.com",
+      "submitLabel": "Join Giveaway",
+      "successTitle": "You're in the draw!",
+      "successMessage": "Your email has been entered for the weekly Xmas Lottery draws. Good luck!",
+      "alreadyEnteredMessage": "This email is already entered in the Xmas Lottery.",
+      "closeLabel": "Close modal"
+    }
   }
 }

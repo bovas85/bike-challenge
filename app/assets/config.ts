@@ -19,5 +19,8 @@ export default {
     eventPage:
       "/wp/v2/pages?slug=event&_fields=id,slug,title,acf&acf_format=standard",
     eventRsvp: "/api/event-rsvp",
+    xmasLotteryPage:
+      "/wp/v2/pages?slug=xmas-lottery&_fields=id,slug,title,acf&acf_format=standard",
+    xmasLotteryEnter: "/api/xmas-lottery",
   },
 } as const;

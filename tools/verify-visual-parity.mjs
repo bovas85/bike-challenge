@@ -29,6 +29,7 @@ const ROUTES = [
   { name: "offers", path: "/offers" },
   { name: "blog", path: "/blog" },
   { name: "event", path: "/event" },
+  { name: "xmas-lottery", path: "/xmas-lottery" },
 ];
 
 const browser = await chromium.launch({ headless: true });

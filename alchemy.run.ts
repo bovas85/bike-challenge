@@ -15,6 +15,7 @@ const PROD_ROUTES = [
   { pattern: "www.thebikechallenge.cc/*", zoneName: PROD_ZONE_NAME },
 ] as const;
 const PROD_KV_TITLE = "bike-challenge-EventRsvps-prod";
+const PROD_XMAS_LOTTERY_KV_TITLE = "bike-challenge-XmasLottery-prod";
 
 function sanitizePreviewStage(stage: string): string {
   const normalized = stage
@@ -43,6 +44,19 @@ export const EventRsvpKV = Cloudflare.KV.Namespace(
   }),
 );
 
+export const XmasLotteryKV = Cloudflare.KV.Namespace(
+  "XmasLottery",
+  Effect.gen(function* () {
+    const stage = yield* Alchemy.Stage;
+    return {
+      title:
+        stage === PROD_STAGE
+          ? PROD_XMAS_LOTTERY_KV_TITLE
+          : `bike-challenge-XmasLottery-${sanitizePreviewStage(stage)}`,
+    };
+  }),
+);
+
 // 2. Declare the Nuxt Site using native Cloudflare.Website.Nuxt with Effect.gen
 export const Website = Cloudflare.Website.Nuxt(
   "BikeChallengeSite",
@@ -58,6 +72,7 @@ export const Website = Cloudflare.Website.Nuxt(
       ...(isProd ? { routes: [...PROD_ROUTES] } : {}),
       env: {
         EVENT_RSVPS: EventRsvpKV,
+        XMAS_LOTTERY: XmasLotteryKV,
         WP_API_BASE: Config.String("WP_API_BASE").pipe(Config.withDefault("")),
         WP_USE_LOCAL_FALLBACK: Config.String("WP_USE_LOCAL_FALLBACK").pipe(
           Config.withDefault("true"),

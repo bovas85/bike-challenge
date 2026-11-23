@@ -158,12 +158,52 @@ export interface EventPageACF {
   };
 }
 
+export interface XmasLotteryPrizeACF {
+  id: string;
+  weekLabel: string;
+  drawDate: string;
+  title: string;
+  description: string;
+}
+
+export interface XmasLotteryStepACF {
+  number: string;
+  title: string;
+  description: string;
+}
+
+export interface XmasLotteryPageACF {
+  brandHeader: string;
+  title: string;
+  subtitle: string;
+  intro: string;
+  joinButtonLabel: string;
+  prizesHeading: string;
+  prizesSubtitle: string;
+  prizes: XmasLotteryPrizeACF[];
+  howItWorksHeading: string;
+  steps: XmasLotteryStepACF[];
+  rulesNote: string;
+  modal: {
+    title: string;
+    subtitle: string;
+    emailLabel: string;
+    emailPlaceholder: string;
+    submitLabel: string;
+    successTitle: string;
+    successMessage: string;
+    alreadyEnteredMessage: string;
+    closeLabel: string;
+  };
+}
+
 export interface SiteContentBundle {
   global: SiteGlobalACF;
   home: HomePageACF;
   offers: OffersPageACF;
   blog: BlogPageACF;
   event: EventPageACF;
+  xmasLottery: XmasLotteryPageACF;
 }
 
 export interface WpPageResponse<T> {

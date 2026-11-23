@@ -9,6 +9,7 @@ import type {
   SiteContentBundle,
   SiteGlobalACF,
   WpPageResponse,
+  XmasLotteryPageACF,
 } from "~/types/acf";
 
 const bundle = fallbackContent as SiteContentBundle;
@@ -326,6 +327,39 @@ export function normalizeEventAcf(payload: unknown): EventPageACF | undefined {
   };
 }
 
+export function normalizeXmasLotteryAcf(
+  payload: unknown,
+): XmasLotteryPageACF | undefined {
+  const raw = extractAcfFromPageList<Partial<XmasLotteryPageACF>>(payload);
+  if (!raw) {
+    return undefined;
+  }
+
+  return {
+    brandHeader: raw.brandHeader || bundle.xmasLottery.brandHeader,
+    title: raw.title || bundle.xmasLottery.title,
+    subtitle: raw.subtitle || bundle.xmasLottery.subtitle,
+    intro: raw.intro || bundle.xmasLottery.intro,
+    joinButtonLabel: raw.joinButtonLabel || bundle.xmasLottery.joinButtonLabel,
+    prizesHeading: raw.prizesHeading || bundle.xmasLottery.prizesHeading,
+    prizesSubtitle: raw.prizesSubtitle || bundle.xmasLottery.prizesSubtitle,
+    prizes:
+      Array.isArray(raw.prizes) && raw.prizes.length > 0
+        ? raw.prizes
+        : bundle.xmasLottery.prizes,
+    howItWorksHeading:
+      raw.howItWorksHeading || bundle.xmasLottery.howItWorksHeading,
+    steps:
+      Array.isArray(raw.steps) && raw.steps.length > 0
+        ? raw.steps
+        : bundle.xmasLottery.steps,
+    rulesNote: raw.rulesNote || bundle.xmasLottery.rulesNote,
+    modal: isNonEmptyRecord(raw.modal)
+      ? { ...bundle.xmasLottery.modal, ...raw.modal }
+      : bundle.xmasLottery.modal,
+  };
+}
+
 export function useGlobalContent() {
   return useAsyncData<SiteGlobalACF>(
     "siteGlobal",
@@ -409,6 +443,24 @@ export function useEventContent() {
       ),
     {
       default: () => bundle.event,
+      getCachedData(key, nuxtApp) {
+        return nuxtApp.payload.data[key] || nuxtApp.static.data[key];
+      },
+    },
+  );
+}
+
+export function useXmasLotteryContent() {
+  return useAsyncData<XmasLotteryPageACF>(
+    "xmasLotteryPage",
+    () =>
+      fetchWpOrFallback<XmasLotteryPageACF>(
+        Config.api.xmasLotteryPage,
+        bundle.xmasLottery,
+        normalizeXmasLotteryAcf,
+      ),
+    {
+      default: () => bundle.xmasLottery,
       getCachedData(key, nuxtApp) {
         return nuxtApp.payload.data[key] || nuxtApp.static.data[key];
       },

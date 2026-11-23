@@ -5,6 +5,7 @@ import {
   parseArgs,
   previewNamesForPr,
   PROD_KV_TITLE,
+  PROD_LOTTERY_KV_TITLE,
   PROD_WORKER_NAME,
   runCleanup,
 } from "./cleanup-cloudflare-previews.mjs";
@@ -48,12 +49,19 @@ describe("cleanup-cloudflare-previews", () => {
     );
 
     expect(isOrphanPreviewKv(PROD_KV_TITLE)).toBe(false);
+    expect(isOrphanPreviewKv(PROD_LOTTERY_KV_TITLE)).toBe(false);
     expect(isOrphanPreviewKv("other-kv")).toBe(false);
     expect(isOrphanPreviewKv("bike-challenge-EventRsvps-pr-9-abc123")).toBe(
       true,
     );
+    expect(isOrphanPreviewKv("bike-challenge-XmasLottery-pr-9-abc123")).toBe(
+      true,
+    );
     expect(
       isOrphanPreviewKv("bike-challenge-EventRsvps-pr-11", new Set([11])),
+    ).toBe(false);
+    expect(
+      isOrphanPreviewKv("bike-challenge-XmasLottery-pr-11", new Set([11])),
     ).toBe(false);
   });
 
@@ -61,6 +69,10 @@ describe("cleanup-cloudflare-previews", () => {
     expect(previewNamesForPr(11)).toEqual({
       workerName: "bike-challenge-pr-11",
       kvTitle: "bike-challenge-EventRsvps-pr-11",
+      kvTitles: [
+        "bike-challenge-EventRsvps-pr-11",
+        "bike-challenge-XmasLottery-pr-11",
+      ],
     });
 
     const fetchMock = vi
