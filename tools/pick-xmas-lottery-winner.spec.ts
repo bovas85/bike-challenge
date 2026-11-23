@@ -94,6 +94,50 @@ describe("pick-xmas-lottery-winner", () => {
         totalEntries: 2,
         excludedWinnersCount: 1,
       });
+
+      const forcedRedraw = await runWinnerPick(
+        {
+          week: "2026-W48",
+          file: poolPath,
+          dryRun: true,
+          force: true,
+        },
+        {
+          randomIndexFn: () => 0,
+          now: new Date("2026-11-30T10:00:00Z"),
+        },
+      );
+      expect(forcedRedraw.mode).toBe("dry-run");
+      expect(forcedRedraw.email).toBe("two@test.com");
+
+      const listed = await runWinnerPick({
+        week: "2026-W48",
+        file: poolPath,
+        listWinners: true,
+      });
+      expect(listed).toEqual({
+        ok: true,
+        mode: "list-winners",
+        winners: [{ week: "2026-W48", email: "one@test.com" }],
+        totalEntries: 2,
+      });
+
+      const exhaustedPath = path.join(tmpDir, "exhausted.json");
+      fs.writeFileSync(
+        exhaustedPath,
+        JSON.stringify({
+          entries: [{ email: "one@test.com" }],
+          winners: [{ week: "2026-W48", email: "one@test.com" }],
+        }),
+      );
+      await expect(
+        runWinnerPick({
+          week: "2026-W49",
+          file: exhaustedPath,
+          dryRun: true,
+          force: false,
+        }),
+      ).rejects.toThrow(/No eligible entrants left/);
     } finally {
       fs.rmSync(tmpDir, { recursive: true, force: true });
     }

@@ -16,6 +16,8 @@ interface LotteryKvBinding {
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MAX_EMAIL_LENGTH = 254;
+const MAX_KV_KEY_BYTES = 512;
+const textEncoder = new TextEncoder();
 const devLotteryEntries = new Map<string, string>();
 
 /**
@@ -30,15 +32,19 @@ export default defineEventHandler(async (event) => {
   const email = String(body.email || "")
     .trim()
     .toLowerCase();
+  const entryKey = `entry:${email}`;
 
-  if (!email || email.length > MAX_EMAIL_LENGTH || !EMAIL_PATTERN.test(email)) {
+  if (
+    !email ||
+    email.length > MAX_EMAIL_LENGTH ||
+    textEncoder.encode(entryKey).byteLength > MAX_KV_KEY_BYTES ||
+    !EMAIL_PATTERN.test(email)
+  ) {
     throw createError({
       statusCode: 400,
       statusMessage: "A valid email address is required.",
     });
   }
-
-  const entryKey = `entry:${email}`;
 
   const cfEnv = (
     event.context as {

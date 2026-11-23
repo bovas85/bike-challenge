@@ -59,12 +59,15 @@ describe("useSiteContent", () => {
         slug: "xmas-lottery",
         acf: {
           title: "WP Xmas Draw",
-          modal: { title: "Enter Now" },
+          modal: { title: "Enter Now", subtitle: "" },
         },
       },
     ]);
     expect(normalized?.title).toBe("WP Xmas Draw");
     expect(normalized?.modal.title).toBe("Enter Now");
+    expect(normalized?.modal.subtitle).toBe(
+      fallbackContent.xmasLottery.modal.subtitle,
+    );
     expect(normalized?.prizes).toHaveLength(4);
   });
 

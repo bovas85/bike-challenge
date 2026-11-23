@@ -15,13 +15,16 @@ const emit = defineEmits<{
 }>();
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const MAX_EMAIL_LENGTH = 254;
 
 const email = ref("");
 const isSubmitting = ref(false);
 const errorMessage = ref("");
 const alreadyEntered = ref(false);
 const hasSucceeded = ref(false);
+const dialogRef = ref<HTMLElement | null>(null);
 const emailInput = ref<HTMLInputElement | null>(null);
+const doneButton = ref<HTMLButtonElement | null>(null);
 let previouslyFocusedElement: HTMLElement | null = null;
 
 function handleClose() {
@@ -31,10 +34,36 @@ function handleClose() {
   emit("close");
 }
 
+function getFocusableElements(): HTMLElement[] {
+  if (!dialogRef.value) return [];
+  return Array.from(
+    dialogRef.value.querySelectorAll<HTMLElement>(
+      'button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])',
+    ),
+  );
+}
+
 function handleKeydown(event: KeyboardEvent) {
-  if (props.open && event.key === "Escape") {
+  if (!props.open) return;
+
+  if (event.key === "Escape") {
     event.preventDefault();
     handleClose();
+    return;
+  }
+
+  if (event.key === "Tab") {
+    const focusable = getFocusableElements();
+    if (focusable.length === 0) return;
+    const first = focusable[0]!;
+    const last = focusable[focusable.length - 1]!;
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
   }
 }
 
@@ -78,7 +107,11 @@ async function handleSubmit() {
   alreadyEntered.value = false;
 
   const normalizedEmail = email.value.trim().toLowerCase();
-  if (!normalizedEmail || !EMAIL_PATTERN.test(normalizedEmail)) {
+  if (
+    !normalizedEmail ||
+    normalizedEmail.length > MAX_EMAIL_LENGTH ||
+    !EMAIL_PATTERN.test(normalizedEmail)
+  ) {
     errorMessage.value = "Please enter a valid email address.";
     return;
   }
@@ -92,6 +125,8 @@ async function handleSubmit() {
     });
     hasSucceeded.value = true;
     email.value = "";
+    await nextTick();
+    doneButton.value?.focus();
   } catch (err: unknown) {
     const fetchErr = err as {
       statusCode?: number;
@@ -126,6 +161,7 @@ async function handleSubmit() {
     @click.self="handleClose"
   >
     <div
+      ref="dialogRef"
       class="xmas-modal"
       role="dialog"
       aria-modal="true"
@@ -151,6 +187,7 @@ async function handleSubmit() {
           {{ modal.successMessage }}
         </p>
         <button
+          ref="doneButton"
           type="button"
           class="bc-btn bc-btn--amber-dark xmas-modal__done"
           @click="handleClose"

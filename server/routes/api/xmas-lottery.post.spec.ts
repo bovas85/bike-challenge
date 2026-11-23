@@ -17,10 +17,18 @@ describe("POST /api/xmas-lottery", () => {
     vi.clearAllMocks();
   });
 
-  it("rejects missing or invalid email addresses", async () => {
+  it("rejects missing, invalid, or oversized UTF-8 email addresses", async () => {
     const { readBody } = await import("h3");
     vi.mocked(readBody).mockResolvedValueOnce({ email: "not-an-email" });
 
+    await expect(
+      handler({ context: {} } as unknown as H3Event),
+    ).rejects.toMatchObject({ statusCode: 400 });
+
+    const multiByteLocal = "€".repeat(200);
+    vi.mocked(readBody).mockResolvedValueOnce({
+      email: `${multiByteLocal}@example.com`,
+    });
     await expect(
       handler({ context: {} } as unknown as H3Event),
     ).rejects.toMatchObject({ statusCode: 400 });

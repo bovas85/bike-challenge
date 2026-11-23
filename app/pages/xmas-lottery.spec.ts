@@ -140,4 +140,32 @@ describe("XmasLotteryPage (/xmas-lottery)", () => {
     expect(banner.exists()).toBe(true);
     expect(banner.text()).toBe(lotteryContent.modal.alreadyEnteredMessage);
   });
+
+  it("shows error banner when /api/xmas-lottery fails with a non-409 error", async () => {
+    registerEndpoint("/api/xmas-lottery", {
+      method: "POST",
+      handler: () => {
+        throw createError({
+          statusCode: 500,
+          statusMessage: "Storage temporarily unavailable",
+        });
+      },
+    });
+
+    const wrapper = await mountSuspended(XmasLotteryPage, {
+      route: "/xmas-lottery",
+    });
+
+    await wrapper.find("button.xmas-hero__join-btn").trigger("click");
+    await flushPromises();
+
+    await wrapper.find("#xmas-lottery-email").setValue("rider@example.com");
+    await wrapper.find("form.xmas-modal__form").trigger("submit.prevent");
+    await flushPromises();
+    await flushPromises();
+
+    const banner = wrapper.find(".xmas-modal__banner--error");
+    expect(banner.exists()).toBe(true);
+    expect(banner.text()).toBe("Storage temporarily unavailable");
+  });
 });

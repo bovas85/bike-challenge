@@ -355,7 +355,14 @@ export function normalizeXmasLotteryAcf(
         : bundle.xmasLottery.steps,
     rulesNote: raw.rulesNote || bundle.xmasLottery.rulesNote,
     modal: isNonEmptyRecord(raw.modal)
-      ? { ...bundle.xmasLottery.modal, ...raw.modal }
+      ? {
+          ...bundle.xmasLottery.modal,
+          ...Object.fromEntries(
+            Object.entries(raw.modal).filter(
+              ([, v]) => typeof v === "string" && v.length > 0,
+            ),
+          ),
+        }
       : bundle.xmasLottery.modal,
   };
 }
