@@ -7,11 +7,13 @@ import {
   normalizeGlobalAcf,
   normalizeHomeAcf,
   normalizeOffersAcf,
+  normalizeXmasLotteryAcf,
   useBlogContent,
   useEventContent,
   useGlobalContent,
   useHomeContent,
   useOffersContent,
+  useXmasLotteryContent,
 } from "./useSiteContent";
 
 describe("useSiteContent", () => {
@@ -44,6 +46,47 @@ describe("useSiteContent", () => {
     const { data } = await useEventContent();
     expect(data.value.title).toBe("Culture Cycling Club Rideout");
     expect(data.value.details).toHaveLength(5);
+  });
+
+  it("loads local fallback xmasLottery content and normalizes partial WP overrides", async () => {
+    const { data } = await useXmasLotteryContent();
+    expect(data.value.title).toBe(fallbackContent.xmasLottery.title);
+    expect(data.value.prizes).toHaveLength(4);
+
+    const normalized = normalizeXmasLotteryAcf([
+      {
+        id: 99,
+        slug: "xmas-lottery",
+        acf: {
+          title: "WP Xmas Draw",
+          modal: { title: "Enter Now", subtitle: "" },
+          prizes: [
+            {
+              id: "week-1",
+              title: "",
+              description: "",
+              image: { url: "", alt: "" },
+            },
+          ],
+        },
+      },
+    ]);
+    expect(normalized?.title).toBe("WP Xmas Draw");
+    expect(normalized?.modal.title).toBe("Enter Now");
+    expect(normalized?.modal.subtitle).toBe(
+      fallbackContent.xmasLottery.modal.subtitle,
+    );
+    expect(normalized?.prizes).toHaveLength(1);
+    expect(normalized?.prizes[0]?.title).toBe(
+      fallbackContent.xmasLottery.prizes[0]!.title,
+    );
+    expect(normalized?.prizes[0]?.description).toBe(
+      fallbackContent.xmasLottery.prizes[0]!.description,
+    );
+    expect(normalized?.prizes[0]?.image.url).toBe(
+      fallbackContent.xmasLottery.prizes[0]!.image.url,
+    );
+    expect(normalized?.prizes[0]?.scribble).toBe(true);
   });
 
   it("treats empty WP options acf array as unset and preserves fallback social iconUrls", () => {

@@ -9,14 +9,16 @@ incidents, rolling back faulty releases, and restoring service for
 - **Hosting Platform:** Cloudflare Workers via Alchemy & Effect
   (`Cloudflare.Website.Nuxt` — `BikeChallengeSite`)
 - **Custom Domains:** `thebikechallenge.cc` and `www.thebikechallenge.cc`
-- **State & Data:** Cloudflare KV Namespace (`EventRsvps`, pinned as
-  `bike-challenge-EventRsvps-prod` on `prod`) + WordPress ACF REST API with
+- **State & Data:** Cloudflare KV Namespaces (`EventRsvps`, pinned as
+  `bike-challenge-EventRsvps-prod` on `prod`, and `XmasLottery`, pinned as
+  `bike-challenge-XmasLottery-prod` on `prod`) + WordPress ACF REST API with
   local `app/data/site-content.json` fallback
 - **CI/CD:** GitHub Actions (`.github/workflows/deploy-cloudflare.yml`)
   triggered on push to `main` (or manual `workflow_dispatch`)
 - **Deploy Previews:** Cloudflare Workers via Alchemy (automated on PRs to
-  `main` with `--stage pr-<number>`, pinned to `bike-challenge-pr-<number>` and
-  `bike-challenge-EventRsvps-pr-<number>` so pushes update in-place, and cleaned
+  `main` with `--stage pr-<number>`, pinned to `bike-challenge-pr-<number>`,
+  `bike-challenge-EventRsvps-pr-<number>`, and
+  `bike-challenge-XmasLottery-pr-<number>` so pushes update in-place, and cleaned
   up automatically on PR close via `tools/cleanup-cloudflare-previews.mjs`)
 - **Health Verification:** `/health` (HTML dashboard) and `/health.json`
   (JSON probe)

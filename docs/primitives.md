@@ -8,7 +8,8 @@ list in the same PR.
 
 - **Roots:** `app/pages/`, `app/components/`, `app/layouts/`, `app/assets/`, `app/utils/`
 - **Role:** Rebuilds `bike-challenge.framer.ai` routes (`/`, `/offers`, `/blog`,
-  `/event`) with matching typography, palette, and responsive layouts.
+  `/event`) plus private campaign routes (`/xmas-lottery`) with matching
+  typography, palette, and responsive layouts.
 - **adrs:**
   - [`docs/adr/0001-mandatory-ui-visual-testing-and-evidence.md`](adr/0001-mandatory-ui-visual-testing-and-evidence.md)
 
@@ -23,13 +24,15 @@ list in the same PR.
 - **adrs:**
   - [`docs/adr/0003-hosting-and-branch-boundaries.md`](adr/0003-hosting-and-branch-boundaries.md)
 
-## 3. Event RSVP API & Cloudflare KV Storage (Alchemy)
+## 3. Event RSVP & Xmas Lottery APIs + Cloudflare KV Storage (Alchemy)
 
 - **Roots:** `alchemy.run.ts`, `server/routes/api/event-rsvp.post.ts`,
+  `server/routes/api/xmas-lottery.post.ts`, `tools/pick-xmas-lottery-winner.mjs`,
   `.github/workflows/deploy-cloudflare.yml`,
   `tools/cleanup-cloudflare-previews.mjs`
-- **Role:** Deploys `BikeChallengeSite` and `EventRsvps` KV namespace to
-  Cloudflare Workers (production + PR deploy previews).
+- **Role:** Deploys `BikeChallengeSite`, `EventRsvps`, and `XmasLottery` KV
+  namespaces to Cloudflare Workers (production + PR deploy previews), and picks
+  non-repeating weekly lottery winners via CLI.
 - **adrs:**
   - [`docs/adr/0003-hosting-and-branch-boundaries.md`](adr/0003-hosting-and-branch-boundaries.md)
 

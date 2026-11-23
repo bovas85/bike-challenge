@@ -9,6 +9,7 @@ import type {
   SiteContentBundle,
   SiteGlobalACF,
   WpPageResponse,
+  XmasLotteryPageACF,
 } from "~/types/acf";
 
 const bundle = fallbackContent as SiteContentBundle;
@@ -326,6 +327,64 @@ export function normalizeEventAcf(payload: unknown): EventPageACF | undefined {
   };
 }
 
+export function normalizeXmasLotteryAcf(
+  payload: unknown,
+): XmasLotteryPageACF | undefined {
+  const raw = extractAcfFromPageList<Partial<XmasLotteryPageACF>>(payload);
+  if (!raw) {
+    return undefined;
+  }
+
+  const prizes = Array.isArray(raw.prizes)
+    ? raw.prizes.map((prize, index) => {
+        const fallbackPrize =
+          bundle.xmasLottery.prizes.find((item) => item.id === prize.id) ||
+          bundle.xmasLottery.prizes[index];
+        return {
+          ...prize,
+          title: prize.title || fallbackPrize?.title || "",
+          description: prize.description || fallbackPrize?.description || "",
+          image: prize.image?.url
+            ? prize.image
+            : fallbackPrize?.image || { url: "", alt: prize.title || "" },
+          scribble:
+            typeof prize.scribble === "boolean"
+              ? prize.scribble
+              : fallbackPrize?.scribble,
+          imageContain:
+            typeof prize.imageContain === "boolean"
+              ? prize.imageContain
+              : fallbackPrize?.imageContain,
+        };
+      })
+    : [];
+
+  return {
+    brandHeader: raw.brandHeader || bundle.xmasLottery.brandHeader,
+    title: raw.title || bundle.xmasLottery.title,
+    subtitle: raw.subtitle || bundle.xmasLottery.subtitle,
+    joinButtonLabel: raw.joinButtonLabel || bundle.xmasLottery.joinButtonLabel,
+    prizes: prizes.length > 0 ? prizes : bundle.xmasLottery.prizes,
+    howItWorksHeading:
+      raw.howItWorksHeading || bundle.xmasLottery.howItWorksHeading,
+    steps:
+      Array.isArray(raw.steps) && raw.steps.length > 0
+        ? raw.steps
+        : bundle.xmasLottery.steps,
+    rulesNote: raw.rulesNote || bundle.xmasLottery.rulesNote,
+    modal: isNonEmptyRecord(raw.modal)
+      ? {
+          ...bundle.xmasLottery.modal,
+          ...Object.fromEntries(
+            Object.entries(raw.modal).filter(
+              ([, v]) => typeof v === "string" && v.length > 0,
+            ),
+          ),
+        }
+      : bundle.xmasLottery.modal,
+  };
+}
+
 export function useGlobalContent() {
   return useAsyncData<SiteGlobalACF>(
     "siteGlobal",
@@ -409,6 +468,24 @@ export function useEventContent() {
       ),
     {
       default: () => bundle.event,
+      getCachedData(key, nuxtApp) {
+        return nuxtApp.payload.data[key] || nuxtApp.static.data[key];
+      },
+    },
+  );
+}
+
+export function useXmasLotteryContent() {
+  return useAsyncData<XmasLotteryPageACF>(
+    "xmasLotteryPage",
+    () =>
+      fetchWpOrFallback<XmasLotteryPageACF>(
+        Config.api.xmasLotteryPage,
+        bundle.xmasLottery,
+        normalizeXmasLotteryAcf,
+      ),
+    {
+      default: () => bundle.xmasLottery,
       getCachedData(key, nuxtApp) {
         return nuxtApp.payload.data[key] || nuxtApp.static.data[key];
       },

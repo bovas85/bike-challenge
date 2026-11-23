@@ -482,5 +482,87 @@
       "submitLabel": "Submit",
       "successMessage": "Thanks for RSVPing! We'll see you at Forge 1860."
     }
+  },
+  "xmasLottery": {
+    "brandHeader": "The Bike Challenge",
+    "title": "Xmas lottery",
+    "subtitle": "Join our Christmas cycling giveaway! Sign up every Monday for a chance to win free cycling gifts. We’ll announce the winner every Friday evening!",
+    "joinButtonLabel": "Join the Lottery",
+    "prizes": [
+      {
+        "id": "week-1",
+        "title": "Week 1 - 1 year of Komoot Subscription",
+        "description": "Get inspired with the komoot mobile app. With a free komoot account, you can easily find, customize, and navigate endless outdoor adventures",
+        "image": {
+          "url": "/images/xmas-lottery/week-1-komoot.webp",
+          "alt": "Komoot mobile app navigation screens"
+        },
+        "scribble": true,
+        "imageContain": true
+      },
+      {
+        "id": "week-2",
+        "title": "Week 2 - Carradice cycling cap",
+        "description": "Classic Carradice cycling cap in olive with a cream stripe. Lightweight stretch fabric, fits 56-62cm, short peak for sun and rain, slim under a helmet.",
+        "image": {
+          "url": "/images/xmas-lottery/week-2-carradice-cap.webp",
+          "alt": "Carradice olive cycling cap with cream stripe"
+        },
+        "scribble": false,
+        "imageContain": false
+      },
+      {
+        "id": "week-3",
+        "title": "Week 3 - Bum Butter chamois cream",
+        "description": "Natural, vegan, female-friendly anti-chafing cream for cyclists, runners, hikers, skiers, snowboarders & paddleboarders.",
+        "image": {
+          "url": "/images/xmas-lottery/week-3-bum-butter.jpg",
+          "alt": "Happy Bottom Bum Butter chamois cream"
+        },
+        "scribble": true,
+        "imageContain": false
+      },
+      {
+        "id": "week-4",
+        "title": "Week 4 - Electric Pump",
+        "description": "Sleek, pocket-sized portable electric air pump—perfect for road cycling, gravel rides, MTB, or commuting. Easily fits in a jersey pocket or saddle bag to take the hard work out of roadside punctures.",
+        "image": {
+          "url": "/images/xmas-lottery/week-4-electric-pump.png",
+          "alt": "Portable electric bicycle air pump"
+        },
+        "scribble": false,
+        "imageContain": false
+      }
+    ],
+    "howItWorksHeading": "How It Works",
+    "steps": [
+      {
+        "number": "01",
+        "title": "Enter once",
+        "description": "Click Join the Lottery and drop your email address. Only one entry per email is permitted."
+      },
+      {
+        "number": "02",
+        "title": "Weekly draws",
+        "description": "Every week we pick one random winner from the eligible pool of entrants."
+      },
+      {
+        "number": "03",
+        "title": "Fair play",
+        "description": "Each winner can only win once so prizes spread across the community."
+      }
+    ],
+    "rulesNote": "Open to community members invited to this private page. One entry per email address; past winners are excluded from subsequent weekly draws.",
+    "modal": {
+      "title": "Join the Xmas Lottery",
+      "subtitle": "Enter your email once to join all remaining weekly prize draws.",
+      "emailLabel": "Email address",
+      "emailPlaceholder": "rider@example.com",
+      "submitLabel": "Join Giveaway",
+      "successTitle": "You're in the draw!",
+      "successMessage": "Your email has been entered for the weekly Xmas Lottery draws. Good luck!",
+      "alreadyEnteredMessage": "This email is already entered in the Xmas Lottery.",
+      "closeLabel": "Close modal"
+    }
   }
 }

@@ -5,6 +5,7 @@ import {
   parseArgs,
   previewNamesForPr,
   PROD_KV_TITLE,
+  PROD_LOTTERY_KV_TITLE,
   PROD_WORKER_NAME,
   runCleanup,
 } from "./cleanup-cloudflare-previews.mjs";
@@ -48,12 +49,19 @@ describe("cleanup-cloudflare-previews", () => {
     );
 
     expect(isOrphanPreviewKv(PROD_KV_TITLE)).toBe(false);
+    expect(isOrphanPreviewKv(PROD_LOTTERY_KV_TITLE)).toBe(false);
     expect(isOrphanPreviewKv("other-kv")).toBe(false);
     expect(isOrphanPreviewKv("bike-challenge-EventRsvps-pr-9-abc123")).toBe(
       true,
     );
+    expect(isOrphanPreviewKv("bike-challenge-XmasLottery-pr-9-abc123")).toBe(
+      true,
+    );
     expect(
       isOrphanPreviewKv("bike-challenge-EventRsvps-pr-11", new Set([11])),
+    ).toBe(false);
+    expect(
+      isOrphanPreviewKv("bike-challenge-XmasLottery-pr-11", new Set([11])),
     ).toBe(false);
   });
 
@@ -61,6 +69,10 @@ describe("cleanup-cloudflare-previews", () => {
     expect(previewNamesForPr(11)).toEqual({
       workerName: "bike-challenge-pr-11",
       kvTitle: "bike-challenge-EventRsvps-pr-11",
+      kvTitles: [
+        "bike-challenge-EventRsvps-pr-11",
+        "bike-challenge-XmasLottery-pr-11",
+      ],
     });
 
     const fetchMock = vi
@@ -72,10 +84,17 @@ describe("cleanup-cloudflare-previews", () => {
           success: true,
           result: [
             { id: "kv-prod", title: PROD_KV_TITLE },
+            { id: "kv-lottery-prod", title: PROD_LOTTERY_KV_TITLE },
             { id: "kv-11", title: "bike-challenge-EventRsvps-pr-11" },
+            { id: "kv-lottery-11", title: "bike-challenge-XmasLottery-pr-11" },
           ],
           result_info: { total_pages: 1 },
         }),
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        json: async () => ({ success: true }),
       })
       .mockResolvedValueOnce({
         ok: true,
@@ -97,17 +116,26 @@ describe("cleanup-cloudflare-previews", () => {
       ok: true,
       dryRun: false,
       targetWorkers: ["bike-challenge-pr-11"],
-      targetKvs: ["bike-challenge-EventRsvps-pr-11"],
+      targetKvs: [
+        "bike-challenge-EventRsvps-pr-11",
+        "bike-challenge-XmasLottery-pr-11",
+      ],
       deletedWorkers: ["bike-challenge-pr-11"],
       missingWorkers: [],
-      deletedKvs: ["bike-challenge-EventRsvps-pr-11"],
+      deletedKvs: [
+        "bike-challenge-EventRsvps-pr-11",
+        "bike-challenge-XmasLottery-pr-11",
+      ],
     });
-    expect(fetchMock).toHaveBeenCalledTimes(3);
+    expect(fetchMock).toHaveBeenCalledTimes(4);
     expect(fetchMock.mock.calls[1]![0]).toContain(
       "/workers/scripts/bike-challenge-pr-11",
     );
     expect(fetchMock.mock.calls[2]![0]).toContain(
       "/storage/kv/namespaces/kv-11",
+    );
+    expect(fetchMock.mock.calls[3]![0]).toContain(
+      "/storage/kv/namespaces/kv-lottery-11",
     );
   });
 

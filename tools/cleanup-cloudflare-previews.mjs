@@ -13,6 +13,12 @@ import { pathToFileURL } from "node:url";
 export const PROD_WORKER_NAME =
   "bike-challenge-bikechallengesite-prod-7r5ar6ulzvxpbjdn";
 export const PROD_KV_TITLE = "bike-challenge-EventRsvps-prod";
+export const PROD_LOTTERY_KV_TITLE = "bike-challenge-XmasLottery-prod";
+const PROD_KV_TITLES = new Set([PROD_KV_TITLE, PROD_LOTTERY_KV_TITLE]);
+const PREVIEW_KV_PREFIXES = [
+  "bike-challenge-EventRsvps-",
+  "bike-challenge-XmasLottery-",
+];
 const CF_API_BASE = "https://api.cloudflare.com/client/v4";
 
 export function parseArgs(argv) {
@@ -58,6 +64,10 @@ export function previewNamesForPr(prNumber) {
   return {
     workerName: `bike-challenge-pr-${prNumber}`,
     kvTitle: `bike-challenge-EventRsvps-pr-${prNumber}`,
+    kvTitles: [
+      `bike-challenge-EventRsvps-pr-${prNumber}`,
+      `bike-challenge-XmasLottery-pr-${prNumber}`,
+    ],
   };
 }
 
@@ -77,15 +87,16 @@ export function isOrphanPreviewWorker(name, keepPrs = new Set()) {
 }
 
 export function isOrphanPreviewKv(title, keepPrs = new Set()) {
-  if (!title || title === PROD_KV_TITLE) return false;
+  if (!title || PROD_KV_TITLES.has(title)) return false;
   if (title.endsWith("-prod")) return false;
 
-  const prMatch = /^bike-challenge-EventRsvps-pr-(\d+)$/.exec(title);
+  const prMatch =
+    /^bike-challenge-(?:EventRsvps|XmasLottery)-pr-(\d+)(?:$|-)/.exec(title);
   if (prMatch) {
     return !keepPrs.has(Number.parseInt(prMatch[1], 10));
   }
 
-  return title.startsWith("bike-challenge-EventRsvps-");
+  return PREVIEW_KV_PREFIXES.some((prefix) => title.startsWith(prefix));
 }
 
 async function cfRequest(
@@ -149,11 +160,11 @@ export async function runCleanup(
   const targetKvs = [];
 
   if (opts.pr !== null) {
-    const { workerName, kvTitle } = previewNamesForPr(opts.pr);
+    const { workerName, kvTitles } = previewNamesForPr(opts.pr);
     targetWorkers.push(workerName);
     const namespaces = await listAllKvNamespaces(ctx);
     for (const ns of namespaces) {
-      if (ns.title === kvTitle) {
+      if (kvTitles.includes(ns.title)) {
         targetKvs.push({ id: ns.id, title: ns.title });
       }
     }
