@@ -335,18 +335,36 @@ export function normalizeXmasLotteryAcf(
     return undefined;
   }
 
+  const prizes = Array.isArray(raw.prizes)
+    ? raw.prizes.map((prize, index) => {
+        const fallbackPrize =
+          bundle.xmasLottery.prizes.find((item) => item.id === prize.id) ||
+          bundle.xmasLottery.prizes[index];
+        return {
+          ...prize,
+          title: prize.title || fallbackPrize?.title || "",
+          description: prize.description || fallbackPrize?.description || "",
+          image: prize.image?.url
+            ? prize.image
+            : fallbackPrize?.image || { url: "", alt: prize.title || "" },
+          scribble:
+            typeof prize.scribble === "boolean"
+              ? prize.scribble
+              : fallbackPrize?.scribble,
+          imageContain:
+            typeof prize.imageContain === "boolean"
+              ? prize.imageContain
+              : fallbackPrize?.imageContain,
+        };
+      })
+    : [];
+
   return {
     brandHeader: raw.brandHeader || bundle.xmasLottery.brandHeader,
     title: raw.title || bundle.xmasLottery.title,
     subtitle: raw.subtitle || bundle.xmasLottery.subtitle,
-    intro: raw.intro || bundle.xmasLottery.intro,
     joinButtonLabel: raw.joinButtonLabel || bundle.xmasLottery.joinButtonLabel,
-    prizesHeading: raw.prizesHeading || bundle.xmasLottery.prizesHeading,
-    prizesSubtitle: raw.prizesSubtitle || bundle.xmasLottery.prizesSubtitle,
-    prizes:
-      Array.isArray(raw.prizes) && raw.prizes.length > 0
-        ? raw.prizes
-        : bundle.xmasLottery.prizes,
+    prizes: prizes.length > 0 ? prizes : bundle.xmasLottery.prizes,
     howItWorksHeading:
       raw.howItWorksHeading || bundle.xmasLottery.howItWorksHeading,
     steps:

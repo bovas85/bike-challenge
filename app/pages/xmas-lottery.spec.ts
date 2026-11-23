@@ -1,5 +1,7 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { mountSuspended, registerEndpoint } from "@nuxt/test-utils/runtime";
+import { injectHead } from "#imports";
+import { resolveTags } from "unhead/utils";
 import { flushPromises } from "@vue/test-utils";
 import { createError, readBody } from "h3";
 import fallbackContent from "~/data/site-content.json";
@@ -28,15 +30,38 @@ describe("XmasLotteryPage (/xmas-lottery)", () => {
       ),
     ).toBe(false);
 
-    expect(wrapper.find("h1.xmas-hero__title").text()).toBe(
+    const head = injectHead();
+    const headTags = head ? resolveTags(head) : [];
+    const robotsTag = headTags.find(
+      (tag) => tag.tag === "meta" && tag.props?.name === "robots",
+    );
+    expect(robotsTag?.props?.content).toBe("noindex, nofollow");
+    expect(wrapper.find("p.xmas-hero__brand").text()).toBe(
+      lotteryContent.brandHeader,
+    );
+    expect(wrapper.find("h1.xmas-feed__heading").text()).toBe(
       lotteryContent.title,
     );
-    expect(wrapper.findAll("article.xmas-prize-card")).toHaveLength(
-      lotteryContent.prizes.length,
+    expect(wrapper.find("p.xmas-feed__subtitle").text()).toBe(
+      lotteryContent.subtitle,
     );
+    expect(wrapper.find("button.xmas-feed__join-btn").text()).toBe(
+      lotteryContent.joinButtonLabel,
+    );
+    const prizeCards = wrapper.findAll("article.xmas-prize-card");
+    expect(prizeCards).toHaveLength(lotteryContent.prizes.length);
+    for (const [idx, card] of prizeCards.entries()) {
+      const prize = lotteryContent.prizes[idx]!;
+      expect(card.find("img.xmas-prize-card__image").attributes("src")).toBe(
+        prize.image.url,
+      );
+      expect(card.find("h2.xmas-prize-card__title").text()).toBe(prize.title);
+      expect(card.find("button").exists()).toBe(false);
+    }
     expect(wrapper.findAll("article.xmas-step-card")).toHaveLength(
       lotteryContent.steps.length,
     );
+    expect(wrapper.find("section.partners").exists()).toBe(true);
     expect(wrapper.find(".xmas-modal-backdrop").exists()).toBe(false);
   });
 
@@ -45,7 +70,7 @@ describe("XmasLotteryPage (/xmas-lottery)", () => {
       route: "/xmas-lottery",
     });
 
-    await wrapper.find("button.xmas-hero__join-btn").trigger("click");
+    await wrapper.find("button.xmas-feed__join-btn").trigger("click");
     await flushPromises();
 
     const dialog = wrapper.find('[role="dialog"]');
@@ -83,7 +108,7 @@ describe("XmasLotteryPage (/xmas-lottery)", () => {
       route: "/xmas-lottery",
     });
 
-    await wrapper.find("button.xmas-hero__join-btn").trigger("click");
+    await wrapper.find("button.xmas-feed__join-btn").trigger("click");
     await flushPromises();
 
     await wrapper.find("#xmas-lottery-email").setValue("bad-email");
@@ -128,7 +153,7 @@ describe("XmasLotteryPage (/xmas-lottery)", () => {
       route: "/xmas-lottery",
     });
 
-    await wrapper.find("button.xmas-hero__join-btn").trigger("click");
+    await wrapper.find("button.xmas-feed__join-btn").trigger("click");
     await flushPromises();
 
     await wrapper.find("#xmas-lottery-email").setValue("repeat@example.com");
@@ -156,7 +181,7 @@ describe("XmasLotteryPage (/xmas-lottery)", () => {
       route: "/xmas-lottery",
     });
 
-    await wrapper.find("button.xmas-hero__join-btn").trigger("click");
+    await wrapper.find("button.xmas-feed__join-btn").trigger("click");
     await flushPromises();
 
     await wrapper.find("#xmas-lottery-email").setValue("rider@example.com");

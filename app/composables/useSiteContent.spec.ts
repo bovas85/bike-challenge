@@ -60,6 +60,14 @@ describe("useSiteContent", () => {
         acf: {
           title: "WP Xmas Draw",
           modal: { title: "Enter Now", subtitle: "" },
+          prizes: [
+            {
+              id: "week-1",
+              title: "",
+              description: "",
+              image: { url: "", alt: "" },
+            },
+          ],
         },
       },
     ]);
@@ -68,7 +76,17 @@ describe("useSiteContent", () => {
     expect(normalized?.modal.subtitle).toBe(
       fallbackContent.xmasLottery.modal.subtitle,
     );
-    expect(normalized?.prizes).toHaveLength(4);
+    expect(normalized?.prizes).toHaveLength(1);
+    expect(normalized?.prizes[0]?.title).toBe(
+      fallbackContent.xmasLottery.prizes[0]!.title,
+    );
+    expect(normalized?.prizes[0]?.description).toBe(
+      fallbackContent.xmasLottery.prizes[0]!.description,
+    );
+    expect(normalized?.prizes[0]?.image.url).toBe(
+      fallbackContent.xmasLottery.prizes[0]!.image.url,
+    );
+    expect(normalized?.prizes[0]?.scribble).toBe(true);
   });
 
   it("treats empty WP options acf array as unset and preserves fallback social iconUrls", () => {

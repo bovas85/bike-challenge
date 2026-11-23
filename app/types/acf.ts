@@ -160,10 +160,11 @@ export interface EventPageACF {
 
 export interface XmasLotteryPrizeACF {
   id: string;
-  weekLabel: string;
-  drawDate: string;
   title: string;
   description: string;
+  image: AcfImage;
+  scribble?: boolean;
+  imageContain?: boolean;
 }
 
 export interface XmasLotteryStepACF {
@@ -176,10 +177,7 @@ export interface XmasLotteryPageACF {
   brandHeader: string;
   title: string;
   subtitle: string;
-  intro: string;
   joinButtonLabel: string;
-  prizesHeading: string;
-  prizesSubtitle: string;
   prizes: XmasLotteryPrizeACF[];
   howItWorksHeading: string;
   steps: XmasLotteryStepACF[];

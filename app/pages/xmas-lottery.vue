@@ -1,15 +1,26 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useHead } from "#imports";
+import HomePartners from "~/components/home/PartnersSection.vue";
 import JoinModal from "~/components/xmas-lottery/JoinModal.vue";
 import { useScrollReveal } from "~/composables/useScrollReveal";
-import { useXmasLotteryContent } from "~/composables/useSiteContent";
+import {
+  useHomeContent,
+  useXmasLotteryContent,
+} from "~/composables/useSiteContent";
 
 defineOptions({ name: "XmasLotteryPage" });
 
-const { data: lottery } = await useXmasLotteryContent();
+// Lightning doodle extracted from Framer's Scribbles component on /lottery.
+const SCRIBBLE_PATH =
+  "M 103.972 45.671 C 103.69 46.902 102.341 47.647 101.524 48.614 C 99.35 51.182 97.507 54.141 95.651 56.891 C 90.145 65.038 84.134 72.906 78.542 81.02 C 73.249 88.702 70.117 96.634 65.786 104.598 C 65.412 105.281 63.73 107.807 65.575 106.915 C 68.846 105.332 75.965 106.583 79.598 106.583 C 80.845 106.583 96.27 105.769 96.369 107.246 C 96.866 114.621 93.509 123.032 92.567 130.419 C 91.881 135.79 90.549 141.154 89.356 146.455 C 88.637 149.661 88.88 153.209 87.413 156.239 C 86.482 158.168 87.848 156.028 88.048 155.247 C 88.949 151.715 91.035 147.957 92.609 144.616 C 98.632 131.832 107.931 120.695 115.336 108.606 C 120.958 99.427 127.672 90.492 133.245 81.756 C 133.701 81.04 135.63 78.968 134.217 79.953 C 132.797 80.942 128.847 81.338 127.12 81.424 C 118.001 81.878 108.673 85.628 99.789 87.346 C 98.261 87.643 91.76 90.976 93.496 87.382 C 96.044 82.114 96.197 75.986 97.889 70.463 C 99.7 64.553 100.154 58.205 102.281 52.44 C 102.873 50.843 104.372 43.512 105.496 43.023";
 
-const { headerAnimated, stepAnimated } = useScrollReveal(2, {
+const [{ data: lottery }, { data: home }] = await Promise.all([
+  useXmasLotteryContent(),
+  useHomeContent(),
+]);
+
+const { headerAnimated, stepAnimated } = useScrollReveal(3, {
   stepSelector: ".xmas-lottery-page .step",
 });
 
@@ -24,7 +35,7 @@ function closeJoinModal() {
 }
 
 useHead(() => ({
-  title: `${lottery.value.title} | ${lottery.value.brandHeader}`,
+  title: `${lottery.value.brandHeader} — ${lottery.value.title}`,
   meta: [{ name: "robots", content: "noindex, nofollow" }],
 }));
 </script>
@@ -34,47 +45,71 @@ useHead(() => ({
     <SiteTopNav />
 
     <header class="xmas-hero">
-      <div class="xmas-hero__inner" :class="{ animated: headerAnimated }">
-        <p class="bc-display-title xmas-hero__brand">
-          {{ lottery.brandHeader }}
+      <p
+        class="bc-display-title xmas-hero__brand"
+        :class="{ animated: headerAnimated }"
+      >
+        {{ lottery.brandHeader }}
+      </p>
+    </header>
+
+    <section class="xmas-feed step" aria-labelledby="xmas-lottery-heading">
+      <div class="xmas-feed__header" :class="{ animated: stepAnimated[0] }">
+        <h1 id="xmas-lottery-heading" class="xmas-feed__heading">
+          {{ lottery.title }}
+        </h1>
+        <p class="xmas-feed__subtitle">
+          {{ lottery.subtitle }}
         </p>
-        <h1 class="xmas-hero__title">{{ lottery.title }}</h1>
-        <p class="xmas-hero__subtitle">{{ lottery.subtitle }}</p>
-        <p class="xmas-hero__intro">{{ lottery.intro }}</p>
         <button
           type="button"
-          class="bc-btn bc-btn--white xmas-hero__join-btn"
+          class="bc-btn bc-btn--white xmas-feed__join-btn"
           @click="openJoinModal"
         >
           {{ lottery.joinButtonLabel }}
         </button>
       </div>
-    </header>
 
-    <section class="xmas-prizes step" aria-labelledby="xmas-prizes-heading">
-      <div class="xmas-prizes__inner" :class="{ animated: stepAnimated[0] }">
-        <div class="xmas-prizes__header">
-          <h2 id="xmas-prizes-heading" class="xmas-prizes__heading">
-            {{ lottery.prizesHeading }}
-          </h2>
-          <p class="xmas-prizes__subtitle">{{ lottery.prizesSubtitle }}</p>
-        </div>
+      <div class="xmas-feed__grid">
+        <article
+          v-for="prize in lottery.prizes"
+          :key="prize.id"
+          :data-prize-id="prize.id"
+          class="xmas-prize-card"
+          :class="{ animated: stepAnimated[0] }"
+        >
+          <div class="xmas-prize-card__media">
+            <svg
+              v-if="prize.scribble"
+              viewBox="0 0 200 200"
+              class="xmas-prize-card__scribble"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <path
+                :d="SCRIBBLE_PATH"
+                stroke-width="5"
+                stroke="rgb(241, 224, 206)"
+                stroke-linecap="round"
+                fill="none"
+                stroke-miterlimit="10"
+              />
+            </svg>
+            <img
+              :src="prize.image.url"
+              :alt="prize.image.alt || prize.title"
+              class="xmas-prize-card__image"
+              :class="{
+                'xmas-prize-card__image--contain': prize.imageContain,
+              }"
+            />
+          </div>
 
-        <div class="xmas-prizes__grid">
-          <article
-            v-for="prize in lottery.prizes"
-            :key="prize.id"
-            :data-prize-id="prize.id"
-            class="xmas-prize-card"
-          >
-            <div class="xmas-prize-card__meta">
-              <span class="xmas-prize-card__week">{{ prize.weekLabel }}</span>
-              <span class="xmas-prize-card__date">{{ prize.drawDate }}</span>
-            </div>
-            <h3 class="xmas-prize-card__title">{{ prize.title }}</h3>
+          <div class="xmas-prize-card__content">
+            <h2 class="xmas-prize-card__title">{{ prize.title }}</h2>
             <p class="xmas-prize-card__description">{{ prize.description }}</p>
-          </article>
-        </div>
+          </div>
+        </article>
       </div>
     </section>
 
@@ -110,6 +145,8 @@ useHead(() => ({
       </div>
     </section>
 
+    <HomePartners :section="home.partnersSection" :animate="stepAnimated[2]" />
+
     <JoinModal
       :open="isJoinModalOpen"
       :modal="lottery.modal"
@@ -126,207 +163,187 @@ useHead(() => ({
 
 .xmas-hero {
   width: 100%;
-  background-color: $amber;
-  padding: 56px 24px 68px;
+  height: 180px;
+  padding: 20px;
+  background-color: $white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-
-  @include tablet-up {
-    padding: 72px 40px 84px;
-  }
-
-  &__inner {
-    max-width: 780px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 18px;
-
-    @include fadeInUp(32px, 0.5s, 0.08s);
-  }
 
   &__brand {
     color: $black;
-    font-size: 42px;
-    line-height: 1;
-    letter-spacing: -0.04em;
+    font-size: 40px;
+    line-height: 40px;
+    letter-spacing: -1.6px;
+    max-width: 1240px;
+    width: 100%;
+
+    @include fadeInUp(36px, 0.5s, 0.1s);
 
     @include tablet-up {
-      font-size: 72px;
+      font-size: 80px;
+      line-height: 80px;
+      letter-spacing: -3.2px;
     }
   }
+}
 
-  &__title {
+.xmas-feed {
+  width: 100%;
+  background-color: $amber;
+  padding: 60px 24px 80px;
+
+  @include desktop-up {
+    padding: 60px 100px 100px;
+  }
+
+  &__header {
+    max-width: 1000px;
+    margin: 0 auto 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    text-align: center;
+
+    @include fadeInUp(40px, 0.55s, 0s);
+  }
+
+  &__heading {
     font-family: $font-primary;
-    font-size: 32px;
-    font-weight: 900;
-    line-height: 1.08;
-    letter-spacing: -0.03em;
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 48px;
+    letter-spacing: -1.6px;
     color: $white;
 
     @include tablet-up {
       font-size: 46px;
+      line-height: 55.2px;
+      letter-spacing: -2.1px;
     }
   }
 
   &__subtitle {
     font-family: $font-primary;
     font-size: 18px;
-    font-weight: 700;
-    line-height: 26px;
-    color: $ink;
-
-    @include tablet-up {
-      font-size: 20px;
-    }
-  }
-
-  &__intro {
-    max-width: 580px;
-    font-family: $font-ui;
-    font-size: 16px;
     font-weight: 400;
-    line-height: 25px;
+    line-height: 27px;
+    letter-spacing: -0.7px;
     color: $white;
-
-    @include tablet-up {
-      font-size: 18px;
-      line-height: 27px;
-    }
+    max-width: 500px;
   }
 
   &__join-btn {
-    margin-top: 8px;
     min-width: 180px;
+    min-height: 56px;
+    padding: 15px 24px;
     border: 0;
+    border-radius: 12px;
+    background-color: $white;
+    color: $black;
+    font-family: $font-primary;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 19.2px;
 
     &:focus-visible {
       outline: 2px solid $black;
       outline-offset: 3px;
     }
   }
-}
-
-.xmas-prizes {
-  width: 100%;
-  background-color: $cream;
-  padding: 64px 20px;
-
-  @include tablet-up {
-    padding: 80px 32px;
-  }
-
-  &__inner {
-    max-width: 1000px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
-
-    @include fadeInUp(36px, 0.55s, 0.05s);
-  }
-
-  &__header {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-  }
-
-  &__heading {
-    font-family: $font-primary;
-    font-size: 34px;
-    font-weight: 800;
-    line-height: 1.15;
-    letter-spacing: -0.03em;
-    color: $ink;
-
-    @include tablet-up {
-      font-size: 44px;
-    }
-  }
-
-  &__subtitle {
-    max-width: 560px;
-    font-family: $font-ui;
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 24px;
-    color: $charcoal;
-  }
 
   &__grid {
+    max-width: 1000px;
+    margin: 0 auto;
     display: grid;
     grid-template-columns: 1fr;
-    gap: 20px;
+    gap: 48px 20px;
 
     @include tablet-up {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 24px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 72px 20px;
     }
   }
 }
 
 .xmas-prize-card {
-  background-color: $white;
-  border-radius: 20px;
-  padding: 28px 24px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  border: 1px solid rgb(0 0 0 / 6%);
+  align-items: flex-start;
+  gap: 24px;
+  width: 100%;
 
-  &__meta {
+  @include fadeInUp(36px, 0.55s, 0.08s);
+
+  &__media {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+  }
+
+  &__scribble {
+    position: absolute;
+    top: -66px;
+    left: -55px;
+    width: 150px;
+    height: 150px;
+    transform: rotate(-20deg);
+    pointer-events: none;
+    z-index: 2;
+
+    @include tablet-up {
+      top: -100px;
+      left: -100px;
+      width: 200px;
+      height: 200px;
+    }
+  }
+
+  &__image {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    &--contain {
+      object-fit: contain;
+      object-position: 100% 50%;
+    }
+  }
+
+  &__content {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    flex-direction: column;
+    align-items: flex-start;
     gap: 12px;
-    flex-wrap: wrap;
-  }
-
-  &__week {
-    display: inline-flex;
-    align-items: center;
-    padding: 5px 12px;
-    border-radius: 999px;
-    background-color: $amber;
-    color: $black;
-    font-family: $font-ui;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-  }
-
-  &__date {
-    font-family: $font-ui;
-    font-size: 13px;
-    font-weight: 600;
-    color: $muted-dark;
+    width: 100%;
   }
 
   &__title {
     font-family: $font-primary;
-    font-size: 22px;
-    font-weight: 800;
-    line-height: 1.25;
-    letter-spacing: -0.02em;
-    color: $black;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 30px;
+    letter-spacing: -0.5px;
+    color: $white;
   }
 
   &__description {
-    font-family: $font-ui;
-    font-size: 15px;
+    font-family: $font-primary;
+    font-size: 16px;
     font-weight: 400;
-    line-height: 23px;
-    color: $charcoal;
+    line-height: 24px;
+    color: $white;
+    max-width: 440px;
   }
 }
 
 .xmas-how {
   width: 100%;
-  background-color: $white;
+  background-color: $cream;
   padding: 64px 20px 80px;
 
   @include tablet-up {
@@ -381,6 +398,7 @@ useHead(() => ({
 
   &__join-btn {
     min-width: 180px;
+    min-height: 54px;
     border: 0;
 
     &:focus-visible {
@@ -391,13 +409,14 @@ useHead(() => ({
 }
 
 .xmas-step-card {
-  background-color: $cream;
+  background-color: $white;
   border-radius: 18px;
   padding: 28px 22px;
   text-align: left;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  border: 1px solid rgb(0 0 0 / 6%);
 
   &__number {
     font-family: $font-display;
