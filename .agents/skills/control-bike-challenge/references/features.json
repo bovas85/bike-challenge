@@ -55,7 +55,7 @@
         "Click Join to open email capture modal",
         "Submit unique email entry to /api/xmas-lottery"
       ],
-      "verify": "node tools/control-bike-challenge.mjs request GET /xmas-lottery --contains \"Xmas lottery\" && node tools/control-bike-challenge.mjs browse --path /xmas-lottery --record"
+      "verify": "node tools/control-bike-challenge.mjs request GET /xmas-lottery --contains \"Xmas Lottery\" && node tools/control-bike-challenge.mjs browse --path /xmas-lottery --record"
     },
     {
       "route": "/[...slug]",
