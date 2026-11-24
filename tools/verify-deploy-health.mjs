@@ -10,6 +10,7 @@
  */
 
 import { execSync } from "node:child_process";
+import { pathToFileURL } from "node:url";
 
 if (
   !process.env.DISCORD_WEBHOOK_URL &&
@@ -87,9 +88,34 @@ async function fetchHealth(targetUrl) {
   }
 }
 
-async function sendDiscordNotification(data, success) {
-  const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
-  if (!webhookUrl) return;
+/**
+ * Dispatches a production health embed to `DISCORD_WEBHOOK_URL` if configured.
+ * Trims whitespace, validates the URL, and checks `res.ok` before reporting success.
+ */
+export async function sendDiscordNotification(
+  data,
+  success,
+  fetchImpl = fetch,
+  webhookUrlOverride = process.env.DISCORD_WEBHOOK_URL,
+) {
+  const webhookUrl =
+    typeof webhookUrlOverride === "string" ? webhookUrlOverride.trim() : "";
+  if (!webhookUrl) return { ok: true, skipped: true };
+
+  let parsedUrl;
+  try {
+    parsedUrl = new URL(webhookUrl);
+  } catch {
+    const error = "Invalid DISCORD_WEBHOOK_URL (could not parse URL)";
+    console.error(`[Deploy Health Error] ${error}`);
+    return { ok: false, error };
+  }
+
+  if (parsedUrl.protocol !== "https:" && parsedUrl.protocol !== "http:") {
+    const error = `Invalid DISCORD_WEBHOOK_URL protocol: ${parsedUrl.protocol}`;
+    console.error(`[Deploy Health Error] ${error}`);
+    return { ok: false, error };
+  }
 
   const shaText = data.commitSha ? data.commitSha.slice(0, 7) : "unknown";
   const commitUrl =
@@ -119,7 +145,7 @@ async function sendDiscordNotification(data, success) {
   };
 
   try {
-    await fetch(webhookUrl, {
+    const res = await fetchImpl(parsedUrl.toString(), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -127,25 +153,39 @@ async function sendDiscordNotification(data, success) {
         embeds: [embed],
       }),
     });
+    if (!res.ok) {
+      const bodyText = await res.text().catch(() => "");
+      const detail = bodyText ? `: ${bodyText.slice(0, 200)}` : "";
+      const error = `Discord webhook returned HTTP ${res.status} ${res.statusText}${detail}`;
+      console.error(`[Deploy Health Error] ${error}`);
+      return { ok: false, status: res.status, error };
+    }
     console.log(
       "[Deploy Health] Sent deployment status notification to Discord.",
     );
+    return { ok: true, status: res.status };
   } catch (err) {
-    console.warn(
-      `[Deploy Health] Could not dispatch Discord webhook: ${err.message}`,
+    const error = err instanceof Error ? err.message : String(err);
+    console.error(
+      `[Deploy Health Error] Could not dispatch Discord webhook: ${error}`,
     );
+    return { ok: false, error };
   }
 }
 
 function printEvidence(url, data, success) {
-  console.log("\n================ HEALTH VERIFICATION EVIDENCE ================");
+  console.log(
+    "\n================ HEALTH VERIFICATION EVIDENCE ================",
+  );
   console.log(`URL: ${url}`);
   console.log(`Status: ${data.status}`);
   console.log(`Live Commit SHA: ${data.commitSha}`);
   console.log(`Commit Message: ${data.commit?.message}`);
   console.log(`Deployed At: ${data.deploy?.deployedAt}`);
   console.log(`Verified: ${success}`);
-  console.log("==============================================================\n");
+  console.log(
+    "==============================================================\n",
+  );
 
   const evidence = {
     url,
@@ -232,7 +272,12 @@ async function main() {
   process.exit(1);
 }
 
-main().catch((err) => {
-  console.error("[Deploy Health Fatal]:", err);
-  process.exit(1);
-});
+const isEntrypoint =
+  process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
+
+if (isEntrypoint) {
+  main().catch((err) => {
+    console.error("[Deploy Health Fatal]:", err);
+    process.exit(1);
+  });
+}
